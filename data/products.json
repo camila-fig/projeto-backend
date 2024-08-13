@@ -1,0 +1,112 @@
+[
+    {
+        "id": 1,
+        "title": "saia",
+        "description": "Saia de linho longa",
+        "price": 54,
+        "thumbnail": "image2.jpg",
+        "code": "A32X",
+        "stock": 11,
+        "status": true,
+        "category": "saias"
+    },
+    {
+        "id": 2,
+        "title": "casaco",
+        "description": "Casaco jeans azul escuro",
+        "price": 87.58,
+        "thumbnail": "image8.jpg",
+        "code": "A22F",
+        "stock": 8,
+        "status": true,
+        "category": "casacos"
+    },
+    {
+        "id": 3,
+        "title": "bermuda",
+        "description": "Bermuda de jeans",
+        "price": 37.99,
+        "thumbnail": "image3.jpg",
+        "code": "S37V",
+        "stock": 24,
+        "status": true,
+        "category": "bermudas e shorts"
+    },
+    {
+        "id": 4,
+        "title": "vestido",
+        "description": "Vestido de seda com renda",
+        "price": 96.3,
+        "thumbnail": "image4.jpg",
+        "code": "V45G",
+        "stock": 7,
+        "status": true,
+        "category": "vestidos"
+    },
+    {
+        "id": 5,
+        "title": "blusao",
+        "description": "Blusão de lã caramelo",
+        "price": 70.25,
+        "thumbnail": "image6.jpg",
+        "code": "Q63K",
+        "stock": 42,
+        "status": true,
+        "category": "blusões"
+    },
+    {
+        "id": 6,
+        "title": "short",
+        "description": "Sort de couro sintético preto",
+        "price": 65.3,
+        "thumbnail": "image7.jpg",
+        "code": "N41H",
+        "stock": 55,
+        "status": true,
+        "category": "bermudas e shorts"
+    },
+    {
+        "id": 7,
+        "title": "camisa",
+        "description": "Camisa xadrez verde e vermelho",
+        "price": 35.66,
+        "thumbnail": "image5.jpg",
+        "code": "R88Y",
+        "stock": 13,
+        "status": true,
+        "category": "camisas"
+    },
+    {
+        "id": 8,
+        "title": "bone",
+        "description": "Boné preto e azul",
+        "price": 15.26,
+        "thumbnail": "image1.jpg",
+        "code": "A32X",
+        "stock": 35,
+        "status": true,
+        "category": "bonés"
+    },
+    {
+        "id": 9,
+        "title": "saia",
+        "description": "Saia longa estampada com flores",
+        "price": 33.6,
+        "thumbnail": "image9.jpg",
+        "code": "F32W",
+        "stock": 21,
+        "status": true,
+        "category": "saias"
+    },
+    {
+        "id": 10,
+        "title": "vestido",
+        "description": "Vestido curto de veludo vermelho",
+        "price": 70.5,
+        "thumbnail": "image10.jpg",
+        "code": "O73U",
+        "stock": 18,
+        "status": true,
+        "category": "vestidos"
+    }
+]
