@@ -20,7 +20,7 @@ router.get("/limit", async (req, res) => {
     return res.status(200).json(providedLimit)
 })
 
-router.get("/id/:pid", async (req, res) => {
+router.get("/:pid", async (req, res) => {
     const { pid } = req.params
     const foundProductById = await manager.getProductById(Number(pid))
     try {
@@ -34,18 +34,33 @@ router.get("/id/:pid", async (req, res) => {
     }
 })
 
-router.get("/name/:title", async (req, res) => {
-    const { title } = req.params
-    const foundProductByName = await manager.getProductByName(title)
+router.post("/", async (req, res) => {
     try {
-        if (!foundProductByName) {
-            res.status(404).json("Produto não existe.")
-        } else {
-            res.status(200).json(foundProductByName)
-        }
+        const product = req.body
+        const newProduct = await manager.addProduct(product)
+        return res.status(201).json(newProduct)
     } catch (error) {
-        res.status(500).json({ error: error.message })
+        return res.status(500).json({ error: error.message })
     }
+})
+
+router.put("/:pid", async (req, res) => {
+    try {
+        const product = req.body
+        const { pid } = req.params
+        const updateProduct = await manager.updateProduct(product, Number(pid))
+        return res.status(200).json(updateProduct)
+    } catch (error) {
+        return res.status(500).json({ error: error.message })
+    }
+})
+
+router.delete("/:pid", async (req, res) => {
+    try {
+        const { pid } = req.params
+        await manager.deleteProductById(Number(pid))
+        return res.status(204).send()
+    } catch (error) { }
 })
 
 export default router

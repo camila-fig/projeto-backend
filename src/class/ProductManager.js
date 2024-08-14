@@ -22,7 +22,7 @@ export default class ProductManager {
 
     getProducts = () => this.#products
 
-    addProduct = async (title, description, price, thumbnail, code, stock, status, category) => {
+    addProduct = async ({title, description, price, thumbnail, code, stock, status, category}) => {
         const resultParsedMessy = await this.#readFile()
         const resultParsed = await resultParsedMessy.sort((a, b) => {
             return a.id < b.id ? -1 : a.id > b.id ? 1 : 0

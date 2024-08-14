@@ -78,17 +78,6 @@
     },
     {
         "id": 8,
-        "title": "bone",
-        "description": "Boné preto e azul",
-        "price": 15.26,
-        "thumbnail": "image1.jpg",
-        "code": "A32X",
-        "stock": 35,
-        "status": true,
-        "category": "bonés"
-    },
-    {
-        "id": 9,
         "title": "saia",
         "description": "Saia longa estampada com flores",
         "price": 33.6,
@@ -99,10 +88,10 @@
         "category": "saias"
     },
     {
-        "id": 10,
+        "id": 9,
         "title": "vestido",
-        "description": "Vestido curto de veludo vermelho",
-        "price": 70.5,
+        "description": "Vestido longo de veludo vermelho",
+        "price": 60.5,
         "thumbnail": "image10.jpg",
         "code": "O73U",
         "stock": 18,
