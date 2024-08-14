@@ -97,5 +97,16 @@
         "stock": 18,
         "status": true,
         "category": "vestidos"
+    },
+    {
+        "id": 10,
+        "title": "calça jeans",
+        "description": "Calça jeans azul com renda",
+        "price": 45.87,
+        "thumbnail": "image11.jpg",
+        "code": "B94K",
+        "stock": 54,
+        "status": true,
+        "category": "calças"
     }
 ]

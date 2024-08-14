@@ -48,11 +48,6 @@ export default class ProductManager {
             category
         }
 
-        if (title && description && price && thumbnail && code && stock && status && category === undefined) {
-            console.log("Produto não cadastrado. Verifique se todos os campos foram preenchidos corretamente.")
-            return false
-        }
-
         resultParsed.push(product)
 
         await this.#recordFile(resultParsed)

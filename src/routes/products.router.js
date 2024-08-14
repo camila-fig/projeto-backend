@@ -1,5 +1,6 @@
 import express from "express"
 import ProductManager from '../../src/class/ProductManager.js'
+import validProduct from "../middleware/validProduct.js"
 
 const router = express.Router()
 const manager = new ProductManager("./data/products.json")
@@ -34,7 +35,7 @@ router.get("/:pid", async (req, res) => {
     }
 })
 
-router.post("/", async (req, res) => {
+router.post("/", validProduct, async (req, res) => {
     try {
         const product = req.body
         const newProduct = await manager.addProduct(product)
