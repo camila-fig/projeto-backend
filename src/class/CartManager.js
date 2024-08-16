@@ -1,110 +1,156 @@
 import fs from "fs"
-
 export default class CartManager {
     #pathData
-    #products
+    // #products
     #id = 0
+    #qty = 1
 
     constructor(path) {
         this.#pathData = path
-        this.#products = []
+        // this.#products = []
     }
 
-    #readFile = async () => {
+    #readCartFile = async () => {
         let result = await fs.promises.readFile(this.#pathData, "utf-8")
-        const resultParsed = await JSON.parse(result)
+        const resultParsedInCart = await JSON.parse(result)
+        return resultParsedInCart
+    }
+
+    #readProductsFile = async () => {
+        let resultProduct = await fs.promises.readFile("../../data/products.json", "utf-8")
+        const resultParsed = await JSON.parse(resultProduct)
         return resultParsed
     }
 
-    #recordFile = async (data) => {
+    #recordCartFile = async (data) => {
         await fs.promises.writeFile(this.#pathData, JSON.stringify(data))
     }
 
-    getProducts = () => this.#products
+    // getProducts = () => this.#products
 
-    addProduct = async ({title, description, price, thumbnail, code, stock, status, category}) => {
-        const resultParsedMessy = await this.#readFile()
-        const resultParsed = await resultParsedMessy.sort((a, b) => {
+    createCart = async () => {
+        const resultParsedMessy = await this.#readCartFile()
+        const resultParsedInCart = await resultParsedMessy.sort((a, b) => {
             return a.id < b.id ? -1 : a.id > b.id ? 1 : 0
         })
 
         let id
-        if (!resultParsed.at(-1)) {
+        if (!resultParsedInCart.at(-1)) {
             id = 1
         } else {
-            id = resultParsed.at(-1).id + 1
+            id = resultParsedInCart.at(-1).id + 1
         }
         this.#id = id
 
-        const product = {
+        let products = []
+
+        const cart = {
             id: this.#id,
-            title,
-            description,
-            price,
-            thumbnail,
-            code,
-            stock,
-            status,
-            category
+            products
         }
 
-        if (title && description && price && thumbnail && code && stock && status && category === undefined) {
-            console.log("Produto não cadastrado. Verifique se todos os campos foram preenchidos corretamente.")
-            return false
-        }
+        resultParsedInCart.push(cart)
 
-        resultParsed.push(product)
-
-        await this.#recordFile(resultParsed)
-        return product
+        await this.#recordCartFile(resultParsedInCart)
+        return cart
     }
 
-    conferProduct = async () => {
-        const resultParsed = await this.#readFile()
-        return resultParsed
-    }
-
-    getProductById = async (idProduct) => {
-        const resultParsed = await this.#readFile()
-        const index = resultParsed.findIndex((product) => product.id === idProduct)
+    getCartById = async (idCart) => {
+        const resultParsed = await this.#readCartFile()
+        const index = resultParsed.findIndex((cart) => cart.id === idCart)
         return resultParsed[index]
     }
 
-    getProductByName = async (title) => {
-        const resultParsed = await this.#readFile()
-        const productFound = resultParsed.filter((product) => product.title.toLowerCase().includes(title.toLowerCase()))
-        return productFound
-    }
 
-    updateProduct = async (dataToUpdate, idProduct) => {
-        if (dataToUpdate.title && dataToUpdate.description && dataToUpdate.price && dataToUpdate.thumbnail && dataToUpdate.code && dataToUpdate.stock && dataToUpdate.status && dataToUpdate.category === undefined) {
-            throw new Error("Produto não atualizado. Verifique se todos os dados foram preenchidos.")
-        }
 
-        const resultParsed = await this.#readFile()
-        const index = resultParsed.findIndex((product) => product.id === +idProduct)
 
-        const newProduct = { id: +idProduct, ...resultParsed[index], ...dataToUpdate }
-        console.log(resultParsed[index])
-        resultParsed[index] = newProduct
-
-        await this.#recordFile(resultParsed)
-        return resultParsed[index]
-    }
-
-    deleteProductById = async (idProduct) => {
-        const resultParsed = await this.#readFile()
-        const indexDelete = resultParsed.findIndex((product) => {
-            return product.id === idProduct
-        })
-
-        if (indexDelete === undefined) {
-            console.log("Produto não encontrado")
-            return false
+    addProductToCart = async ({ productId, quantity }) => {
+      
+        let qty
+        if (!resultParsedInCart.at(-1)) {
+            qty = 0
         } else {
-            await resultParsed.splice(indexDelete, 1)
-            await this.#recordFile(resultParsed)
-            console.log(`O produto foi deletado com sucesso`)
+            qty = resultParsedInCart.at(-1).qty + quantity
         }
+        this.#qty = qty
+
+        const allProducts = await this.#readProductsFile()
+        const selectedProdut = allProducts[productId].id - 1
+        const nameProduct = allProducts[productId].title
+
+        let cart = {
+            id: this.#id,
+            productId: selectedProdut,
+            qty: this.#qty,
+            title: nameProduct
+        }
+
+        if (productId === 0) {
+            console.log("Insira um valor diferente de zero.")
+            return false
+        }
+
+        resultParsedInCart.push(cart)
+
+        await this.#recordCartFile(resultParsedInCart)
+        return console.log(cart, selectedProdut)
+    }
+
+
+
+    // addProductToCart = async ({ productId, quantity }) => {
+    //     const resultParsedMessy = await this.#readCartFile()
+    //     const resultParsedInCart = await resultParsedMessy.sort((a, b) => {
+    //         return a.id < b.id ? -1 : a.id > b.id ? 1 : 0
+    //     })
+
+    //     let id
+    //     if (!resultParsedInCart.at(-1)) {
+    //         id = 1
+    //     } else {
+    //         id = resultParsedInCart.at(-1).id + 1
+    //     }
+    //     this.#id = id
+
+    //     let qty
+    //     if (!resultParsedInCart.at(-1)) {
+    //         qty = 0
+    //     } else {
+    //         qty = resultParsedInCart.at(-1).qty + quantity
+    //     }
+    //     this.#qty = qty
+
+    //     const allProducts = await this.#readProductsFile()
+    //     const selectedProdut = allProducts[productId].id - 1
+
+    //     const cart = {
+    //         id: this.#id,
+    //         productId: selectedProdut,
+    //         qty: this.#qty
+    //     }
+
+    //     if (productId === 0) {
+    //         console.log("Insira um valor diferente de zero.")
+    //         return false
+    //     }
+
+    //     resultParsedInCart.push(cart)
+
+    //     await this.#recordCartFile(resultParsedInCart)
+
+    //     return console.log(cart, selectedProdut)
+    // }
+
+    conferProductInCart = async () => {
+        const resultParsedInCart = await this.#readCartFile()
+        return console.log(resultParsedInCart)
     }
 }
+
+
+// const manager = new CartManager("../../data/cart.json")
+
+// await manager.createCart()
+// await manager.addProductToCart({ productId: 8, quantity: 2 })
+// await manager.getCartById(2)
+// await manager.conferProductInCart()
