@@ -1,6 +1,8 @@
 import CartManager from '../../src/class/CartManager.js'
+import ProductManager from '../../src/class/ProductManager.js'
 
 const manager = new CartManager("./data/cart.json")
+const managerProduct = new ProductManager("./data/products.json")
 
 const createCart = async (req, res) => {
     try {
@@ -16,7 +18,7 @@ const getById = async (req, res) => {
     const foundCartById = await manager.getCartById(Number(cid))
     try {
         if (!foundCartById) {
-            res.status(404).json("Produto não existe.")
+            res.status(404).json("Carrinho não existe.")
         } else {
             res.status(200).json(foundCartById)
         }
@@ -29,12 +31,20 @@ const getById = async (req, res) => {
 
 
 
-
-
-
-
 const addToCart = async (req, res) => {
-    return res.status(200).json("Deu certo3")
+    const { cid } = req.params
+    const { pid } = req.params
+    const foundCartById = await manager.getCartById(Number(cid))
+    const foundProductById = await managerProduct.getProductById(Number(pid))
+    try {
+        if (!foundCartById || !foundProductById) {
+            res.status(404).json("Dados inválidos.")
+        } else {
+            res.status(200).json(foundCartById)
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
 }
 
 export default { createCart, getById, addToCart }
