@@ -4,6 +4,15 @@ import ProductManager from '../../src/class/ProductManager.js'
 const manager = new CartManager("./data/cart.json")
 const managerProduct = new ProductManager("./data/products.json")
 
+const productsInCart = async (req, res) => {
+    const ProdcutsAddToCart = await manager.conferCart()
+    try {
+        res.status(200).json(ProdcutsAddToCart)
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
+}
+
 const createCart = async (req, res) => {
     try {
         const cartCreated = await manager.createCart()
@@ -31,6 +40,8 @@ const getById = async (req, res) => {
 
 
 
+
+
 const addToCart = async (req, res) => {
     const { cid } = req.params
     const { pid } = req.params
@@ -47,7 +58,7 @@ const addToCart = async (req, res) => {
     }
 }
 
-export default { createCart, getById, addToCart }
+export default { productsInCart, createCart, getById, addToCart }
 
 
 // let cart = {}

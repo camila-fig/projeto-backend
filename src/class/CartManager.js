@@ -1,13 +1,15 @@
 import fs from "fs"
+
 export default class CartManager {
     #pathData
-    // #products
-    #id = 0
-    #qty = 1
+    #products
+    #cart
+    #id
 
     constructor(path) {
-        this.#pathData = path
-        // this.#products = []
+        this.#pathData = path;
+        this.#products = []
+        this.#cart = []
     }
 
     #readCartFile = async () => {
@@ -26,7 +28,10 @@ export default class CartManager {
         await fs.promises.writeFile(this.#pathData, JSON.stringify(data))
     }
 
-    // getProducts = () => this.#products
+    conferCart = async () => {
+        const resultParsedInCart = await this.#readCartFile()
+        return resultParsedInCart
+    }
 
     createCart = async () => {
         const resultParsedMessy = await this.#readCartFile()
@@ -36,17 +41,15 @@ export default class CartManager {
 
         let id
         if (!resultParsedInCart.at(-1)) {
-            id = 1
+            id = 0
         } else {
             id = resultParsedInCart.at(-1).id + 1
         }
         this.#id = id
 
-        let products = []
-
         const cart = {
             id: this.#id,
-            products
+            products: []
         }
 
         resultParsedInCart.push(cart)
@@ -56,101 +59,65 @@ export default class CartManager {
     }
 
     getCartById = async (idCart) => {
-        const resultParsed = await this.#readCartFile()
-        const index = resultParsed.findIndex((cart) => cart.id === idCart)
-        return resultParsed[index]
+        const resultParsedInCart = await this.#readCartFile()
+        const index = resultParsedInCart.findIndex((cart) => cart.id === idCart)
+        return resultParsedInCart[index]
     }
 
-
-
-
-    addProductToCart = async ({ productId, quantity }) => {
-      
-        let qty
-        if (!resultParsedInCart.at(-1)) {
-            qty = 0
-        } else {
-            qty = resultParsedInCart.at(-1).qty + quantity
-        }
-        this.#qty = qty
-
+    addProductToCart = async ({ IdProduct, IdCart }) => {
+        const resultParsedMessy = await this.#readCartFile()
+        const resultParsedInCart = await resultParsedMessy.sort((a, b) => {
+            return a.id < b.id ? -1 : a.id > b.id ? 1 : 0
+        })
         const allProducts = await this.#readProductsFile()
-        const selectedProdut = allProducts[productId].id - 1
-        const nameProduct = allProducts[productId].title
+        const foundIdCart = resultParsedInCart[IdCart]
+        const idSelectedProduct = allProducts[IdProduct].id
+        const nameProduct = allProducts[IdProduct].title
 
-        let cart = {
-            id: this.#id,
-            productId: selectedProdut,
-            qty: this.#qty,
-            title: nameProduct
+        if (!foundIdCart || foundIdCart === -1) {
+
+            let id
+            if (!resultParsedInCart.at(-1)) {
+                id = 0
+            } else {
+                id = resultParsedInCart.at(-1).id + 1
+            }
+            this.#id = id
+
+            resultParsedInCart.push({
+                id: this.#id,
+                products: [{
+                    productId: idSelectedProduct,
+                    qty: 1,
+                    title: nameProduct
+                }]
+            })
+
+        } else {
+            const idProductInCart = foundIdCart.products
+            const ifHaveProduct = idProductInCart.findIndex(item => item.productId === IdProduct)
+
+            if (ifHaveProduct >= 0) {
+                const sumItem = idProductInCart[ifHaveProduct].qty + 1
+                idProductInCart[ifHaveProduct].qty = sumItem
+
+            } else {
+                idProductInCart.push({
+                    productId: idSelectedProduct,
+                    qty: 1,
+                    title: nameProduct
+                })
+            }
         }
-
-        if (productId === 0) {
-            console.log("Insira um valor diferente de zero.")
-            return false
-        }
-
-        resultParsedInCart.push(cart)
 
         await this.#recordCartFile(resultParsedInCart)
-        return console.log(cart, selectedProdut)
-    }
-
-
-
-    // addProductToCart = async ({ productId, quantity }) => {
-    //     const resultParsedMessy = await this.#readCartFile()
-    //     const resultParsedInCart = await resultParsedMessy.sort((a, b) => {
-    //         return a.id < b.id ? -1 : a.id > b.id ? 1 : 0
-    //     })
-
-    //     let id
-    //     if (!resultParsedInCart.at(-1)) {
-    //         id = 1
-    //     } else {
-    //         id = resultParsedInCart.at(-1).id + 1
-    //     }
-    //     this.#id = id
-
-    //     let qty
-    //     if (!resultParsedInCart.at(-1)) {
-    //         qty = 0
-    //     } else {
-    //         qty = resultParsedInCart.at(-1).qty + quantity
-    //     }
-    //     this.#qty = qty
-
-    //     const allProducts = await this.#readProductsFile()
-    //     const selectedProdut = allProducts[productId].id - 1
-
-    //     const cart = {
-    //         id: this.#id,
-    //         productId: selectedProdut,
-    //         qty: this.#qty
-    //     }
-
-    //     if (productId === 0) {
-    //         console.log("Insira um valor diferente de zero.")
-    //         return false
-    //     }
-
-    //     resultParsedInCart.push(cart)
-
-    //     await this.#recordCartFile(resultParsedInCart)
-
-    //     return console.log(cart, selectedProdut)
-    // }
-
-    conferProductInCart = async () => {
-        const resultParsedInCart = await this.#readCartFile()
-        return console.log(resultParsedInCart)
+        return (resultParsedInCart)
     }
 }
 
+//const manager = new CartManager("../../data/cart.json")
 
-// const manager = new CartManager("../../data/cart.json")
-
-// await manager.createCart()
-// await manager.addProductToCart({ productId: 8, quantity: 2 })
-// await manager.getCartById(2)
-// await manager.conferProductInCart()
+//await manager.createCart()
+//await manager.addProductToCart({ IdProduct: 3, IdCart: 1 })
+//await manager.getCartById(1)
+//await manager.conferCart()
