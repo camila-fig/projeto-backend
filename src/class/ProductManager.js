@@ -72,7 +72,7 @@ export default class ProductManager {
     }
 
     updateProduct = async (dataToUpdate, idProduct) => {
-        if (dataToUpdate.title && dataToUpdate.description && dataToUpdate.price && dataToUpdate.thumbnail && dataToUpdate.code && dataToUpdate.stock && dataToUpdate.status && dataToUpdate.category === undefined) {
+        if (dataToUpdate.title || dataToUpdate.description || dataToUpdate.price || dataToUpdate.thumbnail || dataToUpdate.code || dataToUpdate.stock || dataToUpdate.status || dataToUpdate.category === undefined) {
             throw new Error("Produto não atualizado. Verifique se todos os dados foram preenchidos.")
         }
 
