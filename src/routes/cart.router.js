@@ -1,4 +1,5 @@
 import express from "express"
+import validCart from "../middleware/validCart.js"
 import cartController from "../controllers/cartController.js"
 
 const router = express.Router()
@@ -9,7 +10,6 @@ router.post("/", cartController.createCart)
 
 router.get("/:cid", cartController.getById)
 
-router.post("/:cid/product/:pid", cartController.addToCart)
-
+router.post("/:cid/product/:pid", validCart, cartController.addToCart)
 
 export default router

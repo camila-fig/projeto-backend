@@ -19,7 +19,9 @@ export default class CartManager {
     }
 
     #readProductsFile = async () => {
-        let resultProduct = await fs.promises.readFile("../../data/products.json", "utf-8")
+        //let resultProduct = await fs.promises.readFile("../../data/products.json", "utf-8")
+        let resultProduct = await fs.promises.readFile("C:/Users/User/Downloads/CoderHouse/Back-End/projeto final/data/products.json", "utf-8")
+        
         const resultParsed = await JSON.parse(resultProduct)
         return resultParsed
     }
@@ -72,7 +74,7 @@ export default class CartManager {
         const allProducts = await this.#readProductsFile()
         const foundIdCart = resultParsedInCart[IdCart]
         const idSelectedProduct = allProducts[IdProduct].id
-        const nameProduct = allProducts[IdProduct].title
+        //const nameProduct = allProducts[IdProduct].title
 
         if (!foundIdCart || foundIdCart === -1) {
 
@@ -89,7 +91,7 @@ export default class CartManager {
                 products: [{
                     productId: idSelectedProduct,
                     qty: 1,
-                    title: nameProduct
+                    //title: nameProduct
                 }]
             })
 
@@ -105,7 +107,7 @@ export default class CartManager {
                 idProductInCart.push({
                     productId: idSelectedProduct,
                     qty: 1,
-                    title: nameProduct
+                    //title: nameProduct
                 })
             }
         }
@@ -114,10 +116,3 @@ export default class CartManager {
         return (resultParsedInCart)
     }
 }
-
-//const manager = new CartManager("../../data/cart.json")
-
-//await manager.createCart()
-//await manager.addProductToCart({ IdProduct: 3, IdCart: 1 })
-//await manager.getCartById(1)
-//await manager.conferCart()

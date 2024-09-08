@@ -1,8 +1,8 @@
 import CartManager from '../../src/class/CartManager.js'
-import ProductManager from '../../src/class/ProductManager.js'
+//import ProductManager from '../../src/class/ProductManager.js'
 
 const manager = new CartManager("./data/cart.json")
-const managerProduct = new ProductManager("./data/products.json")
+//const managerProduct = new ProductManager("./data/products.json")
 
 const productsInCart = async (req, res) => {
     const ProdcutsAddToCart = await manager.conferCart()
@@ -36,45 +36,15 @@ const getById = async (req, res) => {
     }
 }
 
-
-
-
-
-
-
 const addToCart = async (req, res) => {
-    const { cid } = req.params
-    const { pid } = req.params
-    const foundCartById = await manager.getCartById(Number(cid))
-    const foundProductById = await managerProduct.getProductById(Number(pid))
     try {
-        if (!foundCartById || !foundProductById) {
-            res.status(404).json("Dados inválidos.")
-        } else {
-            res.status(200).json(foundCartById)
-        }
+        const { cid } = req.params
+        const { pid } = req.params
+        const addProduct = await manager.addProductToCart({ IdProduct: Number(pid), IdCart: Number(cid) })
+        res.status(201).json(addProduct)
     } catch (error) {
         res.status(500).json({ error: error.message })
     }
 }
 
 export default { productsInCart, createCart, getById, addToCart }
-
-
-// let cart = {}
-
-// post('/cart', (req, res) => {
-// const { idProduct, name, quantity } = req.body
-
-// tira o id da requisição
-
-// ai faz o if
-
-// if(cart[idProduct] {
-//    cart[idProduct]*quantity += 1}
-// else
-//     cart[idProduct] = {
-//        idProduct
-//        name,
-//        quantity: 1
-// res.json(cart)
