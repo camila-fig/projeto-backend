@@ -1,8 +1,6 @@
 import CartManager from '../../src/class/CartManager.js'
-//import ProductManager from '../../src/class/ProductManager.js'
 
 const manager = new CartManager("./data/cart.json")
-//const managerProduct = new ProductManager("./data/products.json")
 
 const productsInCart = async (req, res) => {
     const ProdcutsAddToCart = await manager.conferCart()
