@@ -1,7 +1,16 @@
-body {
-    background-color: brown;
+* {
+    margin: 10px;
 }
 
-.teste123 {
-    background-color: blue;
+body {
+    background-color: antiquewhite;
+}
+
+.headertitles {
+    font-size: large;
+    font-weight: 500;
+}
+
+h1 {
+    padding-top: 30px;
 }
