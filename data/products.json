@@ -5,7 +5,7 @@
         "description": "Saia de linho longa",
         "price": 54,
         "thumbnail": "image0.jpg",
-        "code": "A32X",
+        "code": 21,
         "stock": 11,
         "status": true,
         "category": "saias"
@@ -16,7 +16,7 @@
         "description": "Casaco jeans azul escuro",
         "price": 87.58,
         "thumbnail": "image1.jpg",
-        "code": "A22F",
+        "code": 71,
         "stock": 8,
         "status": true,
         "category": "casacos"
@@ -27,7 +27,7 @@
         "description": "Calça pantalona de linho azul escuro",
         "price": 102.45,
         "thumbnail": "image2.jpg",
-        "code": "O46U",
+        "code": 12,
         "stock": 18,
         "status": true,
         "category": "calças"
@@ -39,7 +39,7 @@
         "description": "Bermuda de jeans",
         "price": 37.99,
         "thumbnail": "image3.jpg",
-        "code": "S37V",
+        "code": 31,
         "stock": 24,
         "status": true,
         "category": "bermudas e shorts"
@@ -50,7 +50,7 @@
         "description": "Vestido de seda com renda",
         "price": 96.3,
         "thumbnail": "image4.jpg",
-        "code": "V45G",
+        "code": 42,
         "stock": 7,
         "status": true,
         "category": "vestidos"
@@ -61,10 +61,10 @@
         "description": "Blusão de lã caramelo",
         "price": 70.25,
         "thumbnail": "image5.jpg",
-        "code": "Q63K",
+        "code": 61,
         "stock": 42,
         "status": true,
-        "category": "blusões"
+        "category": "blusões e suéteres"
     },
     {
         "id": 6,
@@ -72,7 +72,7 @@
         "description": "Sort de couro sintético preto",
         "price": 65.3,
         "thumbnail": "image6.jpg",
-        "code": "N41H",
+        "code": 32,
         "stock": 55,
         "status": true,
         "category": "bermudas e shorts"
@@ -83,7 +83,7 @@
         "description": "Camisa xadrez verde e vermelho",
         "price": 35.66,
         "thumbnail": "image7.jpg",
-        "code": "R88Y",
+        "code": 51,
         "stock": 13,
         "status": true,
         "category": "camisas"
@@ -94,7 +94,7 @@
         "description": "Saia longa estampada com flores",
         "price": 33.6,
         "thumbnail": "image8.jpg",
-        "code": "F32W",
+        "code": 22,
         "stock": 21,
         "status": true,
         "category": "saias"
@@ -105,7 +105,7 @@
         "description": "Vestido longo de veludo vermelho",
         "price": 60.5,
         "thumbnail": "image9.jpg",
-        "code": "O73U",
+        "code": 41,
         "stock": 18,
         "status": true,
         "category": "vestidos"
@@ -116,7 +116,7 @@
         "description": "Calça jeans azul com renda",
         "price": 45.87,
         "thumbnail": "image10.jpg",
-        "code": "B94K",
+        "code": 11,
         "stock": 54,
         "status": true,
         "category": "calças"
