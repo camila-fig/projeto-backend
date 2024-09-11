@@ -2,9 +2,9 @@ import express from "express"
 import handlebars from "express-handlebars"
 import mongoose from "mongoose"
 import path from "path"
+
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
-
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
@@ -12,7 +12,6 @@ import viewsRouter from './routes/views.router.js'
 import productsRouter from './routes/products.router.js'
 import cartRouter from './routes/cart.router.js'
 import chatRouter from './routes/chat.router.js'
-//import viewRouter from './routes/views.router.js'
 
 const app = express()
 app.use(express.json())
@@ -23,8 +22,8 @@ app.engine("handlebars", handlebars.engine())
 app.set("view engine", "handlebars")
 app.set("views", pathView)
 
-//const staticPath = path.join(`${__dirname}/../public`)
-//console.log(staticPath)
+const pathPublic = path.join(__dirname, '..', 'public')
+app.use(express.static(pathPublic))
 
 app.use('/', viewsRouter)
 app.use('/products', productsRouter)
