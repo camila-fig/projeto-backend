@@ -10,6 +10,6 @@ const cartSchema = new mongoose.Schema({
         }]
 });
 
-const messageModel = mongoose.model(cartsCollection, cartSchema);
+const cartModel = mongoose.model(cartsCollection, cartSchema);
 
-export default messageModel
+export default cartModel

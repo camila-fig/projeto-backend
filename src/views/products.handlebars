@@ -1,0 +1,29 @@
+<h1>Lista de Produtos</h1>
+<ul>
+    {{#each products}}
+    <div>
+        <img src="/static/{{thumbnail}}" alt="Imagem do Produto" width="50px" />
+        <p>Categoria: {{category}}</p>
+        <p>{{title}}</p>
+        <p>Descrição: {{description}}</p>
+        <p>Preço R$ {{price}}</p>
+        <p>Produtos em estoque: {{stock}}</p>
+        <br>
+        <button class="addToCartButton" data-id="{{_id}}">Adicionar ao carrinho</button>
+    </div>
+    {{/each}}
+</ul>
+
+<script src="../service/cart.service.js">
+
+    const addToCartButtons = document.querySelectorAll('.addToCartButton')
+
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', async () => {
+            const addProduct = button.getAttribute('data-id')
+            console.log("PID selecionado:", addProduct)
+            await addProductToCart(addProduct)
+        })
+    })
+
+</script>

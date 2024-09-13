@@ -12,10 +12,10 @@ const productSchema = new mongoose.Schema({
         unique: true
     },
     stock: Number,
-    status: true,
-    category: String,
+    status: String,
+    category: String
 });
 
-const messageModel = mongoose.model(productsCollection, productSchema);
+const productModel = mongoose.model(productsCollection, productSchema);
 
-export default messageModel
+export default productModel
