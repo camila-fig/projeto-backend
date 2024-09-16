@@ -5,5 +5,11 @@ const getProducts = async () => {
     return products
 }
 
-export default { getProducts }
+const getProductById = async (idProduct) => {
+    const resultParsed = await productModel.find({})
+    const index = resultParsed.findIndex((product) => product.id === idProduct)
+    return resultParsed[index]
+}
+
+export default { getProducts, getProductById }
 

@@ -18,6 +18,26 @@ router.get("/products", async (req, res) => {
   res.render("products", { products })
 })
 
+router.get("/products/:pid", async (req, res) => {
+  const { pid } = req.params
+  const foundProductById = await productsService.getProductById(String(pid))
+  try {
+    if (!foundProductById) {
+      res.status(404).json("Produto não existe.")
+    } else {
+      res.render("product", {
+        title: foundProductById.title,
+        category: foundProductById.category,
+        description: foundProductById.description,
+        price: foundProductById.price,
+        stock: foundProductById.stock
+      })
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
 router.get("/cart/:cid", validCart, async (req, res) => {
   try {
     const { cid } = req.params
@@ -27,6 +47,8 @@ router.get("/cart/:cid", validCart, async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message })
   }
- })
+})
+
+
 
 export default router

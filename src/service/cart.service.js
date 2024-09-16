@@ -1,8 +1,6 @@
 import cartModel from "../model/cart.model.js"
 import productModel from "../model/product.model.js"
 
-
-
 const addProductToCart = async (pid, cid) => {
     const resultParsedInCart = cartModel.find({})
     const allProducts = await productModel.find({})
@@ -10,7 +8,7 @@ const addProductToCart = async (pid, cid) => {
     const foundProduct = allProducts[pid]
 
     try {
-        const response = await fetch(`cart/${cid}/products/${pid}`, {
+        const response = await fetch(`cart/${cid}/product/${pid}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -43,8 +41,5 @@ const addProductToCart = async (pid, cid) => {
         // Exibir mensagem  de erro ou realizar outra ação apropriada 
     }
 }
-
-
-
 
 export default { addProductToCart }
