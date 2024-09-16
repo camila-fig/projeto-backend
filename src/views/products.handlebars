@@ -2,27 +2,26 @@
 <ul>
     {{#each products}}
     <div>
-        <img src="/static/{{thumbnail}}" alt="Imagem do Produto" width="50px" />
+        {{!-- <img src="/static/{{thumbnail}}" alt="Imagem do Produto" width="50px" /> --}}
         <p>Categoria: {{category}}</p>
         <p>{{title}}</p>
-        <p>Descrição: {{description}}</p>
         <p>Preço R$ {{price}}</p>
-        <p>Produtos em estoque: {{stock}}</p>
         <br>
-        <button class="addToCartButton" data-id="{{_id}}">Adicionar ao carrinho</button>
+        <button class="viewProduct" data-id="{{_id}}">Ver produto</button>
     </div>
     {{/each}}
 </ul>
 
-<script src="../service/cart.service.js">
+<script>
 
-    const addToCartButtons = document.querySelectorAll('.addToCartButton')
+    const viewProducts = document.querySelectorAll('.viewProduct')
 
-    addToCartButtons.forEach(button => {
+    viewProducts.forEach(button => {
         button.addEventListener('click', async () => {
             const addProduct = button.getAttribute('data-id')
             console.log("PID selecionado:", addProduct)
-            await addProductToCart(addProduct)
+            window.location.href = `/products/${addProduct}`
+            //await addProductToCart(addProduct)
         })
     })
 
