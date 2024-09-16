@@ -5,11 +5,16 @@ const cartsCollection = "carts"
 const cartSchema = new mongoose.Schema({
     products: [
         {
-            productId: Number,
+            productId: String,
             qty: Number
         }]
-});
+})
 
-const cartModel = mongoose.model(cartsCollection, cartSchema);
+cartSchema.pre("find", function () {
+    this.populate("products.productId")
+})
+
+
+const cartModel = mongoose.model(cartsCollection, cartSchema)
 
 export default cartModel
