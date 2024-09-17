@@ -3,7 +3,7 @@
 }
 
 body {
-    background-color: antiquewhite;
+    background-color:aliceblue;
 }
 
 .headertitles {
@@ -22,8 +22,13 @@ h1 {
 }
 
 .container-product {
+    background-color: white;
     display: flex;
     flex-direction: column;
     width: 250px;
     border: solid, 1px, black;
+}
+
+.product-name {
+    text-transform: uppercase;
 }
