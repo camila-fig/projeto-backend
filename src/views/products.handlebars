@@ -1,7 +1,7 @@
 <h1>Lista de Produtos</h1>
-<ul>
+<div class="page-products">
     {{#each products}}
-    <div>
+    <div class="container-product">
         {{!-- <img src="/static/{{thumbnail}}" alt="Imagem do Produto" width="50px" /> --}}
         <p>Categoria: {{category}}</p>
         <p>{{title}}</p>
@@ -10,10 +10,9 @@
         <button class="viewProduct" data-id="{{_id}}">Ver produto</button>
     </div>
     {{/each}}
-</ul>
+</div>
 
 <script>
-
     const viewProducts = document.querySelectorAll('.viewProduct')
 
     viewProducts.forEach(button => {

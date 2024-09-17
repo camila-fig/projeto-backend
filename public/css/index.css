@@ -14,3 +14,16 @@ body {
 h1 {
     padding-top: 30px;
 }
+
+.page-products {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.container-product {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    border: solid, 1px, black;
+}
