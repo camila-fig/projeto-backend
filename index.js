@@ -41,7 +41,8 @@ const main = async () => {
     // await cartModel.updateOne({ _id: "66e8d901bb4d08a0aacbeb91" }, cart[0])
 
     //Populate
-    // let cart = await cartModel.find({ _id: "66e8d901bb4d08a0aacbeb91" }).populate('products.product')
+    // let cart = await cartModel.find({ _id: "66e8d901bb4d08a0aacbeb91" })
+    //.populate('products.product')
     // console.log(cart[0].products)
 }
 
