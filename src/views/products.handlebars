@@ -1,8 +1,13 @@
 <h1>Lista de Produtos</h1>
+
+<div>
+    <label for="search"></label>
+</div>
+
 <div class="page-products">
     {{#each products}}
     <div class="container-product">
-        {{!-- <img src="/static/{{thumbnail}}" alt="Imagem do Produto" width="50px" /> --}}
+        <img src="../../image/{{thumbnail}}" alt="Imagem do Produto" width="50px" />
         <p>Categoria: {{category}}</p>
         <p class="product-name">{{title}}</p>
         <p>Preço R$ {{price}}</p>
