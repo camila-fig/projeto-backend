@@ -46,22 +46,22 @@ const main = async () => {
 
     // AGGREGATION PIPELINE
     //Organiza o array de produtos do maior code para o menor, por categoria e agrupa pelo title
-    // const orderCategory = async (productCategory) => {
-    //     const result = await productModel.aggregate([
-    //         { $sort: { code: -1 } },
-    //         { $match: { category: productCategory } },
+    //  const orderCategory = async (productCategory) => {
+    //      const result = await productModel.aggregate([
+    //          { $sort: { code: -1 } },
+    //          { $match: { category: productCategory } },
     //         { $group: { _id: "$title", products: { $push: "$$ROOT" } } }
-    //     ]);
-    //     return result;
-    // }
-    // const result = await orderCategory("casacos");
-    // console.log(result)
+    //      ]);
+    //      return result;
+    //  }
+    //  const result = await orderCategory("casacos");
+    //  console.log(result)
 
 
 
     // PAGINAÇÃO
-    // const result = await productModel.paginate({ category: "casacos" }, { limit: 2, page: 1 })
-    // console.log(result)
+    //  const result = await productModel.paginate({ category: "casacos" }, { limit: 2, page: 1 })
+    //  console.log(result)
 }
 
 main()
