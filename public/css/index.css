@@ -24,6 +24,7 @@ h1 {
 .container-product {
     background-color: white;
     display: flex;
+    text-align: center;
     flex-direction: column;
     width: 250px;
     border: solid, 1px, black;
