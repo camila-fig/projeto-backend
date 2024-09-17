@@ -30,7 +30,8 @@ router.get("/products/:pid", async (req, res) => {
         category: foundProductById.category,
         description: foundProductById.description,
         price: foundProductById.price,
-        stock: foundProductById.stock
+        stock: foundProductById.stock,
+        _id: pid
       })
     }
   } catch (error) {
