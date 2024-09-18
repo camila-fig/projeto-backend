@@ -1,14 +1,19 @@
 import productModel from "../model/product.model.js"
 
 const getAllProducts = async () => {
-    const products = await productModel.find({})
+    let options = {
+        page: 1,
+        limit: 10
+    }
+    const products = await productModel.paginate({}, options)
     return products
 }
 
 const getProducts = async (title, page, limit) => {
     const options = {
         page: page,
-        limit: limit
+        limit: limit,
+        sort: { price: 1 }
     }
     const products = await productModel.paginate({ title: title }, options)
     return products
