@@ -13,7 +13,7 @@ router.get("/chat", (req, res) => {
 })
 
 router.get("/products", async (req, res) => {
-  let products = await productsService.getProducts()
+  let products = await productsService.getAllProducts()
   products = products.map((product) => product.toJSON())
   res.render("products", { products })
 })
@@ -39,6 +39,21 @@ router.get("/products/:pid", async (req, res) => {
     res.status(500).json({ error: error.message })
   }
 })
+
+router.get("/products/:title/:page/:limit", async (req, res) => {
+  const { title, page, limit } = req.params;
+  console.log(title, page, limit)
+  let result = await productsService.getProducts(title, page, limit)
+  console.log("Result:", result)
+  const products = result.docs.map((product) => product.toJSON());
+  delete result.docs
+  // console.log(result)
+  res.render("products", { products, result });
+})
+
+
+
+
 
 router.get("/cart/:cid", validCart, async (req, res) => {
   try {

@@ -34,11 +34,9 @@ const addProductToCart = async (pid, cid) => {
             alert(`Produto adicionado ao carrinho.`)
         } else {
             console.error(`Erro ao adicionar o produto no carrinho. Status: ${response.status}`)
-            //  Exibir mensagem de erro ou realizar outra ação apropriada 
         }
     } catch (error) {
         console.error(error)
-        // Exibir mensagem  de erro ou realizar outra ação apropriada 
     }
 }
 

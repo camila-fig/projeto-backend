@@ -1,14 +1,15 @@
 <h1>Lista de Produtos</h1>
 
 <div>
-    <label for="search"></label>
+    <input type="text" id="search" placeholder="Qual produto deseja encontrar?">
+    <button id="searchButton">Buscar</button>
 </div>
 
 <div class="page-products">
     {{#each products}}
     <div class="container-product">
-        <img src="../../image/{{thumbnail}}" alt="Imagem do Produto" width="50px" />
         <p>Categoria: {{category}}</p>
+        <img src="../../image/{{thumbnail}}" alt="Imagem do Produto" width="50px" />
         <p class="product-name">{{title}}</p>
         <p>Preço R$ {{price}}</p>
         <br>
@@ -18,14 +19,23 @@
 </div>
 
 <script>
+    const searchInput = document.getElementById('search')
+    const searchButton = document.getElementById('searchButton')
     const viewProducts = document.querySelectorAll('.viewProduct')
+
+    searchButton.addEventListener('click', () => {
+        const searchQuery = searchInput.value.trim()
+        console.log("Search Query:", searchQuery)
+        if (searchQuery) {
+            window.location.href = `/products/${searchQuery}/1/2`;
+        }
+    })
 
     viewProducts.forEach(button => {
         button.addEventListener('click', async () => {
             const addProduct = button.getAttribute('data-id')
-            console.log("PID selecionado:", addProduct)
+            //console.log("PID selecionado:", addProduct)
             window.location.href = `/products/${addProduct}`
-            //await addProductToCart(addProduct)
         })
     })
 
