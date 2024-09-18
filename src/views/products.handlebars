@@ -50,94 +50,38 @@
 
     // Desabilitar botões de navegação se não houver próxima ou anterior página
     if (!{{ result.hasNextPage }}) {
-        nextButton.disabled = true;
+        nextButton.disabled = true
     }
     if (!{{ result.hasPrevPage }}) {
-        previousButton.disabled = true;
+        previousButton.disabled = true
     }
 
     // Redirecionamento inicial, com controle para evitar loop
-    {{!--window.onload = function () {
-                const hasRedirected = sessionStorage.getItem('hasRedirected')
+      window.onload = function() {
+        const hasRedirected = sessionStorage.getItem('hasRedirected')
 
-                if (!hasRedirected) {
-                    sessionStorage.setItem('hasRedirected', 'true')
-                    window.location.href = `/products/all/1/10`
-                }
-            } 
-
-
-
-
-
-
-    // Função para redirecionar para a próxima página
-    nextButton.addEventListener('click', () => {
-        const searchQuery = window.location.pathname.split('/')[2]
-        if ({{ result.hasNextPage }}) {
-            if (title: all) {
-                const url = `/products/all/{{result.nextPage}}/10`
-                console.log(url)
-                window.location.href = url
-            } else {
-            const url = `/products/{{title}}/{{result.nextPage}}/10`
-            console.log(url)
-            window.location.href = url
-            }
+        if (!hasRedirected) {
+          const url = `http://localhost:8080/products/all/1/10`
+          sessionStorage.setItem('hasRedirected', 'true')
+          window.location.href = url
         }
-    })  
+      }
 
-    //${encodeURIComponent(searchQuery)}
-
-    // Função para redirecionar para a página anterior
-    previousButton.addEventListener('click', () => {
+      // Função para redirecionar para a próxima página
+      nextButton.addEventListener('click', () => {
         const searchQuery = window.location.pathname.split('/')[2]
-        if ({{ result.hasNextPage }}) {
-            if (title: all) {
-                const url = `/products/all/{{result.nextPage}}/10`
-                console.log(url)
-                window.location.href = url
-            } else {
-            const url = `/products/{{title}}/{{result.nextPage}}/10`
-            console.log(url)
-            window.location.href = url
-            }
+        if ({{result.hasNextPage}}) {
+          const url = `http://localhost:8080/products/${encodeURIComponent(searchQuery)}/{{result.nextPage}}/{{result.limit}}`
+          window.location.href = url
         }
-    })  
-    --}}
+      })
 
-
-
-
-
-
-
-
-
-
-
-
-    
-        
-    {{!-- // Função para redirecionar para a próxima página
-    nextButton.addEventListener('click', () => {
+      // Função para redirecionar para a página anterior
+      previousButton.addEventListener('click', () => {
         const searchQuery = window.location.pathname.split('/')[2]
-        if ({{ result.hasNextPage }}) {
-            const url = `/products/all/{{result.nextPage}}/10`
-            console.log(url)
-            window.location.href = url
+        if ({{result.hasPrevPage}}) {
+          const url = `http://localhost:8080/products/${encodeURIComponent(searchQuery)}/{{result.prevPage}}/{{result.limit}}`
+          window.location.href = url
         }
-    })
-
-    //${encodeURIComponent(searchQuery)}
-
-    // Função para redirecionar para a página anterior
-    previousButton.addEventListener('click', () => {
-        const searchQuery = window.location.pathname.split('/')[2]
-        if ({{ result.hasPrevPage }}) {
-            const url = `/products/all/{{result.prevPage}}/10`
-            console.log(url)
-            window.location.href = url
-        }
-    }) --}}
+      })
 </script>

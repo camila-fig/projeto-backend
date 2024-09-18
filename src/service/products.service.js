@@ -1,22 +1,30 @@
 import productModel from "../model/product.model.js"
 
 const getAllProducts = async () => {
-    let options = {
-        page: 1,
-        limit: 10
+    try {
+        const options = {
+            page: 1,
+            limit: 10
+        }
+        const products = await productModel.paginate({}, options)
+        return products
+    } catch (error) {
+        console.log("Erro ao paginar getAllProducts:", error)
     }
-    const products = await productModel.paginate({}, options)
-    return products
 }
 
 const getProducts = async (title, page, limit) => {
-    const options = {
-        page: page,
-        limit: limit,
-        sort: { price: 1 }
+    try {
+        const options = {
+            page: page,
+            limit: limit,
+            sort: { price: 1 }
+        }
+        const products = await productModel.paginate({ title: title }, options)
+        return products
+    } catch (error) {
+        console.log("Erro ao paginar getProducts:", error)
     }
-    const products = await productModel.paginate({ title: title }, options)
-    return products
 }
 
 const getProductById = async (idProduct) => {

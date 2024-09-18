@@ -12,36 +12,28 @@ router.get("/chat", (req, res) => {
   res.render("chat")
 })
 
-router.get("/products", async (req, res) => {
-  let result = await productsService.getAllProducts()
-  const products = result.docs.map((product) => product.toJSON())
-  res.render("products", { products, result })
-})
-
 router.get("/products/:title/:page/:limit", async (req, res) => {
-  const { title, page, limit } = req.params;
+  const { title, page, limit } = req.params
   let result
   if (title === "all") {
     result = await productsService.getAllProducts()
-    //console.log("ResultAll:", result)
-    const products = result.docs.map((product) => product.toJSON());
-    res.render("products", { products, result })
-
   } else {
     result = await productsService.getProducts(title, page, limit)
-    //console.log("Result:", result)
-    const products = result.docs.map((product) => product.toJSON());
-    //delete result.docs
-    res.render("products", { products, result });
   }
+  const products = result.docs.map((product) => product.toJSON())
+  // delete result.docs
+  res.render("products", { products, result })
+  console.log("Resultado:", result)
 })
 
 router.get("/products/:pid", async (req, res) => {
   const { pid } = req.params
   const foundProductById = await productsService.getProductById(String(pid))
+
   try {
     if (!foundProductById) {
       res.status(404).json("Produto não existe.")
+
     } else {
       res.render("product", {
         title: foundProductById.title,
