@@ -38,3 +38,12 @@ h1 {
 #search {
     width: 300px;
 }
+
+.nao-aparecer {
+    display: none;
+}
+
+.numeracao-pagina {
+    display: flex;
+    flex-direction: row;
+}
