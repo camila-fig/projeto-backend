@@ -23,7 +23,7 @@ router.get("/products/:title/:page/:limit", async (req, res) => {
   const products = result.docs.map((product) => product.toJSON())
   // delete result.docs
   res.render("products", { products, result })
-  console.log("Resultado:", result)
+  //console.log("Resultado:", result)
 })
 
 router.get("/products/:pid", async (req, res) => {
@@ -49,8 +49,6 @@ router.get("/products/:pid", async (req, res) => {
     res.status(500).json({ error: error.message })
   }
 })
-
-
 
 
 
