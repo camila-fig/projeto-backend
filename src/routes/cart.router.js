@@ -10,4 +10,10 @@ const router = express.Router()
 //router.get("/:cid", cartController.getById)
 //router.post("/:cid/product/:pid", validCart, cartController.addToCart)
 
+
+//Rotas com Mongoose
+router.get("/:cid", (req, res) => { res.render("cart") })
+
+
+
 export default router

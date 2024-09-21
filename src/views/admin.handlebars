@@ -1,0 +1,163 @@
+<h1>Área Restrita</h1>
+<div class="container-register-edit">
+    <div class="register-product">
+        <h2>Cadastrar Produto</h2>
+        <form action="/products" method="post">
+            <label for="title">Nome do Produto:</label>
+            <input type="text" id="title" name="title" required>
+            <br>
+            <label for="category">Categoria:</label>
+            <select name="category">
+                <option value=""></option>
+                <option value="calças">calças</option>
+                <option value="saias">saias</option>
+                <option value="bermudas e shorts">bermudas e shorts</option>
+                <option value="vestidos">vestidos</option>
+                <option value="camisas">camisas</option>
+                <option value="blusões e suéteres">blusões e suéteres</option>
+                <option value="casacos">casacos</option>
+            </select>
+            <br>
+            <label for="description">Descrição:</label>
+            <br>
+            <textarea for="text" id="description" name="description" required cols="30" rows="5"></textarea>
+            <br>
+            <label for="price">Preço (R$):</label>
+            <input type="number" id="price" name="price" required>
+            <br>
+            <label for="code">Código:</label>
+            <input type="number" id="code" name="code" required>
+            <br>
+            <label for="thumbnail">Imagem:</label>
+            <input type="text" id="thumbnail" name="thumbnail" required>
+            <br>
+            <label for="stock">Estoque:</label>
+            <input type="number" id="stock" name="stock" required>
+            <br>
+            <label for="status">Status:</label>
+            <select name="status">
+                <option value="true">true</option>
+                <option value="false">false</option>
+            </select>
+            <br>
+            <button type="submit">Salvar Produto</button>
+        </form>
+    </div>
+
+
+    <div class="edit-product">
+        <h2>Editar Produto</h2>
+        <form id="form">
+            <label for="code">Código do produto que deseja editar:</label>
+            <input type="number" id="code" name="code" value="{{product.code}}" required>
+            <br>
+            <button>Encontrar</button>
+            <br>
+            <label for="title">Nome do Produto:</label>
+            <input type="text" id="title" name="title" value="{{product.title}}">
+            <br>
+            <label for="category">Categoria:</label>
+            <select name="category">
+                <option value="{{product.category}}"></option>
+                <option value="calças">calças</option>
+                <option value="saias">saias</option>
+                <option value="bermudas e shorts">bermudas e shorts</option>
+                <option value="vestidos">vestidos</option>
+                <option value="camisas">camisas</option>
+                <option value="blusões e suéteres">blusões e suéteres</option>
+                <option value="casacos">casacos</option>
+            </select>
+            <br>
+            <label for="description">Descrição:</label>
+            <br>
+            <textarea for="text" id="description" name="description" value="{{product.description}}" required cols="30" rows="5"></textarea>
+            <br>
+            <label for="price">Preço (R$):</label>
+            <input type="number" id="price" name="price" value="{{product.price}}" required>
+            <br>
+            <label for="thumbnail">Imagem:</label>
+            <input type="text" id="thumbnail" name="thumbnail" value="{{product.thumbnail}}" required>
+            <br>
+            <label for="stock">Estoque:</label>
+            <input type="number" id="stock" name="stock" value="{{product.stock}}" required>
+            <br>
+            <label for="status">Status:</label>
+            <select name="status">
+                <option value="{{product.status}}"></option>
+                <option value="true">true</option>
+                <option value="false">false</option>
+            </select>
+            <br>
+            <button class="edit-button" data-code="{{product.code}}" data-id="{{product._id}}">Editar Produto</button>
+            <button class="delete-button" data-code="{{product.code}}" data-id="{{product._id}}">Deletar Produto</button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+
+    const editButtons = document.querySelectorAll('.edit-button')
+    const deleteButtons = document.querySelectorAll('.edit-button')
+
+
+    editButtons.forEach(button => {
+        button.addEventListener('click', async () => {
+            const productCode = button.getAttribute('data-code')
+            await editProduct(productCode)
+            console.log("ProductCode:", productCode)
+            // window.location.href = `/`
+        })
+    })
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', async () => {
+            const productId = button.getAttribute('data-id')
+            await deleteProduct(productId)
+        })
+    })
+
+    async function editProduct(id) {
+        try {
+            let form = new FormData(document.getElementById("form"));
+            console.log('form', form);
+            const response = await fetch(`/products/${id}`, {
+                method: 'put',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(Object.fromEntries(form))
+            });
+        } catch (error) {
+            console.error('Erro na solicitação de exclusão:', error);
+            // Exibir mensagem de erro ou realizar outra ação apropriada
+        }
+    }
+
+
+
+
+
+    async function deleteProduct(email) {
+        try {
+            const response = await fetch(`/user/${email}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            if (response.ok) {
+                console.log(`Usuário com email ${email} deletado com  sucesso.`)
+                // Redirecionar para a página que exibe o e-mail deletado
+                //window.location.href = `/usuario-deletado/${email}`;
+            } else {
+                console.error(`Erro ao excluir usuário. Status: ${response.status}`)
+                //  Exibir mensagem de erro ou realizar outra ação apropriada
+            }
+        } catch (error) {
+            console.error('Erro na solicitação de exclusão:', error)
+            // Exibir mensagem  de erro ou realizar outra ação apropriada
+        }
+    }
+
+</script>

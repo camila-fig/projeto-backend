@@ -10,6 +10,7 @@ const __dirname = dirname(__filename)
 
 import viewsRouter from './routes/views.router.js'
 import productsRouter from './routes/products.router.js'
+import userRouter from './routes/user.router.js'
 import cartRouter from './routes/cart.router.js'
 import chatRouter from './routes/chat.router.js'
 
@@ -27,6 +28,7 @@ app.use(express.static(pathPublic))
 
 app.use('/', viewsRouter)
 app.use('/products', productsRouter)
+app.use('/user', userRouter)
 app.use('/cart', cartRouter)
 app.use('/chat', chatRouter)
 

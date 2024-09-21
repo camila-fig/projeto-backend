@@ -1,10 +1,10 @@
 import productModel from "../model/product.model.js"
 
-const getAllProducts = async () => {
+const getAllProducts = async (page, limit) => {
     try {
         const options = {
-            page: 1,
-            limit: 10
+            page: page,
+            limit: limit
         }
         const products = await productModel.paginate({}, options)
         return products
@@ -33,5 +33,21 @@ const getProductById = async (idProduct) => {
     return resultParsed[index]
 }
 
-export default { getAllProducts, getProducts, getProductById }
+const getProductByCode = async (code) => {
+    const resultParsed = await productModel.find({})
+    const productByCode = resultParsed.find((product) => product.code === code)
+    return resultParsed[productByCode]
+}
+
+const deleteProduct = async (pid) => {
+    const productDeleted = await productModel.deleteOne({ _id: pid });
+    return productDeleted
+}
+
+const createProduct = async ({ title, description, price, thumbnail, code, stock, status, category }) => {
+    const productCreated = await productModel.create({ title, description, price, thumbnail, code, stock, status, category })
+    return productCreated
+}
+
+export default { getAllProducts, getProducts, getProductById, getProductByCode, deleteProduct, createProduct }
 

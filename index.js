@@ -1,5 +1,6 @@
 import cartModel from "./src/model/cart.model.js"
 import productModel from "./src/model/product.model.js"
+import userModel from "./src/model/user.model.js"
 import mongoose from "mongoose"
 
 
@@ -29,6 +30,9 @@ const main = async () => {
 
     //Cadastra um novo carrinho vazio
     // cartModel.create({email: "camila@gmail.com"})
+
+    //Cadastra um novo usuário
+    //userModel.create({name: "Camila Figueiredo", email: "camila_fig@hotmail.com", password:123456})
 
     //Para encontrar o produto e colocar no carrinho existente
     //  let cart = await cartModel.find({ _id: "66e8d901bb4d08a0aacbeb91" })
