@@ -14,25 +14,6 @@ const router = express.Router()
 //router.delete("/:pid", productController.deleteProduct)
 
 //Rotas com Mongoose
-router.post("/", validProduct, async (req, res) => {
-    try {
-        const { title, description, price, thumbnail, code, stock, status, category } = req.body
-        const productCreated = await productsService.createProduct({
-            title,
-            description,
-            price,
-            thumbnail,
-            code,
-            stock,
-            status,
-            category,
-        })
-        return res.render("msgProduct")
-    } catch (error) {
-        return res.status(500).json({ message: error.message })
-    }
-})
-
 router.get("/:title/:page/:limit", async (req, res) => {
   const { title, page, limit } = req.params
   let result
@@ -71,7 +52,26 @@ router.get("/:pid", async (req, res) => {
   }
 })
 
-// router.delete("/", async (req, res) => {
+router.post("/", validProduct, async (req, res) => {
+  try {
+      const { title, description, price, thumbnail, code, stock, status, category } = req.body
+      const productCreated = await productsService.createProduct({
+          title,
+          description,
+          price,
+          thumbnail,
+          code,
+          stock,
+          status,
+          category,
+      })
+      return res.render("msgProduct")
+  } catch (error) {
+      return res.status(500).json({ message: error.message })
+  }
+})
+
+// router.delete("/:pid", async (req, res) => {
 //     try {
 //         const { pid } = req.params
 //         const productDeleted = await productsService.deleteProduct(pid)
@@ -82,13 +82,15 @@ router.get("/:pid", async (req, res) => {
 // })
 
 
-// router.put("/", async (req, res) => {
+// router.put("/:pid", async (req, res) => {
 //     try {
-//         const { title } = req.body
+//         const { code } = req.body
 //         const { pid } = req.params
-//         await productsService.updateUser({}, pid)
-//         return res.status(201).redirect("/");
-//     } catch (error) { }
+//         await productsService.updateProduct(code, pid)
+//         return res.status(201).json("Tudo certo");
+//     } catch (error) {
+//       res.status(500).json({message: error.message})
+// }
 // })
 
 export default router

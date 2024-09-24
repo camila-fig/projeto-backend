@@ -2,9 +2,25 @@ import express from "express"
 
 const router = express.Router()
 
+const validRole = (req, res, next) => {
+    if (req.session?.admin) {
+        return next()
+    } else {
+        res.render("msgForbidden")
+    }
+}
+
 router.get("/", (req, res) => { res.render("index") })
-router.get("/login", (req, res) => { res.render("registerOrLogin") })
 router.get("/chat", (req, res) => { res.render("chat") })
-router.get("/admin", (req, res) => { res.render("admin") })
+router.get("/admin", validRole, (req, res) => { res.render("admin") })
+router.get("/logout", (req, res) => {
+    req.session.destroy(err => {
+        if (!err) {
+            res.render("msgLogout")
+        } else {
+            res.send({ status: "Erro ao efetuar logout", body: err })
+        }
+    })
+})
 
 export default router

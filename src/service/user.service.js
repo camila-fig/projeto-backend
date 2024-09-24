@@ -1,8 +1,19 @@
 import userModel from "../model/user.model.js"
 
-const createUser = async ({ name, email, password }) => {
-    const userCreated = await userModel.create({ name, email, password })
+const createUser = async ({ name, email, password,role }) => {
+    const userCreated = await userModel.create({ name, email, password, role })
     return userCreated
 }
 
-export default { createUser }
+const getUsersById = async (uid) => {
+    const user = await userModel.findById(uid)
+    return [user]
+}
+
+const getUsersByEmail = async (user) => {
+    const userFound = await userModel.findOne({ email: user.email })
+    console.log("UserFound", userFound)
+    return userFound
+}
+
+export default { createUser, getUsersById, getUsersByEmail }

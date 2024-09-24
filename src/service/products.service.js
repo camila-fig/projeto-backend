@@ -49,5 +49,13 @@ const createProduct = async ({ title, description, price, thumbnail, code, stock
     return productCreated
 }
 
-export default { getAllProducts, getProducts, getProductById, getProductByCode, deleteProduct, createProduct }
+const updateProduct = async ({title, description, price, thumbnail, code, stock, status, category}) => {
+    const productUpdated = await productModel.updateOne(
+        {_id:pid},
+        {title, description, price, thumbnail, code, stock, status, category}
+    )
+    return productUpdated
+}
+
+export default { getAllProducts, getProducts, getProductById, getProductByCode, deleteProduct, createProduct, updateProduct }
 

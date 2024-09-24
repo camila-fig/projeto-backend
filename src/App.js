@@ -1,5 +1,7 @@
 import express from "express"
 import handlebars from "express-handlebars"
+import session from "express-session"
+import FileStore from "session-file-store"
 import mongoose from "mongoose"
 import path from "path"
 
@@ -25,6 +27,13 @@ app.set("views", pathView)
 
 const pathPublic = path.join(__dirname, '..', 'public')
 app.use(express.static(pathPublic))
+
+app.use(session({
+  secret: "secretCoder",
+  resave: true,
+  saveUninitialized: true,
+})
+)
 
 app.use('/', viewsRouter)
 app.use('/products', productsRouter)
