@@ -12,7 +12,10 @@ const validRole = (req, res, next) => {
 
 router.get("/", (req, res) => { res.render("index") })
 router.get("/chat", (req, res) => { res.render("chat") })
-router.get("/admin", validRole, (req, res) => { res.render("admin") })
+router.get("/admin", validRole, (req, res) => {
+    console.log("Admin:", req.session)
+    res.render("admin")
+})
 router.get("/logout", (req, res) => {
     req.session.destroy(err => {
         if (!err) {

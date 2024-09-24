@@ -71,9 +71,9 @@ router.post("/", validProduct, async (req, res) => {
   }
 })
 
-// router.delete("/:pid", async (req, res) => {
+// router.delete("/", async (req, res) => {
 //     try {
-//         const { pid } = req.params
+//         const { pid } = req.body
 //         const productDeleted = await productsService.deleteProduct(pid)
 //         return res.status(200).json({ message: productDeleted })
 //     } catch (error) {
@@ -82,10 +82,10 @@ router.post("/", validProduct, async (req, res) => {
 // })
 
 
-// router.put("/:pid", async (req, res) => {
+// router.put("/", async (req, res) => {
 //     try {
 //         const { code } = req.body
-//         const { pid } = req.params
+//         const { pid } = req.body
 //         await productsService.updateProduct(code, pid)
 //         return res.status(201).json("Tudo certo");
 //     } catch (error) {

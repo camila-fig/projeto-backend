@@ -28,10 +28,12 @@ app.set("views", pathView)
 const pathPublic = path.join(__dirname, '..', 'public')
 app.use(express.static(pathPublic))
 
+const fileStorage = FileStore(session)
 app.use(session({
+  store: new fileStorage({ path: './sessions', ttl: 100, retries: 0 }),
   secret: "secretCoder",
-  resave: true,
-  saveUninitialized: true,
+  resave: false,
+  saveUninitialized: false,
 })
 )
 

@@ -33,6 +33,11 @@ const getProductById = async (idProduct) => {
     return resultParsed[index]
 }
 
+const createProduct = async ({ title, description, price, thumbnail, code, stock, status, category }) => {
+    const productCreated = await productModel.create({ title, description, price, thumbnail, code, stock, status, category })
+    return productCreated
+}
+
 const getProductByCode = async (code) => {
     const resultParsed = await productModel.find({})
     const productByCode = resultParsed.find((product) => product.code === code)
@@ -42,11 +47,6 @@ const getProductByCode = async (code) => {
 const deleteProduct = async (pid) => {
     const productDeleted = await productModel.deleteOne({ _id: pid });
     return productDeleted
-}
-
-const createProduct = async ({ title, description, price, thumbnail, code, stock, status, category }) => {
-    const productCreated = await productModel.create({ title, description, price, thumbnail, code, stock, status, category })
-    return productCreated
 }
 
 const updateProduct = async ({title, description, price, thumbnail, code, stock, status, category}) => {
