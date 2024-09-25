@@ -43,8 +43,7 @@ router.get("/:pid", async (req, res) => {
         description: foundProductById.description,
         price: foundProductById.price,
         thumbnail: foundProductById.thumbnail,
-        stock: foundProductById.stock,
-        _id: pid
+        stock: foundProductById.stock
       })
     }
   } catch (error) {
@@ -70,6 +69,7 @@ router.post("/", validProduct, async (req, res) => {
       return res.status(500).json({ message: error.message })
   }
 })
+
 
 // router.delete("/", async (req, res) => {
 //     try {
