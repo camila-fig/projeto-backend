@@ -5,4 +5,12 @@ const validUser = (req, res, next) => {
   next()
 }
 
-export default validUser
+const validRole = (req, res, next) => {
+  if (req.session?.admin) {
+    return next()
+  } else {
+    res.render("msgForbidden")
+  }
+}
+
+export default { validUser, validRole }
