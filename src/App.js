@@ -3,6 +3,7 @@ import handlebars from "express-handlebars"
 import session from "express-session"
 import FileStore from "session-file-store"
 import mongoose from "mongoose"
+import MongoStore from "connect-mongo"
 import path from "path"
 
 import { fileURLToPath } from 'url'
@@ -30,7 +31,14 @@ app.use(express.static(pathPublic))
 
 const fileStorage = FileStore(session)
 app.use(session({
-  store: new fileStorage({ path: './sessions', ttl: 100, retries: 0 }),
+  store:
+    //new fileStorage({ path: './sessions', ttl: 100, retries: 0 }),
+    MongoStore.create({
+      mongoUrl:
+        "mongodb+srv://dbCamila:K719xAxHmVo1MX1b@codercluster.vp1hh.mongodb.net/?retryWrites=true&w=majority&appName=CoderCluster",
+      mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+      ttl: 6000,
+    }),
   secret: "secretCoder",
   resave: false,
   saveUninitialized: false,
