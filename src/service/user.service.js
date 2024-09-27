@@ -12,7 +12,7 @@ const getUsersById = async (uid) => {
 
 const getUsersByEmail = async (user) => {
     const userFound = await userModel.findOne({ email: user.email })
-    console.log("UserFound", userFound)
+    //console.log("UserFound", userFound)
     return userFound
 }
 
