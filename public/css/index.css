@@ -3,7 +3,7 @@
 }
 
 body {
-    background-color:aliceblue;
+    background-color: aliceblue;
 }
 
 .headertitles {
@@ -51,7 +51,16 @@ h1 {
 
 .container-login-register,
 .container-register-edit {
-    display:flex;
+    display: flex;
     flex-direction: row;
     gap: 150px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.detail-admin {
+    text-transform: capitalize;
 }
