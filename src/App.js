@@ -36,7 +36,6 @@ app.use(session({
     MongoStore.create({
       mongoUrl:
         "mongodb+srv://dbCamila:K719xAxHmVo1MX1b@codercluster.vp1hh.mongodb.net/?retryWrites=true&w=majority&appName=CoderCluster",
-      mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
       ttl: 6000,
     }),
   secret: "secretCoder",
