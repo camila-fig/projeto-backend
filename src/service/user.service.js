@@ -1,7 +1,15 @@
 import userModel from "../model/user.model.js"
+import { createHash } from "../utils/index.js"
 
-const createUser = async ({ name, email, password,role }) => {
-    const userCreated = await userModel.create({ name, email, password, role })
+const createUser = async ({ name, email, password, role }) => {
+    const newPass = createHash(password)
+    //console.log("Senha Hash:", newPass)
+    const userCreated = await userModel.create({
+        name,
+        email,
+        password: newPass,
+        role
+    })
     return userCreated
 }
 
