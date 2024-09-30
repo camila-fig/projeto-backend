@@ -1,4 +1,5 @@
 import express from "express"
+import cookieParser from "cookie-parser"
 import handlebars from "express-handlebars"
 import session from "express-session"
 import FileStore from "session-file-store"
@@ -28,6 +29,8 @@ app.set("views", pathView)
 
 const pathPublic = path.join(__dirname, '..', 'public')
 app.use(express.static(pathPublic))
+
+app.use(cookieParser("secretCoder"))
 
 const fileStorage = FileStore(session)
 app.use(session({

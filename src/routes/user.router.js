@@ -1,6 +1,7 @@
 import express from "express"
 import userService from "../service/user.service.js"
 import validUser from "../middleware/validUser.js"
+import { isValidatePassword } from "../utils/index.js"
 
 const router = express.Router()
 
@@ -10,7 +11,7 @@ router.post("/login", async (req, res) => {
     if (!userFound) {
         return res.status(404).render("msgConectedFail")
     }
-    if (userFound.password === user.password) {
+    if (isValidatePassword(user, userFound.password)) {
         delete user.password
         req.session.user = user
         req.session.logged = true
@@ -23,7 +24,8 @@ router.post("/login", async (req, res) => {
     } else {
         return res.status(404).render("msgConectedFail")
     }
-    return res.render("msgConected", { name: userFound.name })
+    return res.cookie("EmailLogged", { email: userFound.email })
+        .render("msgConected", { name: userFound.name })
 })
 
 router.post("/", validUser, async (req, res) => {
