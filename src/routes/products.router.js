@@ -46,7 +46,8 @@ router.get("/:pid", async (req, res) => {
         thumbnail: foundProductById.thumbnail,
         stock: foundProductById.stock,
         code: foundProductById.code,
-        isAdmin: req.session.admin
+        isAdmin: req.session.admin,
+        isLogged: req.session.logged
       })
     }
   } catch (error) {

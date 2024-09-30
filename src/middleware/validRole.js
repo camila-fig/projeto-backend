@@ -2,7 +2,7 @@ const validRole = (req, res, next) => {
     if (req.session?.admin) {
         return next()
     } else {
-        res.render("msgForbidden")
+        res.status(403).render("msgForbidden")
     }
 }
 

@@ -1,5 +1,6 @@
 import express from "express"
-//import validCart from "../middleware/validCart.js"
+import cartService from "../service/cart.service.js"
+import validCart from "../middleware/validCart.js"
 //import cartController from "../controllers/cartController.js"
 
 const router = express.Router()
@@ -11,8 +12,10 @@ const router = express.Router()
 //router.post("/:cid/product/:pid", validCart, cartController.addToCart)
 
 //Rotas com Mongoose
-router.get("/:cid", (req, res) => { res.render("cart") })
-
-
+router.get("/:email", validCart, async (req, res) => { 
+    const { email } = req.cookie
+    const cart = await cartService.addProductToCart(pid, cid)
+    
+    res.render("cart") })
 
 export default router
