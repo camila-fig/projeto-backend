@@ -8,5 +8,33 @@
     <p>Produtos em estoque: {{stock}}</p>
     <p>Código: {{code}}</p>
     <br>
+    {{#if isLogged}}
     <button class="addToCart" data-id="{{_id}}">Adicionar ao carrinho</button>
+    {{else}}
+    <p>Faça seu login para adicionar o produto ao seu carrinho.</p>
+    <button class="goToLogin">Login</button>
+    {{/if}}
 </div>
+
+<script>
+
+    const goToLogin = document.querySelectorAll('.goToLogin')
+    const addToCart = document.querySelectorAll('.addToCart')
+
+    goToLogin.forEach(button => {
+        button.addEventListener('click', async () => {
+            window.location.href = `/`
+        })
+    })
+
+    addToCart.forEach(button => {
+        button.addEventListener('click', async () => {
+            const productId = button.getAttribute('data-id')
+
+            //window.location.href = `/products/${productId}`
+        })
+    })
+
+
+
+</script>
