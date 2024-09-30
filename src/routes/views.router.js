@@ -18,7 +18,9 @@ router.get("/admin", validRole, async (req, res) => {
 router.get("/logout", (req, res) => {
     req.session.destroy(err => {
         if (!err) {
-            res.render("msgLogout")
+            res.clearCookie("connect.sid")
+                .clearCookie("EmailLogged")
+                .render("msgLogout")
         } else {
             res.send({ status: "Erro ao efetuar logout", body: err })
         }
