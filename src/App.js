@@ -6,6 +6,8 @@ import FileStore from "session-file-store"
 import mongoose from "mongoose"
 import MongoStore from "connect-mongo"
 import path from "path"
+import passport from "passport"
+import initializePassport from "./config/passport.config.js"
 
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
@@ -46,6 +48,10 @@ app.use(session({
   saveUninitialized: false,
 })
 )
+
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use('/', viewsRouter)
 app.use('/products', productsRouter)

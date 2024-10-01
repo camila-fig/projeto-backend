@@ -1,42 +1,48 @@
 import express from "express"
-import userService from "../service/user.service.js"
 import validUser from "../middleware/validUser.js"
 import { isValidatePassword } from "../utils/index.js"
+import passport from "passport"
+isValidatePassword
 
 const router = express.Router()
 
-router.post("/login", async (req, res) => {
-    const user = req.body
-    const userFound = await userService.getUsersByEmail(user)
-    if (!userFound) {
-        return res.status(404).render("msgConectedFail")
-    }
-    if (isValidatePassword(user, userFound.password)) {
-        delete user.password
-        req.session.user = user
+router.post("/login",
+    passport.authenticate("login", { failureRedirect: "/user/faillogin" }),
+    async (req, res) => {
+        if (!req.user)
+            return res.status(400).json({ status: "error", message: "Unauthorized" })
+        req.session.user = {
+            name: req.user.name,
+            email: req.user.email,
+            role: req.user.role,
+        }
         req.session.logged = true
 
-        if (userFound.role === "admin") {
+        if (req.user.role === "admin") {
             req.session.admin = true
         } else {
             req.session.admin = false
         }
-    } else {
-        return res.status(404).render("msgConectedFail")
-    }
-    return res.cookie("EmailLogged", { email: userFound.email })
-        .render("msgConected", { name: userFound.name })
+        return res.cookie("EmailLogged", { email: req.user.email })
+            .render("msgConected", { name: req.user.name })
+    })
+
+router.get("/faillogin", (req, res) => {
+    console.log("Faliled Strategy")
+    return res.status(404).render("msgConectedFail")
 })
 
-router.post("/", validUser, async (req, res) => {
-    const { name, email, password, role } = req.body
-    const userCreated = await userService.createUser({
-        name,
-        email,
-        password,
-        role
+router.post("/",
+    passport.authenticate("register", { failureRedirect: "/failregister" }),
+    validUser,
+    async (req, res) => {
+        return res.cookie("EmailLogged", { email: req.body.email })
+            .render("msgConected", { name: req.body.name })
     })
-    return res.render("msgConected", { name: userCreated.name })
+
+router.get("/failregister", (req, res) => {
+    console.log("faliled Strategy")
+    res.send("Erro ao registrar")
 })
 
 export default router
