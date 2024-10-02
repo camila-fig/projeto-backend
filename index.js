@@ -2,13 +2,12 @@ import cartModel from "./src/model/cart.model.js"
 import productModel from "./src/model/product.model.js"
 import userModel from "./src/model/user.model.js"
 import mongoose from "mongoose"
+import 'dotenv/config'
 
 
 const main = async () => {
     mongoose
-        .connect(
-            "mongodb+srv://dbCamila:K719xAxHmVo1MX1b@codercluster.vp1hh.mongodb.net/?retryWrites=true&w=majority&appName=CoderCluster"
-        )
+        .connect(process.env.MONGOURL_DATABASE)
         .catch((err) => {
             console.log(err)
             process.exit(1)

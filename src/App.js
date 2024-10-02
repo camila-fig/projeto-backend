@@ -8,6 +8,7 @@ import MongoStore from "connect-mongo"
 import path from "path"
 import passport from "passport"
 import initializePassport from "./config/passport.config.js"
+import 'dotenv/config'
 
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
@@ -40,8 +41,7 @@ app.use(session({
   store:
     //new fileStorage({ path: './sessions', ttl: 100, retries: 0 }),
     MongoStore.create({
-      mongoUrl:
-        "mongodb+srv://dbCamila:K719xAxHmVo1MX1b@codercluster.vp1hh.mongodb.net/?retryWrites=true&w=majority&appName=CoderCluster",
+      mongoUrl: process.env.MONGOURL_DATABASE,
       ttl: 6000,
     }),
   secret: "secretCoder",
@@ -62,9 +62,7 @@ app.use('/chat', chatRouter)
 app.use('/api/sessions', githubRouter)
 
 mongoose
-  .connect(
-    "mongodb+srv://dbCamila:K719xAxHmVo1MX1b@codercluster.vp1hh.mongodb.net/?retryWrites=true&w=majority&appName=CoderCluster"
-  )
+  .connect(process.env.MONGOURL_DATABASE)
   .then(() => {
     console.log("Mongo conectado");
   })
