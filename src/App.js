@@ -19,6 +19,7 @@ import productsRouter from './routes/products.router.js'
 import userRouter from './routes/user.router.js'
 import cartRouter from './routes/cart.router.js'
 import chatRouter from './routes/chat.router.js'
+import githubRouter from './routes/session.router.js'
 
 const app = express()
 app.use(express.json())
@@ -34,7 +35,7 @@ app.use(express.static(pathPublic))
 
 app.use(cookieParser("secretCoder"))
 
-const fileStorage = FileStore(session)
+//const fileStorage = FileStore(session)
 app.use(session({
   store:
     //new fileStorage({ path: './sessions', ttl: 100, retries: 0 }),
@@ -58,6 +59,7 @@ app.use('/products', productsRouter)
 app.use('/user', userRouter)
 app.use('/cart', cartRouter)
 app.use('/chat', chatRouter)
+app.use('/api/sessions', githubRouter)
 
 mongoose
   .connect(
