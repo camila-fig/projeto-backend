@@ -1,5 +1,5 @@
 import userModel from "../model/user.model.js"
-import { createHash } from "../utils/index.js"
+import { createHash } from "../utils/bcrypt.js"
 
 const createUser = async ({ name, email, password, role }) => {
     const newPass = createHash(password)
