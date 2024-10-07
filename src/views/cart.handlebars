@@ -1,18 +1,17 @@
 <h1>Carrinho</h1>
-
 <table>
-<tr>
-<th>Produto</th>
-<th></th>
-<th>Preço (R$)</th>
-<th>Quantidade</th>
-</tr>
+  <tr>
+    <th>Produto</th>
+    <th></th>
+    <th>Preço (R$)</th>
+    <th>Quantidade</th>
+  </tr>
   {{#each products}}
-<tr>
-<th class="image-product">{{thumbnail}}</th>
-<th class="description-product">{{description}}</th>
-<th class="price-product">{{price}}</th>
-<th class="qty-product">{{qty}}</th>
-</tr>
- {{/each}}
+  <tr>
+    <th class="image-product">{{thumbnail}}</th>
+    <th class="description-product">{{description}}</th>
+    <th class="price-product">{{price}}</th>
+    <th class="qty-product">{{qty}}</th>
+  </tr>
+  {{/each}}
 </table>
