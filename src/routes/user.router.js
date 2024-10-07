@@ -1,6 +1,6 @@
 import express from "express"
 import validUser from "../middleware/validUser.js"
-import { isValidatePassword } from "../utils/index.js"
+import { isValidatePassword } from "../utils/bcrypt.js"
 import passport from "passport"
 isValidatePassword
 
@@ -23,7 +23,7 @@ router.post("/login",
         } else {
             req.session.admin = false
         }
-        return res.cookie("EmailLogged", { email: req.user.email })
+        return res.cookie("EmailLogged", req.user.email)
             .render("msgConected", { name: req.user.name })
     })
 
@@ -36,7 +36,7 @@ router.post("/",
     passport.authenticate("register", { failureRedirect: "/failregister" }),
     validUser,
     async (req, res) => {
-        return res.cookie("EmailLogged", { email: req.body.email })
+        return res.cookie("EmailLogged", req.body.email)
             .render("msgConected", { name: req.body.name })
     })
 
