@@ -18,7 +18,7 @@ router.get("/github",
         } else {
             req.session.admin = false
         }
-        return res.cookie("EmailLogged", { email: req.user.email })
+        return res.cookie("EmailLogged", req.user.email)
             .render("msgConected", { name: req.user.name })
     })
 
