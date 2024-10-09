@@ -11,9 +11,11 @@ const router = express.Router()
 
 router.post("/login", async (req, res) => {
     const { email, password } = req.body
-    let user = await userService.getUsersByEmail({email})
+
+    let user = await userService.getUsersByEmail({ email })
     user = [user].map((u) => u.toJSON());
     user = user[0];
+    
     if (!user) {
         return res
             .status(404)
@@ -26,21 +28,21 @@ router.post("/login", async (req, res) => {
             .render("msgConectedFail")
     }
     const accessToken = generateToken(user)
-    console.log("User",user)
+    console.log("User", user)
     return res
         .cookie("accessToken", accessToken, {
             httpOnly: true,
             maxAge: 1000 * 60 * 60,
         })
-        .render("msgConected", { 
-            name: user.name, 
+        .render("msgConected", {
+            name: user.name,
             isAdmin: user.role === "admin",
             isUser: user.role === "user",
         })
 })
 
 router.post("/",
-    passport.authenticate("register", { failureRedirect: "/failregister" }),
+    passport.authenticate("register", { failureRedirect: "user/failregister" }),
     validUser,
     async (req, res) => {
         const user = req.body
@@ -54,8 +56,7 @@ router.post("/",
     })
 
 router.get("/failregister", (req, res) => {
-    console.log("faliled Strategy")
-    res.send("Erro ao registrar")
+    res.render("msgUserExists")
 })
 
 export default router

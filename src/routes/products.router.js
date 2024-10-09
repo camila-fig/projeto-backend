@@ -1,6 +1,7 @@
 import express from "express"
 import validProduct from "../middleware/validProduct.js"
 import productsService from "../service/products.service.js"
+import userService from "../service/user.service.js"
 import passport from "passport"
 
 const router = express.Router()
@@ -24,6 +25,11 @@ router.get("/:title/:page/:limit",
 router.get("/:pid", async (req, res) => {
   const { pid } = req.params
   const foundProductById = await productsService.getProductById(String(pid))
+
+  let user = await userService.getAllUsers()
+  user = user.map((u) => u.toJSON())
+  user = user[0]
+
   try {
     if (!foundProductById) {
       res.status(404).json("Produto não existe.")
@@ -37,6 +43,8 @@ router.get("/:pid", async (req, res) => {
         thumbnail: foundProductById.thumbnail,
         stock: foundProductById.stock,
         code: foundProductById.code,
+        isAdmin: user.role === "admin",
+        isLogged: user.role === "admin" | "user"
       })
     }
   } catch (error) {
@@ -77,7 +85,16 @@ router.put("/:pid", validProduct, async (req, res) => {
   try {
     const { title, description, price, thumbnail, code, stock, status, category } = req.body
     const { pid } = req.params
-    await productsService.updateProduct({ title, description, price, thumbnail, code, stock, status, category }, pid)
+    await productsService.updateProduct({
+      title,
+      description,
+      price,
+      thumbnail,
+      code,
+      stock,
+      status,
+      category
+    }, pid)
     return res.status(201).redirect("/")
   } catch (error) {
     res.status(500).json({ message: error.message })

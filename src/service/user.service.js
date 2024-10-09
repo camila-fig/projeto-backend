@@ -24,4 +24,9 @@ const getUsersByEmail = async (user) => {
     return userFound
 }
 
-export default { createUser, getUsersById, getUsersByEmail }
+const getAllUsers = async () => {
+    const users = await userModel.find({})
+    return users
+}
+
+export default { createUser, getUsersById, getUsersByEmail, getAllUsers }

@@ -17,11 +17,4 @@ router.get("/github",
             .render("msgConected", { name: req.user.name })
     })
 
-router.get("/githubcallback",
-    passport.authenticate('github', { failureRedirect: '/' }),
-    async (req, res) => {
-        req.session.user = req.user;
-        res.redirect('/')
-    })
-
 export default router
