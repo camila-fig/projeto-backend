@@ -1,5 +1,5 @@
 const validRole = (req, res, next) => {
-    if (req.session?.admin) {
+    if (req.user.role === "admin") {
         return next()
     } else {
         res.status(403).render("msgForbidden")

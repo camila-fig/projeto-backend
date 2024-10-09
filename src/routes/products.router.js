@@ -1,31 +1,32 @@
 import express from "express"
 import validProduct from "../middleware/validProduct.js"
 import productsService from "../service/products.service.js"
+import passport from "passport"
 
 const router = express.Router()
 
-router.get("/:title/:page/:limit", async (req, res) => {
-  const { title, page, limit } = req.params
-  let result
-  if (title === "all") {
-    result = await productsService.getAllProducts(page, limit)
-  } else {
-    result = await productsService.getProducts(title, page, limit)
-  }
-  const products = result.docs.map((product) => product.toJSON())
-  // delete result.docs
-  res.render("products", { products, result })
-  //console.log("Resultado:", result)
-})
+router.get("/:title/:page/:limit",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const { title, page, limit } = req.params
+    let result
+    if (title === "all") {
+      result = await productsService.getAllProducts(page, limit)
+    } else {
+      result = await productsService.getProducts(title, page, limit)
+    }
+    const products = result.docs.map((product) => product.toJSON())
+    // delete result.docs
+    res.render("products", { products, result })
+    //console.log("Resultado:", result)
+  })
 
 router.get("/:pid", async (req, res) => {
   const { pid } = req.params
   const foundProductById = await productsService.getProductById(String(pid))
-  //console.log(foundProductById._id)
   try {
     if (!foundProductById) {
       res.status(404).json("Produto não existe.")
-
     } else {
       res.render("product", {
         _id: foundProductById._id,
@@ -36,8 +37,6 @@ router.get("/:pid", async (req, res) => {
         thumbnail: foundProductById.thumbnail,
         stock: foundProductById.stock,
         code: foundProductById.code,
-        isAdmin: req.session.admin,
-        isLogged: req.session.logged
       })
     }
   } catch (error) {

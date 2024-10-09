@@ -1,42 +1,55 @@
 import express from "express"
 import validUser from "../middleware/validUser.js"
 import { isValidatePassword } from "../utils/bcrypt.js"
+import { generateToken } from "../utils/jsonwebtoken.js"
 import passport from "passport"
+import userService from "../service/user.service.js"
+import bcrypt from "bcrypt"
 isValidatePassword
 
 const router = express.Router()
 
-router.post("/login",
-    passport.authenticate("login", { failureRedirect: "/user/faillogin" }),
-    async (req, res) => {
-        if (!req.user)
-            return res.status(400).json({ status: "error", message: "Unauthorized" })
-        req.session.user = {
-            name: req.user.name,
-            email: req.user.email,
-            role: req.user.role,
-        }
-        req.session.logged = true
-
-        if (req.user.role === "admin") {
-            req.session.admin = true
-        } else {
-            req.session.admin = false
-        }
-        return res.cookie("EmailLogged", req.user.email)
-            .render("msgConected", { name: req.user.name })
-    })
-
-router.get("/faillogin", (req, res) => {
-    console.log("Faliled Strategy")
-    return res.status(404).render("msgConectedFail")
+router.post("/login", async (req, res) => {
+    const { email, password } = req.body
+    let user = await userService.getUsersByEmail({email})
+    user = [user].map((u) => u.toJSON());
+    user = user[0];
+    if (!user) {
+        return res
+            .status(404)
+            .render("msgConectedFail")
+    }
+    const isPasswordValidTest = bcrypt.compareSync(password, user.password)
+    if (!isPasswordValidTest) {
+        return res
+            .status(404)
+            .render("msgConectedFail")
+    }
+    const accessToken = generateToken(user)
+    console.log("User",user)
+    return res
+        .cookie("accessToken", accessToken, {
+            httpOnly: true,
+            maxAge: 1000 * 60 * 60,
+        })
+        .render("msgConected", { 
+            name: user.name, 
+            isAdmin: user.role === "admin",
+            isUser: user.role === "user",
+        })
 })
 
 router.post("/",
     passport.authenticate("register", { failureRedirect: "/failregister" }),
     validUser,
     async (req, res) => {
-        return res.cookie("EmailLogged", req.body.email)
+        const user = req.body
+        const accessToken = generateToken(user)
+        return res
+            .cookie("accessToken", accessToken, {
+                httpOnly: true,
+                maxAge: 1000 * 60 * 60,
+            })
             .render("msgConected", { name: req.body.name })
     })
 

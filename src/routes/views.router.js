@@ -1,30 +1,30 @@
 import express from "express"
 import validRole from "../middleware/validRole.js"
 import productsService from "../service/products.service.js"
+import passport from "passport"
 
 const router = express.Router()
 
 router.get("/", (req, res) => { res.render("login") })
 
-router.get("/chat", (req, res) => { res.render("chat") })
+router.get("/chat", 
+    passport.authenticate("jwt", { session: false }),
+    (req, res) => { res.render("chat") })
 
-router.get("/admin", validRole, async (req, res) => {
-    const result = await productsService.getProductsList()
-    const productsOrdered = result.sort((a, b) => a.code - b.code).sort((a, b) => a.title.localeCompare(b.title))
-    const products = productsOrdered.map((product) => product.toJSON())
-    res.render("admin", { products, productsOrdered })
-})
+router.get("/admin",
+    passport.authenticate("jwt", { session: false }),
+    validRole,
+    async (req, res) => {
+        const result = await productsService.getProductsList()
+        const productsOrdered = result.sort((a, b) => a.code - b.code).sort((a, b) => a.title.localeCompare(b.title))
+        const products = productsOrdered.map((product) => product.toJSON())
+        res.render("admin", { products, productsOrdered })
+    })
 
 router.get("/logout", (req, res) => {
-    req.session.destroy(err => {
-        if (!err) {
-            res.clearCookie("connect.sid")
-                .clearCookie("EmailLogged")
-                .render("msgLogout")
-        } else {
-            res.send({ status: "Erro ao efetuar logout", body: err })
-        }
-    })
+    res.clearCookie("connect.sid")
+        .clearCookie("accessToken")
+        .render("msgLogout")
 })
 
 router.get("/edit/:pid", async (req, res) => {

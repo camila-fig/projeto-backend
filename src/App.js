@@ -2,9 +2,7 @@ import express from "express"
 import cookieParser from "cookie-parser"
 import handlebars from "express-handlebars"
 import session from "express-session"
-import FileStore from "session-file-store"
 import mongoose from "mongoose"
-import MongoStore from "connect-mongo"
 import path from "path"
 import passport from "passport"
 import initializePassport from "./config/passport.config.js"
@@ -34,17 +32,10 @@ app.set("views", pathView)
 const pathPublic = path.join(__dirname, '..', 'public')
 app.use(express.static(pathPublic))
 
-app.use(cookieParser("secretCoder"))
+app.use(cookieParser())
 
-//const fileStorage = FileStore(session)
 app.use(session({
-  store:
-    //new fileStorage({ path: './sessions', ttl: 100, retries: 0 }),
-    MongoStore.create({
-      mongoUrl: process.env.MONGOURL_DATABASE,
-      ttl: 6000,
-    }),
-  secret: "secretCoder",
+  secret: process.env.JWTPRIVATE_KEY,
   resave: false,
   saveUninitialized: false,
 })
@@ -52,7 +43,7 @@ app.use(session({
 
 initializePassport()
 app.use(passport.initialize())
-app.use(passport.session())
+//app.use(passport.session())
 
 app.use('/', viewsRouter)
 app.use('/products', productsRouter)
@@ -62,13 +53,13 @@ app.use('/chat', chatRouter)
 app.use('/api/sessions', githubRouter)
 
 mongoose
-  .connect(process.env.MONGOURL_DATABASE)
+  .connect(process.env.MONGO_URL)
   .then(() => {
-    console.log("Mongo conectado");
+    console.log("Mongo conectado")
   })
   .catch((error) => {
-    console.log(error);
-    process.exit(1);
-  });
+    console.log(error)
+    process.exit(1)
+  })
 
 export default app

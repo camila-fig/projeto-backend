@@ -1,11 +1,37 @@
 import passport from "passport"
+import jwt from "passport-jwt"
 import local from "passport-local"
 import userModel from "../model/user.model.js"
 import { createHash } from "../utils/bcrypt.js"
-import bcrypt from "bcrypt"
 import GitHubStrategy from "passport-github2"
 
+const JWTStrategy = jwt.Strategy
+const ExtractJWT = jwt.ExtractJwt
+
+const cookieExtractor = (req) => {
+    let token = null
+    if (req && req.cookies) {
+        token = req.cookies['accessToken']
+    }
+    return token
+}
+
 const initializePassport = () => {
+
+    passport.use("jwt", new JWTStrategy(
+        {
+            jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+            secretOrKey: process.env.JWTPRIVATE_KEY
+        },
+        async (jwt_payload, done) => {
+            console.log("JWT Payload:", jwt_payload)
+            try {
+                return done(null, jwt_payload)
+            } catch (error) {
+                return done(error)
+            }
+        }))
+
     passport.use("register", new local.Strategy(
         { passReqToCallback: true, usernameField: "email" },
         async (req, username, password, done) => {
@@ -31,40 +57,16 @@ const initializePassport = () => {
         }
     ))
 
-    passport.use("login", new local.Strategy(
-        { usernameField: "email" },
-        async (username, password, done) => {
-            try {
-                const user = await userModel.findOne({ email: username })
-                if (!user) {
-                    console.log("User doesn't exist")
-                    return done(null, false)
-                }
-                const isPasswordValidTest = bcrypt.compareSync(password, user.password)
-                //console.log(isPasswordValidTest)
-                if (isPasswordValidTest) {
-                    return done(null, user)
-                } else {
-                    return done(null, false)
-                }
-            } catch (error) {
-                return done(`Erro ao obter user ${error}`)
-            }
-        }
-    ))
-
     passport.use("github", new GitHubStrategy(
         {
-            clientID: "Iv23liy5WWRVBRvPj6UN",
-            clientSecret: "39940dd72825de90ae569ccda750063648b4dc61",
-            callbackURL: "http://localhost:8080/api/sessions/github",
+            clientID: process.env.GITHUB_CLIENT_ID,
+            clientSecret: process.env.GITHUB_CLIENT_SECRET,
+            callbackURL: process.env.GITHUB_CALLBACK_URL,
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
-                //console.log("Console1:", profile);
-                //console.log("Console2:", profile._json.email)
                 const user = await userModel.findOne({ email: profile._json.email })
-                //console.log("Console3:", user)
+
                 if (!user) {
                     let newUser = {
                         name: profile._json.name,
@@ -74,7 +76,7 @@ const initializePassport = () => {
                     }
                     let result = await userModel.create(newUser)
                     return done(null, result)
-                } else { //Cai aqui se o usuário já existir.
+                } else {
                     return done(null, user)
                 }
             } catch (error) {
@@ -83,18 +85,18 @@ const initializePassport = () => {
         }
     ))
 
-    passport.serializeUser((user, done) => {
-        done(null, user._id)
-    })
+    // passport.serializeUser((user, done) => {
+    //     done(null, user._id)
+    // })
 
-    passport.deserializeUser(async (id, done) => {
-        try {
-            const user = await userModel.findById(id)
-            done(null, user)
-        } catch (error) {
-            done(`Erro ao obter user ${error}`)
-        }
-    })
+    // passport.deserializeUser(async (id, done) => {
+    //     try {
+    //         const user = await userModel.findById(id)
+    //         done(null, user)
+    //     } catch (error) {
+    //         done(`Erro ao obter user ${error}`)
+    //     }
+    // })
 }
 
-export default initializePassport
+export default initializePassport 

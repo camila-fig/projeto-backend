@@ -7,7 +7,7 @@ import 'dotenv/config'
 
 const main = async () => {
     mongoose
-        .connect(process.env.MONGOURL_DATABASE)
+        .connect(process.env.MONGO_URL)
         .catch((err) => {
             console.log(err)
             process.exit(1)
