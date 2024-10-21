@@ -55,7 +55,7 @@ app.use('/api/sessions', githubRouter)
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {
-    console.log("Mongo conectado")
+    console.log("Mongo connected")
   })
   .catch((error) => {
     console.log(error)

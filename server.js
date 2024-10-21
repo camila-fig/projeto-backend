@@ -1,5 +1,6 @@
+import program from "./src/config/commander.js"
 import app from "./src/App.js"
 
-app.listen(8080, () => {
-    console.log("Server na porta 8080")
+app.listen(program.opts().p, () => {
+    console.log(`Server is running on port ${program.opts().p}`)
 })
