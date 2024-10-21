@@ -57,4 +57,3 @@ const updateProduct = async ({ title, description, price, thumbnail, code, stock
 }
 
 export default { getProductsList, getAllProducts, getProducts, getProductById, deleteProduct, createProduct, updateProduct }
-

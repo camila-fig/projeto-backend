@@ -28,7 +28,7 @@ router.post("/login", async (req, res) => {
             .render("msgConectedFail")
     }
     const accessToken = generateToken(user)
-    console.log("User", user)
+    //console.log("User", user)
     return res
         .cookie("accessToken", accessToken, {
             httpOnly: true,
