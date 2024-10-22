@@ -2,6 +2,7 @@ import userService from "../service/user.service.js"
 import bcrypt from "bcrypt"
 import { generateToken } from "../utils/jsonwebtoken.js"
 import { isValidatePassword } from "../utils/bcrypt.js"
+import program from "../config/commander.js"
 
 isValidatePassword
 
@@ -11,7 +12,7 @@ const login = async (req, res) => {
     let user = await userService.getUsersByEmail({ email })
     user = [user].map((u) => u.toJSON())
     user = user[0]
-    console.log("User user.router", user)
+    //console.log("User user.router", user)
 
     if (!user) {
         return res
@@ -36,6 +37,7 @@ const login = async (req, res) => {
             name: user.name,
             isAdmin: user.role === "admin",
             isUser: user.role === "user",
+            port: program.opts().p
         })
 }
 
@@ -50,7 +52,10 @@ const createUser = async (req, res) => {
             maxAge: 1000 * 60 * 60,
         })
         .cookie("logged", true)
-        .render("msgConected", { name: req.body.name })
+        .render("msgConected", { 
+            name: req.body.name,
+            port: program.opts().p
+        })
 }
 
 const failregister = (req, res) => {

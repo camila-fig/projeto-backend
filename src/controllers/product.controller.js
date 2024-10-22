@@ -1,5 +1,5 @@
 import productsService from "../service/products.service.js"
-import validRole from "../middleware/validRole.js"
+import program from "../config/commander.js"
 
 const showProducts = async (req, res) => {
   const { title, page, limit } = req.params
@@ -11,14 +11,22 @@ const showProducts = async (req, res) => {
   }
   const products = result.docs.map((product) => product.toJSON())
   // delete result.docs
-  res.render("products", { products, result })
+  res.render("products", {
+    products,
+    result,
+    port: program.opts().p
+  })
 }
 
 const showOrganizedProducts = async (req, res) => {
   const result = await productsService.getProductsList()
   const productsOrdered = result.sort((a, b) => a.code - b.code).sort((a, b) => a.title.localeCompare(b.title))
   const products = productsOrdered.map((product) => product.toJSON())
-  res.render("admin", { products, productsOrdered })
+  res.render("admin", {
+    products,
+    productsOrdered,
+    port: program.opts().p
+  })
 }
 
 const showAProduct = async (req, res) => {

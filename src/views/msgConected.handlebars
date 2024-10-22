@@ -1,16 +1,20 @@
 <div>
   <h2> Bem-vindo(a) {{name}}, você está conectado. </h2>
   <h3>E será direcionado para a página de produtos em: </h3>
+  <h3 class="nao-aparecer" id="dataPort" data-port="{{port}}">Porta {{port}}</h3>
   <h3 id="countRedrct"></h3>
 </div>
 
 <script>
-  let countInit = 5
+  let div1 = document.getElementById("dataPort")
+  let port = div1.getAttribute("data-port")
+
+    let countInit = 5
   setInterval(function () {
     countInit = countInit - 1
     document.getElementById("countRedrct").innerHTML = countInit
     if (countInit <= 0) {
-      window.location.href = `http://localhost:8080/products/all/1/10`
+      window.location.href = `http://localhost:${port}/products/all/1/10`
       document.getElementById("countRedrct").innerHTML = 0
     }
   }, 1000)

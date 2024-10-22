@@ -1,5 +1,6 @@
 <h1>Área Restrita</h1>
 <div class="container-register-edit">
+    <h3 class="nao-aparecer" id="dataPort" data-port="{{port}}">Porta {{port}}</h3>
     <div class="register-product">
         <h2>Cadastrar Produto</h2>
         <form action="/products" method="post">
@@ -63,7 +64,8 @@
 
 
 <script>
-
+    let div1 = document.getElementById("dataPort")
+    let port = div1.getAttribute("data-port")
     const seeButtons = document.querySelectorAll('.see-button')
     const editButtons = document.querySelectorAll('.edit-button')
     const deleteButtons = document.querySelectorAll('.delete-button')
@@ -91,7 +93,7 @@
 
     async function deleteProduct(_id) {
         try {
-            const response = await fetch(`http://localhost:8080/products/${_id}`, {
+            const response = await fetch(`http://localhost:${port}/products/${_id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -99,7 +101,7 @@
             })
             if (response.ok) {
                 alert(`Produto com id: ${_id} foi deletado com sucesso.`);
-                window.location.href = `http://localhost:8080/admin`
+                window.location.href = `http://localhost:${port}/admin`
             } else {
                 console.error(`Erro ao excluir o produto. Status: ${response.status}`);
             }

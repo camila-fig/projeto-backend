@@ -4,7 +4,7 @@
   <input type="text" id="search" placeholder="Qual produto deseja encontrar?">
   <button id="searchButton">Buscar</button>
 </div>
-
+<h3 class="nao-aparecer" id="dataPort" data-port="{{port}}">Porta {{port}}</h3>
 <div class="page-products">
   {{#each products}}
   <div class="container-product">
@@ -26,6 +26,8 @@
 </div>
 
 <script>
+  let div1 = document.getElementById("dataPort")
+  let port = div1.getAttribute("data-port")
   const searchInput = document.getElementById('search')
   const searchButton = document.getElementById('searchButton')
   const viewProducts = document.querySelectorAll('.viewProduct')
@@ -60,7 +62,7 @@
     const hasRedirected = sessionStorage.getItem('hasRedirected')
 
     if (!hasRedirected) {
-      const url = `http://localhost:8080/products/all/1/10`
+      const url = `http://localhost:${port}/products/all/1/10`
       sessionStorage.setItem('hasRedirected', 'true')
       window.location.href = url
     }
@@ -70,7 +72,7 @@
   nextButton.addEventListener('click', () => {
     const searchQuery = window.location.pathname.split('/')[2]
     if ({{ result.hasNextPage }}) {
-    const url = `http://localhost:8080/products/${encodeURIComponent(searchQuery)}/{{result.nextPage}}/{{result.limit}}`
+    const url = `http://localhost:${port}/products/${encodeURIComponent(searchQuery)}/{{result.nextPage}}/{{result.limit}}`
     window.location.href = url
   }
       })
@@ -79,7 +81,7 @@
   previousButton.addEventListener('click', () => {
     const searchQuery = window.location.pathname.split('/')[2]
     if ({{ result.hasPrevPage }}) {
-    const url = `http://localhost:8080/products/${encodeURIComponent(searchQuery)}/{{result.prevPage}}/{{result.limit}}`
+    const url = `http://localhost:${port}/products/${encodeURIComponent(searchQuery)}/{{result.prevPage}}/{{result.limit}}`
     window.location.href = url
   }
       })
