@@ -1,39 +1,23 @@
 import express from "express"
-import validRole from "../middleware/validRole.js"
-import productsService from "../service/products.service.js"
 import passport from "passport"
+import validRole from "../middleware/validRole.js"
+import chatController from "../controllers/chat.controller.js"
+import userController from "../controllers/user.controller.js"
+import productController from "../controllers/product.controller.js"
 
 const router = express.Router()
 
-router.get("/", (req, res) => { res.render("login") })
+router.get("/", userController.renderLogin)
 
-router.get("/chat",
-    //passport.authenticate("jwt", { session: false }),
-    (req, res) => { res.render("chat") })
+router.get("/chat", chatController.renderChat)
 
 router.get("/admin",
     passport.authenticate("jwt", { session: false }),
     validRole,
-    async (req, res) => {
-        const result = await productsService.getProductsList()
-        const productsOrdered = result.sort((a, b) => a.code - b.code).sort((a, b) => a.title.localeCompare(b.title))
-        const products = productsOrdered.map((product) => product.toJSON())
-        res.render("admin", { products, productsOrdered })
-    })
+    productController.showOrganizedProducts)
 
-router.get("/logout", (req, res) => {
-    res.clearCookie("connect.sid")
-        .clearCookie("accessToken")
-        .clearCookie("logged")
-        .render("msgLogout")
-})
+router.get("/logout", userController.logout)
 
-router.get("/edit/:pid", async (req, res) => {
-    const { pid } = req.params
-    let product = await productsService.getProductById(String(pid))
-    let resultProduct = [product]
-    resultProduct = resultProduct.map((product) => product.toJSON())
-    res.render("edit", { product: resultProduct[0] })
-})
+router.get("/edit/:pid", productController.showProducysById)
 
 export default router

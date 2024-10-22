@@ -10,4 +10,6 @@ const msgChat = async (req, res) => {
     }
 }
 
-export default { msgChat }
+const renderChat = (req, res) => { res.render("chat") }
+
+export default { msgChat, renderChat }

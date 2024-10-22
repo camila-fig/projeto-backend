@@ -1,65 +1,18 @@
 import express from "express"
 import validUser from "../middleware/validUser.js"
-import { isValidatePassword } from "../utils/bcrypt.js"
-import { generateToken } from "../utils/jsonwebtoken.js"
 import passport from "passport"
-import userService from "../service/user.service.js"
-import bcrypt from "bcrypt"
-isValidatePassword
+import userController from "../controllers/user.controller.js"
 
 const router = express.Router()
 
-router.post("/login", async (req, res) => {
-    const { email, password } = req.body
-
-    let user = await userService.getUsersByEmail({ email })
-    user = [user].map((u) => u.toJSON())
-    user = user[0]
-    console.log("User user.router", user)
-    
-    if (!user) {
-        return res
-            .status(404)
-            .render("msgConectedFail")
-    }
-    const isPasswordValidTest = bcrypt.compareSync(password, user.password)
-    if (!isPasswordValidTest) {
-        return res
-            .status(404)
-            .render("msgConectedFail")
-    }
-    const accessToken = generateToken(user)
-
-    return res
-        .cookie("accessToken", accessToken, {
-            httpOnly: true,
-            maxAge: 1000 * 60 * 60,
-        })
-        .cookie("logged", true)
-        .render("msgConected", {
-            name: user.name,
-            isAdmin: user.role === "admin",
-            isUser: user.role === "user",
-        })
-})
+router.post("/login", userController.login)
 
 router.post("/",
     passport.authenticate("register", { failureRedirect: "user/failregister" }),
     validUser,
-    async (req, res) => {
-        const user = req.body
-        const accessToken = generateToken(user)
-        return res
-            .cookie("accessToken", accessToken, {
-                httpOnly: true,
-                maxAge: 1000 * 60 * 60,
-            })
-            .cookie("logged", true)
-            .render("msgConected", { name: req.body.name })
-    })
+    userController.createUser
+)
 
-router.get("/failregister", (req, res) => {
-    res.render("msgUserExists")
-})
+router.get("/failregister", userController.failregister)
 
 export default router
