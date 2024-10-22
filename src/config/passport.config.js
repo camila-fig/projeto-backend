@@ -66,13 +66,14 @@ const initializePassport = () => {
         async (accessToken, refreshToken, profile, done) => {
             try {
                 const user = await userModel.findOne({ email: profile._json.email })
+                console.log("User do passport.config", user)
 
                 if (!user) {
                     let newUser = {
                         name: profile._json.name,
                         email: profile._json.email,
                         password: "", //Sendo autenticação de terceiros, não pode atribuir senha.
-                        role: profile._json.type.toLowerCase() || "user"
+                        role: "user"
                     }
                     let result = await userModel.create(newUser)
                     return done(null, result)

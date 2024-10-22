@@ -13,8 +13,9 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body
 
     let user = await userService.getUsersByEmail({ email })
-    user = [user].map((u) => u.toJSON());
-    user = user[0];
+    user = [user].map((u) => u.toJSON())
+    user = user[0]
+    console.log("User user.router", user)
     
     if (!user) {
         return res
@@ -28,12 +29,13 @@ router.post("/login", async (req, res) => {
             .render("msgConectedFail")
     }
     const accessToken = generateToken(user)
-    //console.log("User", user)
+
     return res
         .cookie("accessToken", accessToken, {
             httpOnly: true,
             maxAge: 1000 * 60 * 60,
         })
+        .cookie("logged", true)
         .render("msgConected", {
             name: user.name,
             isAdmin: user.role === "admin",
@@ -52,6 +54,7 @@ router.post("/",
                 httpOnly: true,
                 maxAge: 1000 * 60 * 60,
             })
+            .cookie("logged", true)
             .render("msgConected", { name: req.body.name })
     })
 

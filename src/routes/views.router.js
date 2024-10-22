@@ -7,8 +7,8 @@ const router = express.Router()
 
 router.get("/", (req, res) => { res.render("login") })
 
-router.get("/chat", 
-    passport.authenticate("jwt", { session: false }),
+router.get("/chat",
+    //passport.authenticate("jwt", { session: false }),
     (req, res) => { res.render("chat") })
 
 router.get("/admin",
@@ -24,6 +24,7 @@ router.get("/admin",
 router.get("/logout", (req, res) => {
     res.clearCookie("connect.sid")
         .clearCookie("accessToken")
+        .clearCookie("logged")
         .render("msgLogout")
 })
 

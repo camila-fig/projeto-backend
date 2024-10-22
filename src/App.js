@@ -6,19 +6,14 @@ import mongoose from "mongoose"
 import path from "path"
 import passport from "passport"
 import initializePassport from "./config/passport.config.js"
+import router from "./routes/router.js"
 import 'dotenv/config'
 
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
-
-import viewsRouter from './routes/views.router.js'
-import productsRouter from './routes/products.router.js'
-import userRouter from './routes/user.router.js'
-import cartRouter from './routes/cart.router.js'
-import chatRouter from './routes/chat.router.js'
-import githubRouter from './routes/session.router.js'
 
 const app = express()
 app.use(express.json())
@@ -43,14 +38,9 @@ app.use(session({
 
 initializePassport()
 app.use(passport.initialize())
-//app.use(passport.session())
+app.use(passport.session())
 
-app.use('/', viewsRouter)
-app.use('/products', productsRouter)
-app.use('/user', userRouter)
-app.use('/cart', cartRouter)
-app.use('/chat', chatRouter)
-app.use('/api/sessions', githubRouter)
+app.use("/", router)
 
 mongoose
   .connect(process.env.MONGO_URL)

@@ -8,28 +8,29 @@ const router = express.Router()
 
 router.get("/",
     passport.authenticate("jwt", { session: false }),
-    async (req, res) => {
+    // async (req, res) => {
 
-        let user = await userService.getAllUsers()
-        user = user.map((u) => u.toJSON())
-        user = user[0]
+    //     let user = await userService.getAllUsers()
+    //     user = user.map((u) => u.toJSON())
+    //     user = user[0]
 
-        res.render("cart")
+    // res.render("cart")
 
-    })
+    //}
+)
 
 //router.get("/:email", async (req, res) => {
-    
-    // if (cookieMail == undefined) {
-    //     const { email } = "withoutEmail"
-    //     res.render("msgCart")
-    // } else {
-    //     console.log("Cookie:", cookieMail)
-    //     const { email } = cookieMail
-    //     //const cart = await cartService.addProductToCart(pid, cid)
 
-   // res.render("cart")
-    // }
+// if (cookieMail == undefined) {
+//     const { email } = "withoutEmail"
+//     res.render("msgCart")
+// } else {
+//     console.log("Cookie:", cookieMail)
+//     const { email } = cookieMail
+//     //const cart = await cartService.addProductToCart(pid, cid)
+
+// res.render("cart")
+// }
 //})
 
 export default router
