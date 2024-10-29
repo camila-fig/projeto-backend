@@ -1,4 +1,4 @@
-const validRole = (req, res, next) => {
+const validRoleAdmin = (req, res, next) => {
     if (req.user.role === "admin") {
         return next()
     } else {
@@ -6,4 +6,12 @@ const validRole = (req, res, next) => {
     }
 }
 
-export default validRole
+const validRoleUser = (req, res, next) => {
+    if (req.user.role === "user") {
+        return next()
+    } else {
+        res.status(403).render("msgForbidden")
+    }
+}
+
+export default { validRoleAdmin, validRoleUser }
