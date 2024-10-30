@@ -3,7 +3,10 @@ import mongoose from 'mongoose'
 const cartsCollection = "carts"
 
 const cartSchema = new mongoose.Schema({
-    email: String,
+    users: {
+        type: mongoose.Schema.ObjectId,
+        ref: "Users",
+      },
     products: {
         type: [
             {

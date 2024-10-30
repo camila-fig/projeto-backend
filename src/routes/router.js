@@ -11,8 +11,8 @@ const router = express.Router()
 router.use('/', viewsRouter)
 router.use('/products', productsRouter)
 router.use('/user', userRouter)
-router.use('/cart', cartRouter)
-router.use('/chat', chatRouter)
 router.use('/api/sessions', githubRouter)
+router.use('/chat', chatRouter)
+router.use('/cart', cartRouter)
 
 export default router

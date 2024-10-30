@@ -3,11 +3,12 @@
 
 const renderCart = async (req, res) => {
 
-    //     let user = await userService.getAllUsers()
-    //     user = user.map((u) => u.toJSON())
-    //     user = user[0]
-
-    res.render("cart")
+    if (não-tem-produtos) {
+        res.render("msgEmptyCart")
+    } else {
+        res.render("cart")
+    }
 }
+
 
 export default { renderCart }

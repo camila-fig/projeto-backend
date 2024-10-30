@@ -31,7 +31,7 @@ const main = async () => {
     // cartModel.create({email: "camila@gmail.com"})
 
     //Cadastra um novo usuário
-    //userModel.create({name: "Camila Figueiredo", email: "camila_fig@hotmail.com", password:123456})
+    //userModel.create({name: "Camila Figueiredo", email: "camila_fig@hotmail.com", password:123456, role: "admin"})
 
     //Para encontrar o produto e colocar no carrinho existente
     //  let cart = await cartModel.find({ _id: "66e8d901bb4d08a0aacbeb91" })
