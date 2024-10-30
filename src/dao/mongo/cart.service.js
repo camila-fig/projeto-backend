@@ -1,5 +1,5 @@
-import cartModel from "../model/cart.model.js"
-import productModel from "../model/product.model.js"
+import cartModel from "../../model/cart.model.js"
+import productModel from "../../model/product.model.js"
 
 const addProductToCart = async (pid, cid) => {
     const resultParsedInCart = cartModel.find({})

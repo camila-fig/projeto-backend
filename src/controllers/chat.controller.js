@@ -1,4 +1,4 @@
-import chatService from "../service/chat.service.js"
+import chatService from "../dao/mongo/chat.service.js"
 
 const msgChat = async (req, res) => {
     try {

@@ -1,4 +1,4 @@
-import messageModel from "../model/messages.model.js"
+import messageModel from "../../model/messages.model.js"
 
 const createMsg = async (message) => {
     const msgCreated = await messageModel.create(message)
