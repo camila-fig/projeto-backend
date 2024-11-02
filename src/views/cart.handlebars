@@ -1,17 +1,72 @@
 <h1>Carrinho</h1>
+<h3 class="nao-aparecer" id="dataPort" data-port="{{port}}">Porta {{port}}</h3>
 <table>
   <tr>
     <th>Produto</th>
     <th></th>
     <th>Preço (R$)</th>
     <th>Quantidade</th>
+    <th>Excluir do carrinho</th>
   </tr>
   {{#each products}}
   <tr>
-    <th class="image-product">{{thumbnail}}</th>
-    <th class="description-product">{{description}}</th>
-    <th class="price-product">{{price}}</th>
-    <th class="qty-product">{{qty}}</th>
+    <th>
+      <button class="image-product" data-id="{{_id}}">
+        <img class="image-cart" src="../../image/{{thumbnail}}" alt="Imagem do Produto"/>
+      </button>
+    </th>
+    <th class="description-product" data-id="{{_id}}">{{description}}</th>
+    <th class="price-product" data-id="{{_id}}">{{price}}</th>
+    <th class="qty-product" data-id="{{_id}}">{{qty}}</th>
+    <th>
+      <button class="del-button" data-id="{{_id}}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256">
+          <path
+            d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z">
+          </path>
+        </svg>
+      </button>
+    </th>
   </tr>
   {{/each}}
 </table>
+
+<script>
+  let div1 = document.getElementById("dataPort")
+  let port = div1.getAttribute("data-port")
+  const seeButtons = document.querySelectorAll('.image-product')
+  const deleteButtons = document.querySelectorAll('.del-button')
+
+  seeButtons.forEach(button => {
+    button.addEventListener('click', async () => {
+      const productId = button.getAttribute('data-id')
+      window.location.href = `/products/${productId}`
+    })
+  })
+
+  deleteButtons.forEach(button => {
+    button.addEventListener('click', async () => {
+      const productId = button.getAttribute('data-id')
+      await deleteProduct(productId)
+    })
+  })
+
+  async function deleteProduct(_id) {
+    try {
+      const response = await fetch(`http://localhost:${port}/cart/`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (response.ok) {
+        window.location.href = `http://localhost:${port}/cart`
+      } else {
+        console.error(`Erro ao excluir o produto. Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Erro na solicitação de exclusão:', error);
+    }
+  }
+
+</script>

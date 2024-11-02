@@ -32,7 +32,7 @@ const showOrganizedProducts = async (req, res) => {
 const showAProduct = async (req, res) => {
   const { pid } = req.params
   const foundProductById = await productsService.getProductById(String(pid))
-  const logged = req.cookies['logged']
+  const role = req.cookies['role']
 
   try {
     if (!foundProductById) {
@@ -47,7 +47,8 @@ const showAProduct = async (req, res) => {
         thumbnail: foundProductById.thumbnail,
         stock: foundProductById.stock,
         code: foundProductById.code,
-        isLogged: logged === 'true'
+        isAdmin: role === "admin",
+        isUser: role === "user",
       })
     }
   } catch (error) {

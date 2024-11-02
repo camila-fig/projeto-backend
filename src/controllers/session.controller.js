@@ -9,7 +9,7 @@ const tokenGit = async (req, res) => {
             httpOnly: true,
             maxAge: 1000 * 60 * 60,
         })
-        .cookie("logged", true)
+        .cookie("role", user.role)
         .render("msgConected", {
             name: req.user.name,
             port: program.opts().p

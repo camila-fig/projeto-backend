@@ -53,7 +53,7 @@ h1 {
 .container-register-edit {
     display: flex;
     flex-direction: row;
-    gap: 150px;
+    gap: 100px;
 }
 
 ul {
@@ -63,6 +63,21 @@ ul {
 
 .detail-admin {
     text-transform: capitalize;
+}
+
+.image-product {
+    margin: 0;
+    padding: 0;
+}
+
+.image-cart {
+    width: 70px;
+}
+
+.del-button {
+    display: flex;
+    height: 22px;
+    align-items: center;
 }
 
 th {

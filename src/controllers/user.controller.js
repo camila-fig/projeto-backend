@@ -32,7 +32,7 @@ const login = async (req, res) => {
             httpOnly: true,
             maxAge: 1000 * 60 * 60,
         })
-        .cookie("logged", true)
+        .cookie("role", user.role)
         .render("msgConected", {
             name: user.name,
             isAdmin: user.role === "admin",
@@ -51,7 +51,7 @@ const createUser = async (req, res) => {
             httpOnly: true,
             maxAge: 1000 * 60 * 60,
         })
-        .cookie("logged", true)
+        .cookie("role", user.role)
         .render("msgConected", { 
             name: req.body.name,
             port: program.opts().p
@@ -65,7 +65,7 @@ const failregister = (req, res) => {
 const logout = (req, res) => {
     res.clearCookie("connect.sid")
         .clearCookie("accessToken")
-        .clearCookie("logged")
+        .clearCookie("role")
         .render("msgLogout")
 }
 

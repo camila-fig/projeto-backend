@@ -8,16 +8,15 @@
     <p>Produtos em estoque: {{stock}}</p>
     <p>Código: {{code}}</p>
     <br>
-    {{#if isLogged}}
+    {{#if isUser}}
     <button class="addToCart" data-id="{{_id}}">Adicionar ao carrinho</button>
     {{else}}
-    <p>Faça seu login para adicionar o produto ao seu carrinho.</p>
+    <p>Faça seu login como "user" para adicionar o produto ao seu carrinho.</p>
     <button class="goToLogin">Login</button>
     {{/if}}
 </div>
 
 <script>
-
     const goToLogin = document.querySelectorAll('.goToLogin')
     const addToCart = document.querySelectorAll('.addToCart')
 
@@ -30,11 +29,34 @@
     addToCart.forEach(button => {
         button.addEventListener('click', async () => {
             const productId = button.getAttribute('data-id')
-
-            //window.location.href = `/products/${productId}`
+            await addProductToCart(productId)
+           // sessionStorage.setItem('product-id', productId)
         })
     })
 
+    async function addProductToCart(_id) {
+        try {
+            const response = await fetch(`/cart`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(_id),
+            })
+            console.log("Response:", response)
 
+                .then((response) => response.json())
+                .then((_id) => {
+                    console.log("Success:", _id);
+                })
 
+            if (response.ok) {
+                window.location.href = `/cart`
+            } else {
+                console.error(`Erro ao add o produto no carrinho. Status: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('Erro na solicitação de atualização:', error)
+        }
+    }
 </script>

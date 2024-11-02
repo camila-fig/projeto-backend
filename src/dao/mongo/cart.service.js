@@ -1,37 +1,61 @@
 import cartModel from "../../model/cart.model.js"
 import productModel from "../../model/product.model.js"
 
-const addProductToCart = async (pid, cid) => {
-    const resultParsedInCart = cartModel.find({})
+// const createCart = async (cip, pid) => {
+//     try {
+//         const response = await fetch(`cart/${email}`, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             }
+//         })
+//         if (response.ok) {
+//             const cartCreated = await cartModel.create({ productId: pid, qty: 1 })
+//             return cartCreated
+//         } else {
+//             console.error(`Erro ao adicionar o produto no carrinho. Status: ${response.status}`)
+//         }
+//     } catch (error) {
+//         console.error(error)
+//     }
+//}
+
+const getCart = async (email) => {
+    const cart = await cartModel.findOne({ email })
+    return cart
+}
+
+const createCartByEmail = async (email) => {
+    const cartCreated = await cartModel.create(email)
+    return cartCreated
+}
+
+const addProductToCart = async ({ pid }) => {
+    
+    console.log("Cheguei aqui1")
+
     const allProducts = await productModel.find({})
-    const foundIdCart = resultParsedInCart[cid]
     const foundProduct = allProducts[pid]
 
+    console.log("Cheguei aqui2") 
+
     try {
-        const response = await fetch(`cart/${cid}/product/${pid}`, {
+        const response = await fetch(`cart/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             }
         })
         if (response.ok) {
-            if (!foundIdCart || foundIdCart === -1) {
-                const createCart = async ({ pid }) => {
-                    const cartCreated = await cartModel.create({ productId: pid, qty: 1 })
-                    return cartCreated
+            if (foundProduct) {
+                const updateCart = async ({ pid, qty }) => {
+                    const cartUpdated = await cartModel.updateOne({ productId: pid, qty: qty + 1 })
+                    return cartUpdated
                 }
             } else {
-                if (foundProduct) {
-                    const updateCart = async ({ pid, qty }, cid) => {
-                        const cartUpdated = await cartModel.updateOne({ _id: cid }, { productId: pid, qty: qty + 1 })
-                        return cartUpdated
-                    }
-                } else {
-                    const addNewProduct = await productModel.create({ productId: pid, qty: 1 })
-                    return addNewProduct
-                }
+                const addNewProduct = await productModel.create({ productId: pid, qty: 1 })
+                return addNewProduct
             }
-            alert(`Produto adicionado ao carrinho.`)
         } else {
             console.error(`Erro ao adicionar o produto no carrinho. Status: ${response.status}`)
         }
@@ -40,4 +64,4 @@ const addProductToCart = async (pid, cid) => {
     }
 }
 
-export default { addProductToCart }
+export default { createCartByEmail, addProductToCart, getCart }
