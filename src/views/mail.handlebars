@@ -1,0 +1,26 @@
+<h1>Enviar e-mail</h1>
+<form action="/mail" method="post">
+    <label for="to">Para:</label>
+    <input type="email" id="to" name="to" required>
+    <br>
+    <label for="subject">Título:</label>
+    <input type="text" id="subject" name="subject" required>
+    <br>
+    <label for="html">Menssagem:</label>
+    <br>
+    <textarea for="text" id="text" name="text" required cols="30" rows="5"></textarea>
+    <br>
+    <button id="sweet" type="submit">Enviar</button>
+</form>
+
+<script>
+    document.getElementById("sweet")
+        .addEventListener("click", async () => {
+            await swal({
+                text: "Seu e-mail foi enviado com sucesso",
+                icon: "success",
+            })
+            window.location.href = `/products/all/1/10`
+        })
+
+</script>
