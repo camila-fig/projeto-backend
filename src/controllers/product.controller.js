@@ -39,6 +39,7 @@ const showAProduct = async (req, res) => {
       res.status(404).json("Produto não existe.")
     } else {
       res.render("product", {
+        product: foundProductById,
         _id: foundProductById._id,
         title: foundProductById.title,
         category: foundProductById.category,

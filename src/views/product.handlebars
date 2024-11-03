@@ -9,7 +9,7 @@
     <p>Código: {{code}}</p>
     <br>
     {{#if isUser}}
-    <button class="addToCart" data-id="{{_id}}">Adicionar ao carrinho</button>
+    <button class="addToCart" data-id="{{product}}">Adicionar ao carrinho</button>
     {{else}}
     <p>Faça seu login como "user" para adicionar o produto ao seu carrinho.</p>
     <button class="goToLogin">Login</button>
@@ -29,34 +29,37 @@
     addToCart.forEach(button => {
         button.addEventListener('click', async () => {
             const productId = button.getAttribute('data-id')
-            await addProductToCart(productId)
-           // sessionStorage.setItem('product-id', productId)
+            await addProduct(productId)
+            sessionStorage.setItem('product-id', productId)
         })
     })
 
-    async function addProductToCart(_id) {
+    async function addProduct(product) {
         try {
+            //const form = new FormData(document.getElementById("form"))
             const response = await fetch(`/cart`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json, charset=UTF-8',
                 },
-                body: JSON.stringify(_id),
+                body: JSON.stringify(product)
             })
-            console.log("Response:", response)
+            
+            console.log("response.ok:", response.ok)
+            console.log("response.body1:", response.body)
 
-                .then((response) => response.json())
-                .then((_id) => {
-                    console.log("Success:", _id);
-                })
+            return (response => response.json())
 
-            if (response.ok) {
+            console.log("response.body2:", response.body)
+
+            if (response.ok === true) {
                 window.location.href = `/cart`
             } else {
                 console.error(`Erro ao add o produto no carrinho. Status: ${response.status}`);
             }
         } catch (error) {
-            console.error('Erro na solicitação de atualização:', error)
+            console.error('Erro na solicitação de POST:', error)
         }
     }
+
 </script>

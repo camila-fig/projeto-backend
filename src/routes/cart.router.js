@@ -27,5 +27,4 @@ router.get("/:cid", cartController.getById)
 
 router.post("/:cid/product/:pid", validCart, cartController.addToCart)
 
-
 export default router

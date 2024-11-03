@@ -8,17 +8,14 @@ isValidatePassword
 
 const login = async (req, res) => {
     const { email, password } = req.body
-
     let user = await userService.getUsersByEmail({ email })
-    user = [user].map((u) => u.toJSON())
-    user = user[0]
-    //console.log("User user.router", user)
-
     if (!user) {
         return res
             .status(404)
             .render("msgConectedFail")
     }
+    user = [user].map((u) => u.toJSON())
+    user = user[0]
     const isPasswordValidTest = bcrypt.compareSync(password, user.password)
     if (!isPasswordValidTest) {
         return res
@@ -26,7 +23,6 @@ const login = async (req, res) => {
             .render("msgConectedFail")
     }
     const accessToken = generateToken(user)
-
     return res
         .cookie("accessToken", accessToken, {
             httpOnly: true,
@@ -52,7 +48,7 @@ const createUser = async (req, res) => {
             maxAge: 1000 * 60 * 60,
         })
         .cookie("role", user.role)
-        .render("msgConected", { 
+        .render("msgConected", {
             name: req.body.name,
             port: program.opts().p
         })

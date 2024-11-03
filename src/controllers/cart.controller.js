@@ -17,8 +17,10 @@ const productsInCart = async (req, res) => {
 const productsCart = async (req, res) => {
     const email = req.user.email
     const foundCart = await cartService.getCart(email)
-    
-    //console.log("Found Cart:", foundCart)
+
+    //console.log("Req User:", req.user)
+
+    //console.log("Found Cart cid:", foundCart._id)
     //console.log("Found Products:", foundProducts[0].product)
 
     if (!foundCart) {
@@ -31,6 +33,7 @@ const productsCart = async (req, res) => {
 
         res.render("cart", {
             products,
+            cid: foundCart._id,
             port: program.opts().p
         })
         //res.send({ status: "success", cartExists })
@@ -93,10 +96,12 @@ const addToCart = async (req, res) => {
 const addCart = async (req, res) => {
     try {
         const email = req.user.email
-        const pid = sessionStorage.getItem("product-id")
+        const pid = req.body._id
+        //console.log("REQ.:", req)
+        //const pid = sessionStorage.getItem("product-id")
         const foundCart = await cartService.getCart(email)
 
-console.log("Email:", email)
+        console.log("Email:", email)
 
         if (!foundCart) {
             const createdCart = await cartService.createCartByEmail(email)
@@ -110,6 +115,8 @@ console.log("Email:", email)
             products,
             port: program.opts().p
         })
+
+
     } catch (error) {
         res.status(500).json({ error: error.message })
     }
