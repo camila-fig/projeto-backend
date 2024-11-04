@@ -3,7 +3,6 @@ import { createHash } from "../../utils/bcrypt.js"
 
 const createUser = async ({ name, email, password, role }) => {
     const newPass = createHash(password)
-    //console.log("Senha Hash:", newPass)
     const userCreated = await userModel.create({
         name,
         email,

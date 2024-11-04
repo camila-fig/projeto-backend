@@ -48,7 +48,7 @@ const whats = async (req, res) => {
             //from: `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`,
             //to: `whatsapp:${to}`,
             //body: text,
-            from: 'whatsapp:+14155238886',
+            from: `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`,
             contentSid: 'HX229f5a04fd0510ce1b071852155d3e75',
             contentVariables: '{"1":"409173"}',
             to: `whatsapp:${to}`,

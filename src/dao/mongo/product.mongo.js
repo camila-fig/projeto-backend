@@ -3,7 +3,7 @@ import productModel from "../../model/product.model.js"
 const getProductsList = async () => {
     const products = await productModel.find({})
     return products
-}
+} 
 
 const getAllProducts = async (page, limit) => {
     try {

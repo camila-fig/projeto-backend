@@ -1,4 +1,4 @@
-import productsService from "../dao/mongo/products.service.js"
+import productsService from "../dao/mongo/product.mongo.js"
 import program from "../config/commander.js"
 
 const showProducts = async (req, res) => {

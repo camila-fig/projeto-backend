@@ -22,7 +22,7 @@ export default class ProductManager {
 
     getProducts = () => this.#products
 
-    addProduct = async ({title, description, price, thumbnail, code, stock, status, category}) => {
+    createProduct = async ({ title, description, price, thumbnail, code, stock, status, category }) => {
         const resultParsedMessy = await this.#readFile()
         const resultParsed = await resultParsedMessy.sort((a, b) => {
             return a.id < b.id ? -1 : a.id > b.id ? 1 : 0
@@ -54,14 +54,22 @@ export default class ProductManager {
         return product
     }
 
-    conferProduct = async () => {
-        const resultParsed = await this.#readFile()
-        return resultParsed
+    getAllProducts = async (page, limit) => {
+        try {
+            const options = {
+                page: page,
+                limit: limit
+            }
+            const resultParsed = await this.#readFile().paginate({}, options)
+            return resultParsed
+        } catch (error) {
+            console.log("Erro ao paginar getAllProducts:", error)
+        }
     }
 
-    getProductById = async (idProduct) => {
+    getProductById = async (pid) => {
         const resultParsed = await this.#readFile()
-        const index = resultParsed.findIndex((product) => product.id === idProduct)
+        const index = resultParsed.findIndex((product) => product.id === pid)
         return resultParsed[index]
     }
 
@@ -71,15 +79,22 @@ export default class ProductManager {
         return productFound
     }
 
-    updateProduct = async (dataToUpdate, idProduct) => {
-        if (dataToUpdate.title || dataToUpdate.description || dataToUpdate.price || dataToUpdate.thumbnail || dataToUpdate.code || dataToUpdate.stock || dataToUpdate.status || dataToUpdate.category === undefined) {
-            throw new Error("Produto não atualizado. Verifique se todos os dados foram preenchidos.")
-        }
-
+    updateProduct = async ({ title, description, price, thumbnail, code, stock, status, category }, pid) => {
         const resultParsed = await this.#readFile()
-        const index = resultParsed.findIndex((product) => product.id === +idProduct)
+        const index = resultParsed.findIndex((product) => product.id === +pid)
 
-        const newProduct = { id: +idProduct, ...resultParsed[index], ...dataToUpdate }
+        const newProduct = {
+            id: +pid,
+            ...resultParsed[index],
+            title: title,
+            description: description,
+            price: price,
+            thumbnail: thumbnail,
+            code: code,
+            stock: stock,
+            status: status,
+            category: category
+        }
         console.log(resultParsed[index])
         resultParsed[index] = newProduct
 
@@ -87,19 +102,12 @@ export default class ProductManager {
         return resultParsed[index]
     }
 
-    deleteProductById = async (idProduct) => {
+    deleteProduct = async (pid) => {
         const resultParsed = await this.#readFile()
         const indexDelete = resultParsed.findIndex((product) => {
-            return product.id === idProduct
+            return product.id === pid
         })
-
-        if (indexDelete === undefined) {
-            console.log("Produto não encontrado")
-            return false
-        } else {
-            await resultParsed.splice(indexDelete, 1)
-            await this.#recordFile(resultParsed)
-            console.log(`O produto foi deletado com sucesso`)
-        }
+        await resultParsed.splice(indexDelete, 1)
+        await this.#recordFile(resultParsed)
     }
 }
