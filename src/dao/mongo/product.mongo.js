@@ -32,9 +32,9 @@ const getProducts = async (title, page, limit) => {
     }
 }
 
-const getProductById = async (idProduct) => {
+const getProductById = async (pid) => {
     const resultParsed = await productModel.find({})
-    const index = resultParsed.findIndex((product) => product.id === idProduct)
+    const index = resultParsed.findIndex((product) => product.id === pid)
     return resultParsed[index]
 }
 

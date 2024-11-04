@@ -54,6 +54,11 @@ export default class ProductManager {
         return product
     }
 
+    getProductsList = async () => {
+        const products = await this.#readFile()
+        return products
+    }
+
     getAllProducts = async (page, limit) => {
         try {
             const options = {
@@ -67,16 +72,24 @@ export default class ProductManager {
         }
     }
 
+    getProducts = async (title, page, limit) => {
+        try {
+            const options = {
+                page: page,
+                limit: limit,
+                sort: { price: 1 }
+            }
+            const products = await this.#readFile().paginate({ title: title }, options)
+            return products
+        } catch (error) {
+            console.log("Erro ao paginar getProducts:", error)
+        }
+    }
+
     getProductById = async (pid) => {
         const resultParsed = await this.#readFile()
         const index = resultParsed.findIndex((product) => product.id === pid)
         return resultParsed[index]
-    }
-
-    getProductByName = async (title) => {
-        const resultParsed = await this.#readFile()
-        const productFound = resultParsed.filter((product) => product.title.toLowerCase().includes(title.toLowerCase()))
-        return productFound
     }
 
     updateProduct = async ({ title, description, price, thumbnail, code, stock, status, category }, pid) => {
