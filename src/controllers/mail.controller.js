@@ -1,6 +1,8 @@
 import transport from "../config/nodemailer.js"
+import client from "../config/twilio.js"
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
+import 'dotenv/config'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -39,4 +41,22 @@ const mail = async (req, res) => {
     }
 }
 
-export default { mail, renderMail }
+const whats = async (req, res) => {
+    try {
+        const { to } = req.body;
+        await client.messages.create({
+            //from: `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`,
+            //to: `whatsapp:${to}`,
+            //body: text,
+            from: 'whatsapp:+14155238886',
+            contentSid: 'HX229f5a04fd0510ce1b071852155d3e75',
+            contentVariables: '{"1":"409173"}',
+            to: `whatsapp:${to}`,
+        })
+        return res.status(201)
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}
+
+export default { mail, renderMail, whats }

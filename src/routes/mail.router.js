@@ -7,4 +7,6 @@ router.get("/", mailController.renderMail)
 
 router.post("/", mailController.mail)
 
+router.post("/whats", mailController.whats)
+
 export default router
