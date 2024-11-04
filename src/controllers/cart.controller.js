@@ -1,7 +1,7 @@
 import CartManager from '../dao/local/cart.local.js'
 import productsService from "../dao/mongo/product.mongo.js"
 import cartService from "../dao/mongo/cart.mongo.js"
-import program from "../config/commander.js"
+import program from "../config/commander.config.js"
 
 const manager = new CartManager("../../data/cart.json")
 

@@ -2,7 +2,7 @@ import userService from "../dao/mongo/user.mongo.js"
 import bcrypt from "bcrypt"
 import { generateToken } from "../utils/jsonwebtoken.js"
 import { isValidatePassword } from "../utils/bcrypt.js"
-import program from "../config/commander.js"
+import program from "../config/commander.config.js"
 
 isValidatePassword
 

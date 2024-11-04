@@ -1,5 +1,5 @@
 import productsService from "../dao/mongo/product.mongo.js"
-import program from "../config/commander.js"
+import program from "../config/commander.config.js"
 
 const showProducts = async (req, res) => {
   const { title, page, limit } = req.params

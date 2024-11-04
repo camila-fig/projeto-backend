@@ -1,5 +1,5 @@
 import { generateToken } from "../utils/jsonwebtoken.js"
-import program from "../config/commander.js"
+import program from "../config/commander.config.js"
 
 const tokenGit = async (req, res) => {
     const user = req.body

@@ -1,5 +1,5 @@
-import transport from "../config/nodemailer.js"
-import client from "../config/twilio.js"
+import transport from "../config/nodemailer.config.js"
+import client from "../config/twilio.config.js"
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 import 'dotenv/config'
