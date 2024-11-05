@@ -1,11 +1,13 @@
 import productsService from "../dao/mongo/product.mongo.js"
 import program from "../config/commander.config.js"
+//import dao from "../dao/factory.js"
 
 const showProducts = async (req, res) => {
   const { title, page, limit } = req.params
   let result
   if (title === "all") {
     result = await productsService.getAllProducts(page, limit)
+    //result = await dao.dtoProduct.getAllProducts(page, limit)
   } else {
     result = await productsService.getProducts(title, page, limit)
   }
