@@ -30,7 +30,7 @@ export default class CartManager {
         await fs.promises.writeFile(this.#pathData, JSON.stringify(data))
     }
 
-    conferCart = async () => {
+    conferAllCart = async () => {
         const resultParsedInCart = await this.#readCartFile()
         return resultParsedInCart
     }
@@ -60,20 +60,20 @@ export default class CartManager {
         return cart
     }
 
-    getCartById = async (idCart) => {
+    getCartById = async (cid) => {
         const resultParsedInCart = await this.#readCartFile()
-        const index = resultParsedInCart.findIndex((cart) => cart.id === idCart)
+        const index = resultParsedInCart.findIndex((cart) => cart.id === cid)
         return resultParsedInCart[index]
     }
 
-    addProductToCart = async ({ IdProduct, IdCart }) => {
+    addProductToCart = async ({ pid, cid }) => {
         const resultParsedMessy = await this.#readCartFile()
         const resultParsedInCart = await resultParsedMessy.sort((a, b) => {
             return a.id < b.id ? -1 : a.id > b.id ? 1 : 0
         })
         const allProducts = await this.#readProductsFile()
-        const foundIdCart = resultParsedInCart[IdCart]
-        const idSelectedProduct = allProducts[IdProduct].id
+        const foundIdCart = resultParsedInCart[cid]
+        const idSelectedProduct = allProducts[pid].id
         //const nameProduct = allProducts[IdProduct].title
 
         if (!foundIdCart || foundIdCart === -1) {
@@ -97,7 +97,7 @@ export default class CartManager {
 
         } else {
             const idProductInCart = foundIdCart.products
-            const ifHaveProduct = idProductInCart.findIndex(item => item.productId === IdProduct)
+            const ifHaveProduct = idProductInCart.findIndex(item => item.productId === pid)
 
             if (ifHaveProduct >= 0) {
                 const sumItem = idProductInCart[ifHaveProduct].qty + 1

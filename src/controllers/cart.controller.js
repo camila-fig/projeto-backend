@@ -16,7 +16,7 @@ const productsInCart = async (req, res) => {
 
 const productsCart = async (req, res) => {
     const email = req.user.email
-    const foundCart = await cartService.getCart(email)
+    const foundCart = await cartService.getCartByEmail(email)
 
     //console.log("Req User:", req.user)
 
@@ -99,12 +99,12 @@ const addCart = async (req, res) => {
         const pid = req.body._id
         //console.log("REQ.:", req)
         //const pid = sessionStorage.getItem("product-id")
-        const foundCart = await cartService.getCart(email)
+        const foundCart = await cartService.getCartByEmail(email)
 
         console.log("Email:", email)
 
         if (!foundCart) {
-            const createdCart = await cartService.createCartByEmail(email)
+            const createdCart = await cartService.createCart()
         }
 
         const addProduct = cartService.addProductToCart(pid)

@@ -1,64 +1,49 @@
 import cartModel from "../../model/cart.model.js"
 import productModel from "../../model/product.model.js"
 
-// const createCart = async (cip, pid) => {
-//     try {
-//         const response = await fetch(`cart/${email}`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             }
-//         })
-//         if (response.ok) {
-//             const cartCreated = await cartModel.create({ productId: pid, qty: 1 })
-//             return cartCreated
-//         } else {
-//             console.error(`Erro ao adicionar o produto no carrinho. Status: ${response.status}`)
-//         }
-//     } catch (error) {
-//         console.error(error)
-//     }
-//}
+const conferAllCart = async () => {
+    const resultInCart = await cartModel.find()
+    return resultInCart
+}
 
-const getCart = async (email) => {
+const getCartByEmail = async (email) => {
     try {
         const cart = await cartModel.findOne({ email })
         return cart
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
-
 }
 
-const createCartByEmail = async (email) => {
+const createCart = async () => {
     try {
-        const cartCreated = await cartModel.create(email)
+        const cartCreated = await cartModel.create()
         return cartCreated
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
 }
 
-const addProductToCart = async (pid) => {
+const addProductToCart = async ({ pid, cid }) => {
     console.log("Cheguei aqui1")
     //try {
-        const allProducts = await productModel.find({})
-        const foundProduct = allProducts[pid]
+    const allProducts = await productModel.find({})
+    const foundProduct = allProducts[pid]
 
-        console.log("Cheguei aqui2")
+    console.log("Cheguei aqui2")
 
-        if (foundProduct) {
-            const updateCart = async ({ pid, qty }) => {
-                const cartUpdated = await cartModel.updateOne({ productId: pid, qty: qty + 1 })
-                return cartUpdated
-            }
-        } else {
-            const addNewProduct = await productModel.create({ productId: pid, qty: 1 })
-            return addNewProduct
+    if (foundProduct) {
+        const updateCart = async ({ pid, qty }) => {
+            const cartUpdated = await cartModel.updateOne({ productId: pid, qty: qty + 1 })
+            return cartUpdated
         }
+    } else {
+        const addNewProduct = await productModel.create({ productId: pid, qty: 1 })
+        return addNewProduct
+    }
     //} catch (error) {
-   //     res.status(500).json({ message: error.message })
+    //     res.status(500).json({ message: error.message })
     //}
 }
 
-export default { createCartByEmail, addProductToCart, getCart }
+export default { conferAllCart, createCart, addProductToCart, getCartByEmail }

@@ -9,7 +9,14 @@
     <p>Código: {{code}}</p>
     <br>
     {{#if isUser}}
-    <button class="addToCart" data-id="{{product}}">Adicionar ao carrinho</button>
+
+
+
+    <button id="addToCart" class="addToCart" data-id="{{product}}">Adicionar ao carrinho</button>
+
+
+
+
     {{else}}
     <p>Faça seu login como "user" para adicionar o produto ao seu carrinho.</p>
     <button class="goToLogin">Login</button>
@@ -18,7 +25,8 @@
 
 <script>
     const goToLogin = document.querySelectorAll('.goToLogin')
-    const addToCart = document.querySelectorAll('.addToCart')
+    const addCart = document.querySelectorAll('.addToCart')
+    const addToCart = document.getElementById('addToCart')
 
     goToLogin.forEach(button => {
         button.addEventListener('click', async () => {
@@ -26,39 +34,32 @@
         })
     })
 
-    addToCart.forEach(button => {
+    addCart.forEach(button => {
         button.addEventListener('click', async () => {
             const productId = button.getAttribute('data-id')
+            //console.log("Product Id:", productId)
             await addProduct(productId)
-            sessionStorage.setItem('product-id', productId)
+            swal({
+                text: "Produto enviado para o carrinho",
+                icon: "success",
+            })
         })
     })
 
     async function addProduct(product) {
         try {
-            //const form = new FormData(document.getElementById("form"))
+            const selectedProduct = addToCart.dataset.id
+            //console.log("Selected Product:", selectedProduct)
             const response = await fetch(`/cart`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json, charset=UTF-8',
                 },
-                body: JSON.stringify(product)
+                //body: JSON.stringify(Object.fromEntries(form))
+                body: JSON.stringify(selectedProduct)
             })
-            
-            console.log("response.ok:", response.ok)
-            console.log("response.body1:", response.body)
-
-            return (response => response.json())
-
-            console.log("response.body2:", response.body)
-
-            if (response.ok === true) {
-                window.location.href = `/cart`
-            } else {
-                console.error(`Erro ao add o produto no carrinho. Status: ${response.status}`);
-            }
         } catch (error) {
-            console.error('Erro na solicitação de POST:', error)
+            console.error('Erro na solicitação de enviar para o carrinho:', error)
         }
     }
 
