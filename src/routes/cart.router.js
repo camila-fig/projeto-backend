@@ -23,8 +23,8 @@ router.post("/",
 //Com fs
 //router.post("/", cartController.createCart)
 
-router.get("/:cid", cartController.getById)
+//router.get("/:cid", cartController.getById)
 
-router.post("/:cid/product/:pid", validCart, cartController.addToCart)
+//router.post("/:cid/product/:pid", validCart, cartController.addToCart)
 
 export default router

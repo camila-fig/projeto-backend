@@ -9,14 +9,7 @@
     <p>Código: {{code}}</p>
     <br>
     {{#if isUser}}
-
-
-
-    <button id="addToCart" class="addToCart" data-id="{{product}}">Adicionar ao carrinho</button>
-
-
-
-
+    <button id="addToCart" class="addToCart" data-id="{{_id}}">Adicionar ao carrinho</button>
     {{else}}
     <p>Faça seu login como "user" para adicionar o produto ao seu carrinho.</p>
     <button class="goToLogin">Login</button>
@@ -37,7 +30,6 @@
     addCart.forEach(button => {
         button.addEventListener('click', async () => {
             const productId = button.getAttribute('data-id')
-            //console.log("Product Id:", productId)
             await addProduct(productId)
             swal({
                 text: "Produto enviado para o carrinho",
@@ -46,18 +38,24 @@
         })
     })
 
-    async function addProduct(product) {
+    async function addProduct(_id) {
         try {
-            const selectedProduct = addToCart.dataset.id
-            //console.log("Selected Product:", selectedProduct)
+            //const selectedProduct = addToCart.dataset.id
+            console.log("Selected Product:", _id)
             const response = await fetch(`/cart`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json, charset=UTF-8',
+                    'Content-Type': 'application/json', 
+                    //charset=UTF-8',
                 },
-                //body: JSON.stringify(Object.fromEntries(form))
-                body: JSON.stringify(selectedProduct)
+                //body: JSON.stringify(selectedProduct)
+                //body: selectedProduct
+                body: JSON.stringify(_id)
+                //body: _id
             })
+            //const responseJson = await response.json();
+            console.log("body:", JSON.stringify(_id))
+            console.log("response:", response)
         } catch (error) {
             console.error('Erro na solicitação de enviar para o carrinho:', error)
         }

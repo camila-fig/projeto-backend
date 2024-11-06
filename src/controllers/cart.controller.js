@@ -17,26 +17,16 @@ const productsInCart = async (req, res) => {
 const productsCart = async (req, res) => {
     const email = req.user.email
     const foundCart = await cartService.getCartByEmail(email)
-
-    //console.log("Req User:", req.user)
-
-    //console.log("Found Cart cid:", foundCart._id)
-    //console.log("Found Products:", foundProducts[0].product)
-
     if (!foundCart) {
         res.render("msgEmptyCart")
     } else {
         const foundProducts = foundCart.products
         const products = await productsService.getProductById(String(foundProducts[0].product))
-        //const quantity = foundCart.products[0].qty
-        //console.log(products)
-
         res.render("cart", {
             products,
             cid: foundCart._id,
             port: program.opts().p
         })
-        //res.send({ status: "success", cartExists })
     }
 }
 
@@ -63,24 +53,24 @@ const getById = async (req, res) => {
     }
 }
 
-const getProdById = async (req, res) => {
-    const { pid } = sessionStorage.getItem("product-id")
-    const foundProductById = await productsService.getProductById(String(pid))
-    try {
-        res.render("products", {
-            _id: foundProductById._id,
-            title: foundProductById.title,
-            category: foundProductById.category,
-            description: foundProductById.description,
-            price: foundProductById.price,
-            thumbnail: foundProductById.thumbnail,
-            stock: foundProductById.stock,
-            code: foundProductById.code,
-        })
-    } catch (error) {
-        res.status(500).json({ error: error.message })
-    }
-}
+// const getProdById = async (req, res) => {
+//     const { pid } = sessionStorage.getItem("product-id")
+//     const foundProductById = await productsService.getProductById(String(pid))
+//     try {
+//         res.render("products", {
+//             _id: foundProductById._id,
+//             title: foundProductById.title,
+//             category: foundProductById.category,
+//             description: foundProductById.description,
+//             price: foundProductById.price,
+//             thumbnail: foundProductById.thumbnail,
+//             stock: foundProductById.stock,
+//             code: foundProductById.code,
+//         })
+//     } catch (error) {
+//         res.status(500).json({ error: error.message })
+//     }
+// }
 
 const addToCart = async (req, res) => {
     try {
@@ -95,31 +85,26 @@ const addToCart = async (req, res) => {
 
 const addCart = async (req, res) => {
     try {
-        const email = req.user.email
         const pid = req.body._id
-        //console.log("REQ.:", req)
-        //const pid = sessionStorage.getItem("product-id")
+        const email = req.user.email
+
+        console.log("REQ.USER.EMAIL:", req.user.email)
+        console.log("REQ.BODY:", req.body)
+
         const foundCart = await cartService.getCartByEmail(email)
+        const cid = foundCart.id
 
-        console.log("Email:", email)
+        //console.log("CID do controller:", cid)
 
-        if (!foundCart) {
-            const createdCart = await cartService.createCart()
-        }
-
-        const addProduct = cartService.addProductToCart(pid)
-        const foundProducts = foundCart.products
-        const products = await productsService.getProductById(String(foundProducts[0].product))
-
+        const addProduct = await cartService.addProductToCart(Number(pid), Number(cid))
         res.render("cart", {
-            products,
+            addProduct,
+            cid: cid,
             port: program.opts().p
         })
-
-
     } catch (error) {
         res.status(500).json({ error: error.message })
     }
 }
 
-export default { createCart, productsInCart, productsCart, getById, getProdById, addToCart, addCart }
+export default { createCart, productsInCart, productsCart, getById, addToCart, addCart }

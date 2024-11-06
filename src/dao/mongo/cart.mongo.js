@@ -25,25 +25,35 @@ const createCart = async () => {
 }
 
 const addProductToCart = async ({ pid, cid }) => {
-    console.log("Cheguei aqui1")
-    //try {
-    const allProducts = await productModel.find({})
-    const foundProduct = allProducts[pid]
+    try {
+        const allCarts = await cartModel.find({})
+        let foundCart = allCarts[cid]
 
-    console.log("Cheguei aqui2")
-
-    if (foundProduct) {
-        const updateCart = async ({ pid, qty }) => {
-            const cartUpdated = await cartModel.updateOne({ productId: pid, qty: qty + 1 })
-            return cartUpdated
+        if (!foundCart || foundCart === -1) {
+            const createCart = await cartModel.create()
+            foundCart = createCart[cid]
+            return foundCart
         }
-    } else {
-        const addNewProduct = await productModel.create({ productId: pid, qty: 1 })
-        return addNewProduct
+
+        console.log("foundCart:", foundCart)
+
+        const allProducts = await productModel.find({})
+        const foundProduct = allProducts[pid]
+
+        console.log("foundProduct:", foundProduct)
+
+        if (foundProduct) {
+            const updateCart = async ({ pid, qty }) => {
+                foundCart = await cartModel.updateOne({ product: pid, qty: qty + 1 })
+                return foundCart
+            }
+        } else {
+            foundCart = await cartModel.updateOne({ product: pid, qty: 1 })
+            return foundCart
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message })
     }
-    //} catch (error) {
-    //     res.status(500).json({ message: error.message })
-    //}
 }
 
 export default { conferAllCart, createCart, addProductToCart, getCartByEmail }
