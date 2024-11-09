@@ -1,4 +1,5 @@
 import cartModel from "../../model/cart.model.js"
+import userModel from "../../model/user.model.js"
 
 const conferAllCart = async () => {
     const resultInCart = await cartModel.find()
@@ -18,23 +19,21 @@ const createCart = async (email) => {
     try {
         console.log("tentando criar carrinho")
         console.log("Email cart.mongo:", email)
-        //let cart = await cartModel.create({ email, products: [] })
 
-        let cart = new cartModel({
-            email: 'lara@gmail.com',
-            products: [{ product: '66e0d95fc4140a9675024c18', qty: 2 }]
-          });
+        const user = await userModel.findOne({ email }).exec()
+        if (!user) {
+            throw new Error("Usuário não encontrado com esse e-mail.")
+        }
 
-
-        //let cart = new cartModel({
-        //    email,
-        //    products: [],
-        //})
-        await cart.save()
-        console.log("carrinho novo criado", cartCreate)
+        let cart = await cartModel.create({
+            users: user._id,
+            products: []
+        })
+        console.log("carrinho novo criado:", cart)
         return cart
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        console.error("Erro ao tentar criar o carrinho:", error)
+        throw error
     }
 }
 
