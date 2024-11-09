@@ -27,6 +27,7 @@ const createCart = async (email) => {
 
         let cart = await cartModel.create({
             users: user._id,
+            email: email,
             products: []
         })
         console.log("carrinho novo criado:", cart)

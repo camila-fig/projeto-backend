@@ -10,7 +10,8 @@ const cartSchema = new mongoose.Schema({
     users: {
         type: mongoose.Schema.ObjectId,
         ref: "Users",
-      },
+    },
+    email: String,
     products: {
         type: [
             {
@@ -23,7 +24,7 @@ const cartSchema = new mongoose.Schema({
             }
         ],
         default: []
-    } 
+    }
 })
 
 cartSchema.pre("find", function () {
