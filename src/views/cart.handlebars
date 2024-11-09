@@ -1,6 +1,6 @@
 <h1>Carrinho</h1>
-<h3 class="nao-aparecer" id="dataPort" data-port="{{port}}">Porta {{port}}</h3>
-<h3>{{cid}}</h3>
+<p class="nao-aparecer" id="dataPort" data-port="{{port}}">Porta {{port}}</p>
+<p class="nao-aparecer">{{cid}}</p>
 <table>
   <tr>
     <th>Produto</th>
@@ -9,11 +9,11 @@
     <th>Quantidade</th>
     <th>Excluir do carrinho</th>
   </tr>
-  {{#each addProduct}}
+  {{#each products}}
   <tr>
     <th>
       <button class="image-product" data-id="{{_id}}">
-        <img class="image-cart" src="../../image/{{thumbnail}}" alt="Imagem do Produto"/>
+        <img class="image-cart" src="../../image/{{thumbnail}}" alt="Imagem do Produto" />
       </button>
     </th>
     <th class="description-product" data-id="{{_id}}">{{description}}</th>

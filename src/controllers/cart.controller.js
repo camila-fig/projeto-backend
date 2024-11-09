@@ -85,21 +85,26 @@ const addToCart = async (req, res) => {
 
 const addCart = async (req, res) => {
     try {
-        const pid = req.body._id
+        const pid = req.body.pid
         const email = req.user.email
 
-        console.log("REQ.USER.EMAIL:", req.user.email)
-        console.log("REQ.BODY:", req.body)
+        let cart = await cartService.getCartByEmail(email)
 
-        const foundCart = await cartService.getCartByEmail(email)
-        const cid = foundCart.id
+        if (!cart) {
+            cart = await cartService.createCart(email)
+        }
 
-        //console.log("CID do controller:", cid)
+        const cid = cart.id
+        const addProduct = await cartService.addProductToCart(String(pid), String(cid), email)
 
-        const addProduct = await cartService.addProductToCart(Number(pid), Number(cid))
+        console.log("addProduct controller:", addProduct)
+
+        const products = addProduct.products
+        const showProducts = addProduct.docs.map((product) => product.toJSON())
+
         res.render("cart", {
-            addProduct,
-            cid: cid,
+            showProducts,
+            cid: addProduct._id,
             port: program.opts().p
         })
     } catch (error) {

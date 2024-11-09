@@ -1,5 +1,4 @@
 import cartModel from "../../model/cart.model.js"
-import productModel from "../../model/product.model.js"
 
 const conferAllCart = async () => {
     const resultInCart = await cartModel.find()
@@ -15,44 +14,58 @@ const getCartByEmail = async (email) => {
     }
 }
 
-const createCart = async () => {
+const createCart = async (email) => {
     try {
-        const cartCreated = await cartModel.create()
-        return cartCreated
+        console.log("tentando criar carrinho")
+        console.log("Email cart.mongo:", email)
+        //let cart = await cartModel.create({ email, products: [] })
+
+        let cart = new cartModel({
+            email: 'lara@gmail.com',
+            products: [{ product: '66e0d95fc4140a9675024c18', qty: 2 }]
+          });
+
+
+        //let cart = new cartModel({
+        //    email,
+        //    products: [],
+        //})
+        await cart.save()
+        console.log("carrinho novo criado", cartCreate)
+        return cart
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
 }
 
-const addProductToCart = async ({ pid, cid }) => {
+const addProductToCart = async (pid, cid, email) => {
     try {
-        const allCarts = await cartModel.find({})
-        let foundCart = allCarts[cid]
+        let cart = await cartModel.findOne({ email })
 
-        if (!foundCart || foundCart === -1) {
-            const createCart = await cartModel.create()
-            foundCart = createCart[cid]
-            return foundCart
-        }
+        console.log("cid do mongo", cid)
+        console.log("pid do mongo", pid)
+        console.log("Cart:", cart)
 
-        console.log("foundCart:", foundCart)
+        const idProductInCart = cart.products
+        const ifHaveProduct = idProductInCart.find(item => item.product.toString() === pid)
 
-        const allProducts = await productModel.find({})
-        const foundProduct = allProducts[pid]
+        console.log("idProductInCart:", idProductInCart)
+        console.log("ifHaveProduct:", ifHaveProduct)
 
-        console.log("foundProduct:", foundProduct)
-
-        if (foundProduct) {
-            const updateCart = async ({ pid, qty }) => {
-                foundCart = await cartModel.updateOne({ product: pid, qty: qty + 1 })
-                return foundCart
-            }
+        if (ifHaveProduct) {
+            console.log("entrei aqui1")
+            const qty = ifHaveProduct.qty
+            ifHaveProduct.qty = qty + 1
         } else {
-            foundCart = await cartModel.updateOne({ product: pid, qty: 1 })
-            return foundCart
+            console.log("entrei aqui2")
+            idProductInCart.push({ product: pid, qty: 1 })
+            console.log("Produto novo inserido.")
         }
+        console.log("cheguei no final do cart.mongo")
+        await cart.save()
+        return cart
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        console.error("Erro ao tentar add produto no carrinho", error)
     }
 }
 

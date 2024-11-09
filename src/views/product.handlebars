@@ -40,22 +40,19 @@
 
     async function addProduct(_id) {
         try {
-            //const selectedProduct = addToCart.dataset.id
-            console.log("Selected Product:", _id)
-            const response = await fetch(`/cart`, {
+            const response = await fetch('/cart', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json', 
-                    //charset=UTF-8',
-                },
-                //body: JSON.stringify(selectedProduct)
-                //body: selectedProduct
-                body: JSON.stringify(_id)
-                //body: _id
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pid: _id })
             })
-            //const responseJson = await response.json();
-            console.log("body:", JSON.stringify(_id))
-            console.log("response:", response)
+
+            if (!response.ok) {
+                throw new Error('Falha ao adicionar o produto ao carrinho')
+            }
+
+            const data = await response.json()
+            console.log('Resposta do servidor:', data)
+
         } catch (error) {
             console.error('Erro na solicitação de enviar para o carrinho:', error)
         }
