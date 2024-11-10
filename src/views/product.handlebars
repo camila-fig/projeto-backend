@@ -31,15 +31,10 @@
         button.addEventListener('click', async () => {
             const productId = button.getAttribute('data-id')
             await addProduct(productId)
-            swal({
-                text: "Produto enviado para o carrinho",
-                icon: "success",
-            })
         })
     })
 
     async function addProduct(_id) {
-        try {
             const response = await fetch('/cart', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -52,10 +47,6 @@
 
             const data = await response.json()
             console.log('Resposta do servidor:', data)
-
-        } catch (error) {
-            console.error('Erro na solicitação de enviar para o carrinho:', error)
-        }
     }
 
 </script>

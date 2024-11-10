@@ -17,20 +17,15 @@ const getCartByEmail = async (email) => {
 
 const createCart = async (email) => {
     try {
-        console.log("tentando criar carrinho")
-        console.log("Email cart.mongo:", email)
-
         const user = await userModel.findOne({ email }).exec()
         if (!user) {
             throw new Error("Usuário não encontrado com esse e-mail.")
         }
-
         let cart = await cartModel.create({
             users: user._id,
             email: email,
             products: []
         })
-        console.log("carrinho novo criado:", cart)
         return cart
     } catch (error) {
         console.error("Erro ao tentar criar o carrinho:", error)
@@ -38,30 +33,17 @@ const createCart = async (email) => {
     }
 }
 
-const addProductToCart = async (pid, cid, email) => {
+const addProductToCart = async (pid, email) => {
     try {
         let cart = await cartModel.findOne({ email })
-
-        console.log("cid do mongo", cid)
-        console.log("pid do mongo", pid)
-        console.log("Cart:", cart)
-
         const idProductInCart = cart.products
         const ifHaveProduct = idProductInCart.find(item => item.product.toString() === pid)
-
-        console.log("idProductInCart:", idProductInCart)
-        console.log("ifHaveProduct:", ifHaveProduct)
-
         if (ifHaveProduct) {
-            console.log("entrei aqui1")
             const qty = ifHaveProduct.qty
             ifHaveProduct.qty = qty + 1
         } else {
-            console.log("entrei aqui2")
             idProductInCart.push({ product: pid, qty: 1 })
-            console.log("Produto novo inserido.")
         }
-        console.log("cheguei no final do cart.mongo")
         await cart.save()
         return cart
     } catch (error) {
@@ -69,4 +51,25 @@ const addProductToCart = async (pid, cid, email) => {
     }
 }
 
-export default { conferAllCart, createCart, addProductToCart, getCartByEmail }
+const updateCart = async (pid, email) => {
+    let cart = await cartModel.findOne({ email })
+    const idProductInCart = cart.products
+    const pidValue = pid.pid
+    const ifHaveProduct = idProductInCart.find(item => item.product.toString() === pidValue)
+    const qty = ifHaveProduct.qty
+
+    if (ifHaveProduct && qty >= 1) {
+        ifHaveProduct.qty = qty - 1
+        await cart.save()
+    }
+
+    if (ifHaveProduct && qty === 0) {
+        await cartModel.updateOne(
+            { _id: cart._id }, 
+            { $pull: { products: { _id: ifHaveProduct._id } } }
+        )
+    }
+    return cart
+}
+
+export default { conferAllCart, createCart, addProductToCart, getCartByEmail, updateCart }

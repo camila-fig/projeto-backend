@@ -20,6 +20,10 @@ router.post("/",
     cartController.addCart
 )
 
+router.put("/remove/:pid", 
+    passport.authenticate("jwt", { session: false }),
+    cartController.updateCart)
+
 //Com fs
 //router.post("/", cartController.createCart)
 

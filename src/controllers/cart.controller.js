@@ -21,10 +21,16 @@ const productsCart = async (req, res) => {
         res.render("msgEmptyCart")
     } else {
         const foundProducts = foundCart.products
-        const products = await productsService.getProductById(String(foundProducts[0].product))
+        const filteredProducts = foundProducts.filter(item => item.qty > 0)
+
+        const products = filteredProducts.map((product) => product.toJSON())
+
+        console.log("filteredProducts", filteredProducts)
+
         res.render("cart", {
+            email: req.user.email,
+            name: req.user.name,
             products,
-            cid: foundCart._id,
             port: program.opts().p
         })
     }
@@ -53,25 +59,6 @@ const getById = async (req, res) => {
     }
 }
 
-// const getProdById = async (req, res) => {
-//     const { pid } = sessionStorage.getItem("product-id")
-//     const foundProductById = await productsService.getProductById(String(pid))
-//     try {
-//         res.render("products", {
-//             _id: foundProductById._id,
-//             title: foundProductById.title,
-//             category: foundProductById.category,
-//             description: foundProductById.description,
-//             price: foundProductById.price,
-//             thumbnail: foundProductById.thumbnail,
-//             stock: foundProductById.stock,
-//             code: foundProductById.code,
-//         })
-//     } catch (error) {
-//         res.status(500).json({ error: error.message })
-//     }
-// }
-
 const addToCart = async (req, res) => {
     try {
         const { cid } = req.params
@@ -89,27 +76,43 @@ const addCart = async (req, res) => {
         const email = req.user.email
 
         let cart = await cartService.getCartByEmail(email)
-
         if (!cart) {
             cart = await cartService.createCart(email)
         }
+        const addProduct = await cartService.addProductToCart(String(pid), email)
 
-        const cid = cart.id
-        const addProduct = await cartService.addProductToCart(String(pid), String(cid), email)
+        console.log("addProduct:", addProduct)
 
-        console.log("addProduct controller:", addProduct)
-
-        const products = addProduct.products
-        const showProducts = addProduct.docs.map((product) => product.toJSON())
-
-        res.render("cart", {
-            showProducts,
-            cid: addProduct._id,
-            port: program.opts().p
+        swal({
+            text: "Produto enviado para o carrinho",
+            icon: "success",
         })
+
+        // const products = addProduct.products
+        //const showProducts = products.docs.map((product) => product.toJSON())
+        // const showProducts = products.map((product) => product.toJSON())
+        // const showDetails = addProduct.map((product) => product.toJSON())
+
+        // console.log("showDetails:", showDetails)
+        // console.log("ShowProducts:", showProducts)
+
+        res.redirect("/cart")
     } catch (error) {
         res.status(500).json({ error: error.message })
     }
 }
 
-export default { createCart, productsInCart, productsCart, getById, addToCart, addCart }
+const updateCart = async (req, res) => {
+    try {
+        const pid = req.params
+        const email = req.user.email
+        const updatedCart = await cartService.updateCart(pid, email)
+
+        console.log("updatedCart:", updatedCart)
+
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
+}
+
+export default { createCart, productsInCart, productsCart, getById, addToCart, addCart, updateCart }
