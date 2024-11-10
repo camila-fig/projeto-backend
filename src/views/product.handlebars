@@ -4,7 +4,7 @@
     <img src="../../image/{{thumbnail}}" alt="Imagem do Produto" width="150px" />
     <p>Categoria: {{category}}</p>
     <p>Descrição: {{description}}</p>
-    <p>Preço R$ {{price}}</p>
+    <p>Preço R$ {{price}},00</p>
     <p>Produtos em estoque: {{stock}}</p>
     <p>Código: {{code}}</p>
     <br>
@@ -30,23 +30,27 @@
     addCart.forEach(button => {
         button.addEventListener('click', async () => {
             const productId = button.getAttribute('data-id')
+            swal({
+                text: "Produto enviado para o carrinho",
+                icon: "success",
+            })
             await addProduct(productId)
         })
     })
 
     async function addProduct(_id) {
-            const response = await fetch('/cart', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ pid: _id })
-            })
+        const response = await fetch('/cart', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pid: _id })
+        })
 
-            if (!response.ok) {
-                throw new Error('Falha ao adicionar o produto ao carrinho')
-            }
+        if (!response.ok) {
+            throw new Error('Falha ao adicionar o produto ao carrinho')
+        }
 
-            const data = await response.json()
-            console.log('Resposta do servidor:', data)
+        const data = await response.json()
+        console.log('Resposta do servidor:', data)
     }
 
 </script>

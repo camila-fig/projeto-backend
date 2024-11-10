@@ -2,8 +2,12 @@ import cartModel from "../../model/cart.model.js"
 import userModel from "../../model/user.model.js"
 
 const conferAllCart = async () => {
-    const resultInCart = await cartModel.find()
-    return resultInCart
+    try {
+        const resultInCart = await cartModel.find()
+        return resultInCart
+    } catch (error) {
+        console.error("Erro ao tentar ver todos os carrinhos", error)
+    }
 }
 
 const getCartByEmail = async (email) => {
@@ -11,7 +15,7 @@ const getCartByEmail = async (email) => {
         const cart = await cartModel.findOne({ email })
         return cart
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        console.error("Erro ao tentar obter o carrinho pelo e-mail", error)
     }
 }
 
@@ -47,29 +51,41 @@ const addProductToCart = async (pid, email) => {
         await cart.save()
         return cart
     } catch (error) {
-        console.error("Erro ao tentar add produto no carrinho", error)
+        console.error("Erro ao tentar adicionar produto no carrinho", error)
     }
 }
 
 const updateCart = async (pid, email) => {
-    let cart = await cartModel.findOne({ email })
-    const idProductInCart = cart.products
-    const pidValue = pid.pid
-    const ifHaveProduct = idProductInCart.find(item => item.product.toString() === pidValue)
-    const qty = ifHaveProduct.qty
+    try {
+        let cart = await cartModel.findOne({ email })
+        const idProductInCart = cart.products
+        const pidValue = pid.pid
+        const ifHaveProduct = idProductInCart.find(item => item.product.toString() === pidValue)
+        const qty = ifHaveProduct.qty
 
-    if (ifHaveProduct && qty >= 1) {
-        ifHaveProduct.qty = qty - 1
-        await cart.save()
+        if (ifHaveProduct && qty >= 1) {
+            ifHaveProduct.qty = qty - 1
+            await cart.save()
+        }
+        if (ifHaveProduct && qty === 0) {
+            await cartModel.updateOne(
+                { _id: cart._id },
+                { $pull: { products: { _id: ifHaveProduct._id } } }
+            )
+        }
+        return cart
+    } catch (error) {
+        console.error("Erro ao tentar atualizar carrinho", error)
     }
-
-    if (ifHaveProduct && qty === 0) {
-        await cartModel.updateOne(
-            { _id: cart._id }, 
-            { $pull: { products: { _id: ifHaveProduct._id } } }
-        )
-    }
-    return cart
 }
 
-export default { conferAllCart, createCart, addProductToCart, getCartByEmail, updateCart }
+const findCartPopulate = async (email) => {
+    try {
+        const cart = await cartModel.findOne({ email }).populate("products.product")
+        return cart
+    } catch (error) {
+        console.error("Erro ao tentar popular o carrinho", error)
+    }
+}
+
+export default { conferAllCart, createCart, addProductToCart, getCartByEmail, updateCart, findCartPopulate }

@@ -1,5 +1,4 @@
 import CartManager from '../dao/local/cart.local.js'
-import productsService from "../dao/mongo/product.mongo.js"
 import cartService from "../dao/mongo/cart.mongo.js"
 import program from "../config/commander.config.js"
 
@@ -16,17 +15,23 @@ const productsInCart = async (req, res) => {
 
 const productsCart = async (req, res) => {
     const email = req.user.email
-    const foundCart = await cartService.getCartByEmail(email)
+    const foundCart = await cartService.findCartPopulate(email)
+
     if (!foundCart) {
         res.render("msgEmptyCart")
     } else {
         const foundProducts = foundCart.products
         const filteredProducts = foundProducts.filter(item => item.qty > 0)
-
-        const products = filteredProducts.map((product) => product.toJSON())
-
-        console.log("filteredProducts", filteredProducts)
-
+        const products = filteredProducts.map((item) => {
+            const product = item.product
+            return {
+                qty: item.qty,
+                _id: product._id,
+                thumbnail: product.thumbnail,
+                description: product.description,
+                price: product.price
+            }
+        })
         res.render("cart", {
             email: req.user.email,
             name: req.user.name,
@@ -80,21 +85,6 @@ const addCart = async (req, res) => {
             cart = await cartService.createCart(email)
         }
         const addProduct = await cartService.addProductToCart(String(pid), email)
-
-        console.log("addProduct:", addProduct)
-
-        swal({
-            text: "Produto enviado para o carrinho",
-            icon: "success",
-        })
-
-        // const products = addProduct.products
-        //const showProducts = products.docs.map((product) => product.toJSON())
-        // const showProducts = products.map((product) => product.toJSON())
-        // const showDetails = addProduct.map((product) => product.toJSON())
-
-        // console.log("showDetails:", showDetails)
-        // console.log("ShowProducts:", showProducts)
 
         res.redirect("/cart")
     } catch (error) {
