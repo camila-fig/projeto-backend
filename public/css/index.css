@@ -74,9 +74,11 @@ ul {
     width: 70px;
 }
 
-.del-button {
+.decrease-button {
     display: flex;
     height: 22px;
+    background-color: aliceblue;
+    border: none;
     align-items: center;
 }
 

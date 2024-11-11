@@ -86,7 +86,7 @@ const addCart = async (req, res) => {
         }
         const addProduct = await cartService.addProductToCart(String(pid), email)
 
-        res.redirect("/cart")
+        res.redirect("/")
     } catch (error) {
         res.status(500).json({ error: error.message })
     }
@@ -96,10 +96,28 @@ const updateCart = async (req, res) => {
     try {
         const pid = req.params
         const email = req.user.email
+
         const updatedCart = await cartService.updateCart(pid, email)
-
-        console.log("updatedCart:", updatedCart)
-
+        const foundCart = await cartService.findCartPopulate(email)
+        const foundProducts = foundCart.products
+        const filteredProducts = foundProducts.filter(item => item.qty > 0)
+        const products = filteredProducts.map((item) => {
+            const product = item.product
+            return {
+                qty: item.qty,
+                _id: product._id,
+                thumbnail: product.thumbnail,
+                description: product.description,
+                price: product.price
+            }
+        })
+        res.json({ products })
+        // .render("cart", {
+        //     email: req.user.email,
+        //     name: req.user.name,
+        //     products,
+        //     port: program.opts().p
+        // })
     } catch (error) {
         res.status(500).json({ error: error.message })
     }
