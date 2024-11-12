@@ -1,6 +1,6 @@
-<h1>Carrinho de compras</h1>
-<p>Nome: {{name}}</p>
-<p>E-mail: {{email}}</p>
+<h1>Carrinho de {{name}}</h1>
+<p class="email-cart">E-mail: {{email}}</p>
+<br>
 <p class="nao-aparecer" id="dataPort" data-port="{{port}}">Porta: {{port}}</p>
 {{#if products.length}}
 <table>
@@ -57,6 +57,7 @@
     button.addEventListener('click', async () => {
       const productId = button.getAttribute('data-id')
       await decreaseProduct(productId)
+      window.location.href = '/cart/'
     })
   })
 

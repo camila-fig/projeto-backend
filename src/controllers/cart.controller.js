@@ -112,7 +112,7 @@ const updateCart = async (req, res) => {
                 price: product.price
             }
         })
-        res.json({ products })
+        return res.status(201).redirect("/")
     } catch (error) {
         res.status(500).json({ error: error.message })
     }
