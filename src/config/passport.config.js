@@ -2,7 +2,7 @@ import passport from "passport"
 import jwt from "passport-jwt"
 import local from "passport-local"
 import userModel from "../model/user.model.js"
-import { createHash } from "../utils/bcrypt.js"
+import { createHash } from "../config/bcrypt.config.js"
 import GitHubStrategy from "passport-github2"
 
 const JWTStrategy = jwt.Strategy
