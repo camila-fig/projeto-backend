@@ -16,7 +16,7 @@ const productsInCart = async (req, res) => {
 
 const productsCart = async (req, res) => {
     const email = req.user.email
-    const foundCart = await cartService.findCartPopulate(email)
+    const foundCart = await dao.dtoCart.findCartPopulate(email)
 
     if (!foundCart) {
         res.render("msgEmptyCart")
@@ -81,11 +81,11 @@ const addCart = async (req, res) => {
         const pid = req.body.pid
         const email = req.user.email
 
-        let cart = await cartService.getCartByEmail(email)
+        let cart = await dao.dtoCart.getCartByEmail(email)
         if (!cart) {
-            cart = await cartService.createCart(email)
+            cart = await dao.dtoCart.createCart(email)
         }
-        const addProduct = await cartService.addProductToCart(String(pid), email)
+        const addProduct = await dao.dtoCart.addProductToCart(String(pid), email)
 
         res.redirect("/")
     } catch (error) {
@@ -98,8 +98,8 @@ const updateCart = async (req, res) => {
         const pid = req.params
         const email = req.user.email
 
-        const updatedCart = await cartService.updateCart(pid, email)
-        const foundCart = await cartService.findCartPopulate(email)
+        const updatedCart = await dao.dtoCart.updateCart(pid, email)
+        const foundCart = await dao.dtoCart.findCartPopulate(email)
         const foundProducts = foundCart.products
         const filteredProducts = foundProducts.filter(item => item.qty > 0)
         const products = filteredProducts.map((item) => {

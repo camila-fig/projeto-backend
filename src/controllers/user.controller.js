@@ -1,14 +1,15 @@
-import userService from "../dao/mongo/user.mongo.js"
+//import userService from "../dao/mongo/user.mongo.js"
 import bcrypt from "bcrypt"
 import { generateToken } from "../config/jsonwebtoken.config.js"
 import { isValidatePassword } from "../config/bcrypt.config.js"
 import program from "../config/commander.config.js"
+import dao from "../dao/factory.js"
 
 isValidatePassword
 
 const login = async (req, res) => {
     const { email, password } = req.body
-    let user = await userService.getUsersByEmail({ email })
+    let user = await dao.dtoUser.getUsersByEmail({ email })
     if (!user) {
         return res
             .status(404)

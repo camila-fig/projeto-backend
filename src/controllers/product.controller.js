@@ -1,15 +1,15 @@
-import productsService from "../dao/mongo/product.mongo.js"
+//import productsService from "../dao/mongo/product.mongo.js"
 import program from "../config/commander.config.js"
-//import dao from "../dao/factory.js"
+import dao from "../dao/factory.js"
 
 const showProducts = async (req, res) => {
   const { title, page, limit } = req.params
   let result
   if (title === "all") {
-    result = await productsService.getAllProducts(page, limit)
+    result = await dao.dtoProduct.getAllProducts(page, limit)
     //result = await dao.dtoProduct.getAllProducts(page, limit)
   } else {
-    result = await productsService.getProducts(title, page, limit)
+    result = await dao.dtoProduct.getProducts(title, page, limit)
   }
   const products = result.docs.map((product) => product.toJSON())
   // delete result.docs
@@ -21,7 +21,7 @@ const showProducts = async (req, res) => {
 }
 
 const showOrganizedProducts = async (req, res) => {
-  const result = await productsService.getProductsList()
+  const result = await dao.dtoProduct.getProductsList()
   const productsOrdered = result.sort((a, b) => a.code - b.code).sort((a, b) => a.title.localeCompare(b.title))
   const products = productsOrdered.map((product) => product.toJSON())
   res.render("admin", {
@@ -33,7 +33,7 @@ const showOrganizedProducts = async (req, res) => {
 
 const showAProduct = async (req, res) => {
   const { pid } = req.params
-  const foundProductById = await productsService.getProductById(String(pid))
+  const foundProductById = await dao.dtoProduct.getProductById(String(pid))
   const role = req.cookies['role']
 
   try {
@@ -61,7 +61,7 @@ const showAProduct = async (req, res) => {
 
 const showProducysById = async (req, res) => {
   const { pid } = req.params
-  let product = await productsService.getProductById(String(pid))
+  let product = await dao.dtoProduct.getProductById(String(pid))
   let resultProduct = [product]
   resultProduct = resultProduct.map((product) => product.toJSON())
   res.render("edit", { product: resultProduct[0] })
@@ -70,7 +70,7 @@ const showProducysById = async (req, res) => {
 const createProduct = async (req, res) => {
   try {
     const { title, description, price, thumbnail, code, stock, status, category } = req.body
-    const productCreated = await productsService.createProduct({
+    const productCreated = await dao.dtoProduct.createProduct({
       title,
       description,
       price,
@@ -89,7 +89,7 @@ const createProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
   try {
     const { pid } = req.params
-    const productDeleted = await productsService.deleteProduct(String(pid))
+    const productDeleted = await dao.dtoProduct.deleteProduct(String(pid))
     return res.status(200).json({ message: productDeleted })
   } catch (error) {
     return res.status(500).json({ message: error.message })
@@ -100,7 +100,7 @@ const updateProduct = async (req, res) => {
   try {
     const { title, description, price, thumbnail, code, stock, status, category } = req.body
     const { pid } = req.params
-    await productsService.updateProduct({
+    await dao.dtoProduct.updateProduct({
       title,
       description,
       price,
