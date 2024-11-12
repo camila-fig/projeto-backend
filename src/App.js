@@ -7,6 +7,7 @@ import path from "path"
 import passport from "passport"
 import initializePassport from "./config/passport.config.js"
 import router from "./routes/router.js"
+import log from "./config/logger.config.js"
 import 'dotenv/config'
 
 import { fileURLToPath } from 'url'
@@ -18,6 +19,8 @@ const __dirname = dirname(__filename)
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+app.use(log)
 
 const pathView = path.join(`${__dirname}/views`)
 app.engine("handlebars", handlebars.engine())
