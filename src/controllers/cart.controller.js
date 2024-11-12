@@ -1,6 +1,7 @@
 import CartManager from '../dao/local/cart.local.js'
-import cartService from "../dao/mongo/cart.mongo.js"
+//import cartService from "../dao/mongo/cart.mongo.js"
 import program from "../config/commander.config.js"
+import dao from "../dao/factory.js"
 
 const manager = new CartManager("../../data/cart.json")
 
@@ -112,12 +113,6 @@ const updateCart = async (req, res) => {
             }
         })
         res.json({ products })
-        // .render("cart", {
-        //     email: req.user.email,
-        //     name: req.user.name,
-        //     products,
-        //     port: program.opts().p
-        // })
     } catch (error) {
         res.status(500).json({ error: error.message })
     }
