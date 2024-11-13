@@ -5,23 +5,25 @@ const ENV = process.env.ENV
 
 const customLevelOptions = {
     levels: {
-        fatal: 0,
-        error: 1,
+        error: 0,
+        warn: 1,
         info: 2,
-        debug: 3,
+        verbose: 3,
+        debug: 4,
     },
     colors: {
-        fatal: "red",
-        error: "orange",
-        info: "blue",
-        debug: "white",
+        error: "red",
+        warn: "orange",
+        info: "yellow",
+        verbose: "green",
+        debug: "blue",
     },
 }
 
 const logger = winston.createLogger({
     transports: [
         new winston.transports.Console({
-            level: "error",
+            level: "debug",
             format: winston.format.combine(
                 winston.format.colorize({ colors: customLevelOptions.colors }),
                 winston.format.simple()
@@ -36,10 +38,10 @@ const logger = winston.createLogger({
 })
 
 const log = (req, res, next) => {
-    req.logger = logger;
-    req.logger.http(`${req.method} na ${req.url} - ${new Date()}`)
-    req.logger.info(`${req.method} na ${req.url} - ${new Date()}`)
-    req.logger.debug(`${req.method} na ${req.url} - ${new Date()}`)
+    req.logger = logger
+    //req.logger.verbose(`${req.method} na ${req.url} - ${new Date()}`)
+    //req.logger.info(`${req.method} na ${req.url} - ${new Date()}`)
+    //req.logger.debug(`${req.method} na ${req.url} - ${new Date()}`)
     next()
 }
 

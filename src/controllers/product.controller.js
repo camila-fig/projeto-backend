@@ -1,4 +1,3 @@
-//import productsService from "../dao/mongo/product.mongo.js"
 import program from "../config/commander.config.js"
 import dao from "../dao/factory.js"
 

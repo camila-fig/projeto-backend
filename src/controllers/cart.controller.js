@@ -1,5 +1,4 @@
 import CartManager from '../dao/local/cart.local.js'
-//import cartService from "../dao/mongo/cart.mongo.js"
 import program from "../config/commander.config.js"
 import dao from "../dao/factory.js"
 
@@ -15,31 +14,35 @@ const productsInCart = async (req, res) => {
 }
 
 const productsCart = async (req, res) => {
-    const email = req.user.email
-    const foundCart = await dao.dtoCart.findCartPopulate(email)
+    try {
+        const email = req.user.email
+        const foundCart = await dao.dtoCart.findCartPopulate(email)
 
-    if (!foundCart) {
-        res.render("msgEmptyCart")
-    } else {
-        const foundProducts = foundCart.products
-        const filteredProducts = foundProducts.filter(item => item.qty > 0)
-        const products = filteredProducts.map((item) => {
-            const product = item.product
-            return {
-                qty: item.qty,
-                _id: product._id,
-                thumbnail: product.thumbnail,
-                description: product.description,
-                price: product.price
-            }
-        })
-        res.render("cart", {
-            email: req.user.email,
-            name: req.user.name,
-            products,
-            port: program.opts().p
-        })
-    }
+        if (!foundCart) {
+            res.render("msgEmptyCart")
+        } else {
+            const foundProducts = foundCart.products
+            const filteredProducts = foundProducts.filter(item => item.qty > 0)
+            const products = filteredProducts.map((item) => {
+                const product = item.product
+                return {
+                    qty: item.qty,
+                    _id: product._id,
+                    thumbnail: product.thumbnail,
+                    description: product.description,
+                    price: product.price
+                }
+            })
+            res.render("cart", {
+                email: req.user.email,
+                name: req.user.name,
+                products,
+                port: program.opts().p
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({ error: error.message })
+    }    
 }
 
 const createCart = async (req, res) => {
