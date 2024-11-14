@@ -10,7 +10,6 @@ const createUser = async ({ name, email, password, role }) => {
             password: newPass,
             role
         })
-        console.info("Usuário criado com sucesso.")
         return userCreated
     } catch (error) {
         console.error("Erro ao criar usuário:", error)

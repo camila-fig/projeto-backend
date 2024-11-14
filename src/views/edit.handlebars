@@ -72,7 +72,7 @@
                 body: JSON.stringify(Object.fromEntries(form))
             })
         } catch (error) {
-            console.error('Erro na solicitação de atualização:', error)
+            req.logger.error('Erro na solicitação de atualização:', error)
         }
     }
 

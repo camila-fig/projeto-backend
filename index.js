@@ -9,7 +9,7 @@ const main = async () => {
     mongoose
         .connect(process.env.MONGO_URL)
         .catch((err) => {
-            console.log(err)
+            req.logger.error("Problema com mongoose:", err)
             process.exit(1)
         });
 

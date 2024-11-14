@@ -48,9 +48,8 @@
         if (!response.ok) {
             throw new Error('Falha ao adicionar o produto ao carrinho')
         }
-
         const data = await response.json()
-        console.log('Resposta do servidor:', data)
+        req.logger.verbose('Resposta do servidor:', data)
     }
 
 </script>

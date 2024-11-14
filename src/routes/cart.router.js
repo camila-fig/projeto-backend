@@ -1,7 +1,6 @@
 import express from "express"
 import passport from "passport"
 import middleware from "../middleware/validRole.js"
-import validCart from "../middleware/validCart.js"
 import cartController from "../controllers/cart.controller.js"
 
 const router = express.Router()
@@ -29,6 +28,6 @@ router.put("/remove/:pid",
 
 //router.get("/:cid", cartController.getById)
 
-//router.post("/:cid/product/:pid", validCart, cartController.addToCart)
+//router.post("/:cid/product/:pid", cartController.addToCart)
 
 export default router

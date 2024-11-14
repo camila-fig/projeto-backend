@@ -68,7 +68,7 @@ export default class ProductManager {
             const resultParsed = await this.#readFile().paginate({}, options)
             return resultParsed
         } catch (error) {
-            console.log("Erro ao paginar getAllProducts:", error)
+            req.logger.error("Erro ao paginar getAllProducts:", error)
         }
     }
 
@@ -82,7 +82,7 @@ export default class ProductManager {
             const products = await this.#readFile().paginate({ title: title }, options)
             return products
         } catch (error) {
-            console.log("Erro ao paginar getProducts:", error)
+            req.logger.error("Erro ao paginar getProducts:", error)
         }
     }
 
@@ -108,7 +108,7 @@ export default class ProductManager {
             status: status,
             category: category
         }
-        console.log(resultParsed[index])
+        req.logger.debug(resultParsed[index])
         resultParsed[index] = newProduct
 
         await this.#recordFile(resultParsed)

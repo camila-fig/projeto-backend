@@ -6,12 +6,10 @@ const showProducts = async (req, res) => {
   let result
   if (title === "all") {
     result = await dao.dtoProduct.getAllProducts(page, limit)
-    //result = await dao.dtoProduct.getAllProducts(page, limit)
   } else {
     result = await dao.dtoProduct.getProducts(title, page, limit)
   }
   const products = result.docs.map((product) => product.toJSON())
-  // delete result.docs
   res.render("products", {
     products,
     result,
@@ -61,6 +59,7 @@ const showAProduct = async (req, res) => {
 const showProducysById = async (req, res) => {
   const { pid } = req.params
   let product = await dao.dtoProduct.getProductById(String(pid))
+  req.logger.debug(`O produto com id ${pid}, foi obtido.`)
   let resultProduct = [product]
   resultProduct = resultProduct.map((product) => product.toJSON())
   res.render("edit", { product: resultProduct[0] })
@@ -79,6 +78,7 @@ const createProduct = async (req, res) => {
       status,
       category,
     })
+    req.logger.debug(`O produto (${title}), foi criado com sucesso.`)
     return res.render("msgProduct")
   } catch (error) {
     return res.status(500).json({ message: error.message })
@@ -89,6 +89,7 @@ const deleteProduct = async (req, res) => {
   try {
     const { pid } = req.params
     const productDeleted = await dao.dtoProduct.deleteProduct(String(pid))
+    req.logger.debug(`O produto com id ${pid} foi deletado.`)
     return res.status(200).json({ message: productDeleted })
   } catch (error) {
     return res.status(500).json({ message: error.message })
@@ -109,6 +110,7 @@ const updateProduct = async (req, res) => {
       status,
       category
     }, pid)
+    req.logger.debug(`Produto com id ${pid} foi atualizado com sucesso.`)
     return res.status(201).redirect("/")
   } catch (error) {
     res.status(500).json({ message: error.message })

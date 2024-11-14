@@ -24,7 +24,6 @@ const initializePassport = () => {
             secretOrKey: process.env.JWTPRIVATE_KEY
         },
         async (jwt_payload, done) => {
-            //console.log("JWT Payload:", jwt_payload)
             try {
                 return done(null, jwt_payload)
             } catch (error) {
@@ -39,7 +38,7 @@ const initializePassport = () => {
             try {
                 let user = await userModel.findOne({ email: username })
                 if (user) {
-                    console.log("User already exists")
+                    req.logger.warn("User already exists")
                     return done(null, false)
                 }
                 const newPass = createHash(password)
@@ -66,7 +65,7 @@ const initializePassport = () => {
         async (accessToken, refreshToken, profile, done) => {
             try {
                 const user = await userModel.findOne({ email: profile._json.email })
-                //console.log("User do passport.config Github:", user)
+                req.logger.debug("User do passport.config Github:", user)
 
                 if (!user) {
                     let newUser = {

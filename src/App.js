@@ -48,10 +48,10 @@ app.use("/", router)
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {
-    console.log("Mongo connected")
+    console.warn("Mongo connected")
   })
   .catch((error) => {
-    console.log(error)
+    console.error("Problema com mongoose:", error)
     process.exit(1)
   })
 

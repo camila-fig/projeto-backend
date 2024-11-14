@@ -20,28 +20,56 @@ const customLevelOptions = {
     },
 }
 
-const logger = winston.createLogger({
+const loggerDev = winston.createLogger({
+    level: "debug",
     transports: [
         new winston.transports.Console({
             level: "debug",
             format: winston.format.combine(
                 winston.format.colorize({ colors: customLevelOptions.colors }),
-                winston.format.simple()
+                winston.format.timestamp(),
+                winston.format.printf(({ timestamp, level, message }) => {
+                    return `${timestamp} [${level}]: ${message}`
+                }),
+            ),
+        }),
+    ],
+})
+
+const loggerProd = winston.createLogger({
+    level: customLevelOptions.levels,
+    transports: [
+        new winston.transports.Console({
+            level: "info",
+            format: winston.format.combine(
+                winston.format.colorize({ colors: customLevelOptions.colors }),
+                winston.format.timestamp(),
+                winston.format.printf(({ timestamp, level, message }) => {
+                    return `${timestamp} [${level}]: ${message}`
+                }),
             ),
         }),
         new winston.transports.File({
             filename: "./error.log",
-            level: "fatal",
-            format: winston.format.simple(),
+            level: "error",
+            format: winston.format.combine(
+                winston.format.timestamp(),
+                winston.format.printf(({ timestamp, level, message }) => {
+                    return `${timestamp} [${level}]: ${message}`
+                }),
+            ),
         }),
     ],
 })
 
 const log = (req, res, next) => {
-    req.logger = logger
-    //req.logger.verbose(`${req.method} na ${req.url} - ${new Date()}`)
-    //req.logger.info(`${req.method} na ${req.url} - ${new Date()}`)
-    //req.logger.debug(`${req.method} na ${req.url} - ${new Date()}`)
+    if (ENV === "prod") {
+        req.logger = loggerProd
+    } else {
+        req.logger = loggerDev
+    }
+    //req.logger.error(`${req.method} na ${req.url} - ${new Date()} - ENV: ${ENV} `)
+    //req.logger.info(`${req.method} na ${req.url} - ${new Date()} - ENV: ${ENV} `)
     next()
 }
 

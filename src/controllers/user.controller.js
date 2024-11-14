@@ -11,12 +11,14 @@ const login = async (req, res) => {
     const { email, password } = req.body
     let user = await dao.dtoUser.getUsersByEmail({ email })
     if (!user) {
+        req.logger.info(`O usuário com email ${email} ainda não foi cadastrado no banco de dados.`)
         return res
-            .status(404)
+            .status(400)
             .render("msgConectedFail")
     }
     user = [user].map((u) => u.toJSON())
     user = user[0]
+    req.logger.info(`O usuário com email ${email} foi encontrado no banco de dados.`)
     const isPasswordValidTest = bcrypt.compareSync(password, user.password)
     if (!isPasswordValidTest) {
         return res
@@ -43,6 +45,7 @@ const renderLogin = (req, res) => { res.render("login") }
 const createUser = async (req, res) => {
     const user = req.body
     const accessToken = generateToken(user)
+    req.logger.debug("Usuário criado com sucesso.")
     return res
         .cookie("accessToken", accessToken, {
             httpOnly: true,

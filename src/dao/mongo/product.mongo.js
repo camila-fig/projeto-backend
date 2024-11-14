@@ -49,7 +49,6 @@ const getProductById = async (pid) => {
 const createProduct = async ({ title, description, price, thumbnail, code, stock, status, category }) => {
     try {
         const productCreated = await productModel.create({ title, description, price, thumbnail, code, stock, status, category })
-        console.info("Produto criado com sucesso.")
         return productCreated
     } catch (error) {
         console.error("Erro ao criar o produto:", error)
@@ -59,7 +58,6 @@ const createProduct = async ({ title, description, price, thumbnail, code, stock
 const deleteProduct = async (pid) => {
     try {
         const productDeleted = await productModel.deleteOne({ _id: pid })
-        console.info("Produto deletado com sucesso.")
         return productDeleted
     } catch (error) {
         console.error("Erro ao deletar o produto:", error)
@@ -72,7 +70,6 @@ const updateProduct = async ({ title, description, price, thumbnail, code, stock
             { _id: pid },
             { title, description, price, thumbnail, code, stock, status, category }
         )
-        console.info("Produto atualizado com sucesso.")
         return productUpdated
     } catch (error) {
         console.error("Erro ao atualizar o produto:", error)

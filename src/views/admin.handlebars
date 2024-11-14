@@ -105,7 +105,7 @@
                 })
                 window.location.href = `http://localhost:${port}/admin`
         } catch (error) {
-            console.error('Erro na solicitação de exclusão:', error);
+            req.logger.error('Erro na solicitação de exclusão:', error);
         }
     }
 

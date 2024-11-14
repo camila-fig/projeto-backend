@@ -13,7 +13,7 @@ let dtoProduct
 let dtoChat
 let dtoUser
 
-console.warn("Persistencia:", persistence)
+console.info("Persistencia:", persistence)
 
 switch (persistence) {
     case "mongo":
