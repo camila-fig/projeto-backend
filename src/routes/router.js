@@ -5,7 +5,7 @@ import userRouter from './user.router.js'
 import cartRouter from './cart.router.js'
 import chatRouter from './chat.router.js'
 import mailRouter from './mail.router.js'
-import loggerRouter from './logger.router.js'
+import loggerRouter from './loggerTest.router.js'
 import githubRouter from './session.router.js'
 
 const router = express.Router()
@@ -17,6 +17,6 @@ router.use('/api/sessions', githubRouter)
 router.use('/chat', chatRouter)
 router.use('/cart', cartRouter)
 router.use('/mail', mailRouter)
-router.use('/logger', loggerRouter)
+router.use('/loggerTest', loggerRouter)
 
 export default router

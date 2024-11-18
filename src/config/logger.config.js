@@ -13,10 +13,10 @@ const customLevelOptions = {
     },
     colors: {
         error: "red",
-        warn: "orange",
+        warn: "magenta",
         info: "yellow",
         verbose: "green",
-        debug: "blue",
+        debug: "cyan",
     },
 }
 
@@ -68,8 +68,11 @@ const log = (req, res, next) => {
     } else {
         req.logger = loggerDev
     }
-    //req.logger.error(`${req.method} na ${req.url} - ${new Date()} - ENV: ${ENV} `)
-    //req.logger.info(`${req.method} na ${req.url} - ${new Date()} - ENV: ${ENV} `)
+    req.logger.error(`${req.method} na ${req.url} - ${new Date()} - ENV: ${ENV} `)
+    req.logger.warn(`${req.method} na ${req.url} - ${new Date()} - ENV: ${ENV} `)
+    req.logger.info(`${req.method} na ${req.url} - ${new Date()} - ENV: ${ENV} `)
+    req.logger.verbose(`${req.method} na ${req.url} - ${new Date()} - ENV: ${ENV} `)
+    req.logger.debug(`${req.method} na ${req.url} - ${new Date()} - ENV: ${ENV} `)
     next()
 }
 
