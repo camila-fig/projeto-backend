@@ -68,11 +68,11 @@ const log = (req, res, next) => {
     } else {
         req.logger = loggerDev
     }
-    req.logger.error(`${req.method} na ${req.url} - ${new Date()} - ENV: ${ENV} `)
-    req.logger.warn(`${req.method} na ${req.url} - ${new Date()} - ENV: ${ENV} `)
-    req.logger.info(`${req.method} na ${req.url} - ${new Date()} - ENV: ${ENV} `)
-    req.logger.verbose(`${req.method} na ${req.url} - ${new Date()} - ENV: ${ENV} `)
-    req.logger.debug(`${req.method} na ${req.url} - ${new Date()} - ENV: ${ENV} `)
+    //req.logger.error(`${req.method} na ${req.url} - ${new Date()} - ENV: ${ENV} `)
+    //req.logger.warn(`${req.method} na ${req.url} - ${new Date()} - ENV: ${ENV} `)
+    //req.logger.info(`${req.method} na ${req.url} - ${new Date()} - ENV: ${ENV} `)
+    //req.logger.verbose(`${req.method} na ${req.url} - ${new Date()} - ENV: ${ENV} `)
+    //req.logger.debug(`${req.method} na ${req.url} - ${new Date()} - ENV: ${ENV} `)
     next()
 }
 
