@@ -9,6 +9,8 @@ import initializePassport from "./config/passport.config.js"
 import router from "./routes/router.js"
 import log from "./config/logger.config.js"
 import 'dotenv/config'
+import swaggerJSDoc from 'swagger-jsdoc'
+import swaggerUiExpress from 'swagger-ui-express'
 
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
@@ -43,7 +45,21 @@ initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
 
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "API do Projeto BackEnd",
+      description: "API for my application"
+    },
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`]
+}
+
+const specs = swaggerJSDoc(swaggerOptions)
+
 app.use("/", router)
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 mongoose
   .connect(process.env.MONGO_URL)
