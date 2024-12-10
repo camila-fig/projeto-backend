@@ -50,7 +50,7 @@ const swaggerOptions = {
     openapi: "3.0.0",
     info: {
       title: "API do Projeto BackEnd",
-      description: "API for my application"
+      description: "Rotas de produtos e carrinho"
     },
   },
   apis: [`${__dirname}/docs/**/*.yaml`]

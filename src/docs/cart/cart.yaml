@@ -1,0 +1,44 @@
+paths:
+  /cart:
+    get:
+      summary: Mostra o carrinho de compras.
+      tags:
+        - Carrinho de compras
+      responses:
+        '200':
+            description: Carrinho retornado do banco de dados com sucesso.
+        '500':
+            description: Erro interno do servidor.
+    post:
+      summary: Acrescenta um item ao carrinho de compras.
+      tags:
+        - Adiciona item ao carrinho
+      parameters:
+        - name: pid
+          in: body
+          required: true
+          description: ID do produto
+          schema:
+              type: string
+      responses:
+        '200':
+            description: Produto adicionado ao carrinho de compras com sucesso.
+        '500':
+            description: Erro interno do servidor.
+  /cart/remove/{pid}:
+    put:
+      summary: Atualiza o carrinho de compras removendo um item.
+      tags:
+        - Remove item do carrinho
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID do produto que deseja excluir 1 item.
+          schema:
+              type: string
+      responses:
+        '200':
+            description: Carrinho atualizado com sucesso.
+        '500':
+            description: Erro interno do servidor.

@@ -3,7 +3,7 @@ paths:
     get:
       summary: Mostra 10 produtos por página.
       tags:
-        - Products
+        - Produtos
       parameters:
         - name: page
           in: path
@@ -20,7 +20,7 @@ paths:
     get:
       summary: Encontra o produto pelo seu id.
       tags:
-        - Product
+        - Produto
       parameters:
         - name: pid
           in: path
@@ -34,7 +34,7 @@ paths:
     delete:
       summary: Deleta um produto pelo seu id.
       tags:
-        - Delete product
+        - Deletar produto
       parameters:
         - name: pid
           in: path
@@ -50,7 +50,7 @@ paths:
     put:
       summary: Atualiza um produto pelo seu id.
       tags:
-        - Update product
+        - Atualizar produto
       parameters:
         - name: pid
           in: path
@@ -75,7 +75,7 @@ paths:
     post:
       summary: Cadastra um novo produto.
       tags:
-        - New product
+        - Novo produto
       requestBody:
         require: true
         content:
