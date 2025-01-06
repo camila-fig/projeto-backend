@@ -13,7 +13,7 @@ paths:
                   type: string
                   description: HTML renderizado com a lista de produtos do carrinho de compras.
         '403':
-            description: Faça login como "user" para ter acesso.
+            description: Permissão negada. Faça login como "user" para ter acesso.
         '500':
             description: Erro interno do servidor.
     post:
@@ -35,7 +35,7 @@ paths:
         '200':
             description: Produto adicionado ao carrinho de compras com sucesso.
         '403':
-            description: Faça login como "user" para ter acesso.
+            description: Permissão negada. Faça login como "user" para ter acesso.
         '500':
             description: Erro interno do servidor.
   /cart/remove/{pid}:
@@ -48,18 +48,11 @@ paths:
           in: path
           required: true
           description: ID do produto que deseja excluir 1 quantidade.
-          # schema:
-          #     type: object
-          #     properties:
-          #       pid:
-          #         type: string
-          #         description: ID do produto que terá 1 quantidade reduzida
-          #     example: "66e0d95fc4140a9675024c18"
       responses:
         '200':
             description: Carrinho atualizado com sucesso.
         '403':
-            description: Faça login como "user" para ter acesso.
+            description: Permissão negada. Faça login como "user" para ter acesso.
         '500':
             description: Erro interno do servidor.
 components:
@@ -69,21 +62,12 @@ components:
       items:
         type: object
         properties:
+          _id:
+            type: objectId
+            description: ID do produto
           qty:
             type: integer
             description: Quantidade do produto
-          thumbnail:
-            type: string
-            description: Nome do arquivo em .png
-          description:
-            type: string
-            description: Descrição do produto
-          price:
-            type: number
-            format: float
-            description: Valor do produto em reais
         example:
-          qty: 1
-          thumbnail: saia.21.png
-          description: Mini saia jeans, cinza claro, com costura em branco
-          price: 35
+          _id: 66e0d95fc4140a9675024c17
+          qty: 3

@@ -14,6 +14,11 @@ paths:
       responses:
         '200':
             description: Produtos retornados do banco de dados com sucesso.
+            content:
+              text/html:
+                schema:
+                  type: string
+                  description: HTML renderizado com a lista de 10 produtos por página.
         '500':
             description: Erro interno do servidor, geralmente ocorrido por uma query errada ou falha de conexão com banco de dados.
   /products/{pid}:
@@ -29,12 +34,17 @@ paths:
       responses:
         '200':
             description: Produto encontrado no banco de dados.
+            content:
+              text/html:
+                schema:
+                  type: string
+                  description: HTML renderizado com o produto solicitado.
         '500':
             description: Erro interno do servidor, geralmente ocorrido por uma query errada ou falha de conexão com banco de dados.
     delete:
       summary: Deleta um produto pelo seu id.
       tags:
-        - Produtos - deletar
+        - Produto - deletar
       parameters:
         - name: pid
           in: path
@@ -50,7 +60,7 @@ paths:
     put:
       summary: Atualiza um produto pelo seu id.
       tags:
-        - Produtos - atualização
+        - Produto - atualização
       parameters:
         - name: pid
           in: path
@@ -75,7 +85,7 @@ paths:
     post:
       summary: Cadastra um novo produto.
       tags:
-        - Produtos - cadastro
+        - Produto - cadastro
       requestBody:
         require: true
         content:

@@ -34,12 +34,13 @@ const productsCart = async (req, res) => {
                     price: product.price
                 }
             })
-            res.render("cart", {
-                email: req.user.email,
-                name: req.user.name,
-                products,
-                port: program.opts().p
-            })
+            res.status(200)
+                .render("cart", {
+                    email: req.user.email,
+                    name: req.user.name,
+                    products,
+                    port: program.opts().p
+                })
         }
     } catch (error) {
         return res.status(500).json({ error: error.message })
@@ -92,7 +93,22 @@ const addCart = async (req, res) => {
         }
         const addProduct = await dao.dtoCart.addProductToCart(String(pid), email)
         req.logger.debug(`O produto com id ${pid} foi anexado no carrinho de ${email}`)
-        res.redirect("/")
+
+        const foundProducts = addProduct.products
+        const filteredProducts = foundProducts.filter(item => item.qty > 0)
+        const products = filteredProducts.map((item) => {
+            const product = item.product
+            return {
+                qty: item.qty,
+                _id: product._id,
+                thumbnail: product.thumbnail,
+                description: product.description,
+                price: product.price
+            }
+        })
+
+        //console.log(addProduct)
+        res.status(200).json({ products })
     } catch (error) {
         res.status(500).json({ error: error.message })
     }
@@ -105,6 +121,7 @@ const updateCart = async (req, res) => {
 
         const updatedCart = await dao.dtoCart.updateCart(pid, email)
         req.logger.debug(`O carrinho de ${email} foi atualizado com sucesso`)
+
         const foundCart = await dao.dtoCart.findCartPopulate(email)
         const foundProducts = foundCart.products
         const filteredProducts = foundProducts.filter(item => item.qty > 0)
