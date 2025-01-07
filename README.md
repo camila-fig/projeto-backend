@@ -40,13 +40,13 @@ Instale as dependências, de acordo com o arquivo package.json,
 $ npm install
 ```
 
-- Inicie o servidor
+Inicie o servidor
 
 ```
 $ npm run dev
 ```
 
-- Visualize o site em
+Visualize o site em
 ```
 http://localhost:8080
 ```
@@ -58,7 +58,7 @@ http://localhost:8080
 2. Navegue pelos produtos e escolha um para visualizar;
 3. Adicione o produto ao carrinho;
 4. Navegue até o carrinho de compras e exclua o produto;
-5. Retorne aos produtos e insira ao carrinho quantos quiser;
+5. Retorne aos produtos e insira ao carrinho quantos itens quiser;
 6. Mande uma mensagem ao fornecedor;
 7. Faça o logout.
 
