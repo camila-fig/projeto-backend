@@ -38,7 +38,7 @@ const initializePassport = () => {
             try {
                 let user = await userModel.findOne({ email: username })
                 if (user) {
-                    req.logger.warn("User already exists")
+                    req.logger.warn("Usuário já existe")
                     return done(null, false)
                 }
                 const newPass = createHash(password)
