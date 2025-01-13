@@ -99,7 +99,7 @@ const updateProduct = async (req, res) => {
         const productData = { title, description, price, thumbnail, code, stock, status, category }
         await productService.updateProduct(pid, productData);
         req.logger.debug(`Produto com id ${pid} foi atualizado com sucesso.`)
-        return res.status(201).redirect("/");
+        return res.status(201).json({ message: "Produto atualizado com sucesso." })
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
