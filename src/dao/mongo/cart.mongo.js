@@ -61,6 +61,7 @@ const updateCart = async (pid, email) => {
         const idProductInCart = cart.products
         const pidValue = pid.pid
         const ifHaveProduct = idProductInCart.find(item => item.product.toString() === pidValue)
+
         const qty = ifHaveProduct.qty
 
         if (ifHaveProduct && qty >= 1) {
