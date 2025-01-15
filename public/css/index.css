@@ -72,6 +72,7 @@ ul {
 
 .image-cart {
     width: 70px;
+    cursor: pointer;
 }
 
 .decrease-button {
@@ -80,6 +81,7 @@ ul {
     background-color: aliceblue;
     border: none;
     align-items: center;
+    cursor: pointer;
 }
 
 th {
@@ -94,4 +96,5 @@ th {
     border: solid 1px black;
     border-radius: 10px;
     padding: 10px;
+    cursor: pointer;
 }
