@@ -19,3 +19,4 @@
 2024-11-18T20:18:19.038Z [error]: GET na /css/index.css - Mon Nov 18 2024 17:18:19 GMT-0300 (Horário Padrão de Brasília) - ENV: prod 
 2024-11-18T20:18:21.542Z [error]: GET na /logout - Mon Nov 18 2024 17:18:21 GMT-0300 (Horário Padrão de Brasília) - ENV: prod 
 2024-11-18T20:18:21.594Z [error]: GET na /css/index.css - Mon Nov 18 2024 17:18:21 GMT-0300 (Horário Padrão de Brasília) - ENV: prod 
+2025-01-15T22:26:43.568Z [error]: log de erro

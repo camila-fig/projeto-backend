@@ -105,4 +105,4 @@ const updateProduct = async (req, res) => {
     }
 }
 
-export default { showProducts, showAProduct, showOrganizedProducts, showProducysById, createProduct, deleteProduct, updateProduct };
+export default { showProducts, showAProduct, showOrganizedProducts, showProducysById, createProduct, deleteProduct, updateProduct }
