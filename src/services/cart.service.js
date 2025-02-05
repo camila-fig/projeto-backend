@@ -36,4 +36,9 @@ const filterProducts = (cart) => {
     })
 }
 
-export default { getCartByEmail, createCart, addProductToCart, updateCart, filterProducts }
+const clearCart = async (email) => {
+    const removeCart = await dao.dtoCart.deleteCart(email)
+    return removeCart
+}
+
+export default { getCartByEmail, createCart, addProductToCart, updateCart, filterProducts, clearCart }

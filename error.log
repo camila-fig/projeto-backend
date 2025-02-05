@@ -20,3 +20,32 @@
 2024-11-18T20:18:21.542Z [error]: GET na /logout - Mon Nov 18 2024 17:18:21 GMT-0300 (Horário Padrão de Brasília) - ENV: prod 
 2024-11-18T20:18:21.594Z [error]: GET na /css/index.css - Mon Nov 18 2024 17:18:21 GMT-0300 (Horário Padrão de Brasília) - ENV: prod 
 2025-01-15T22:26:43.568Z [error]: log de erro
+2025-02-04T20:22:24.774Z [error]: Erro ao finalizar a compra: Produto não encontrado
+2025-02-04T20:29:40.116Z [error]: Erro ao finalizar a compra: Produto não encontrado
+2025-02-04T20:31:23.562Z [error]: Erro ao finalizar a compra: Produto não encontrado
+2025-02-04T20:43:36.455Z [error]: Erro ao finalizar a compra: Produto não encontrado
+2025-02-04T20:43:46.680Z [error]: Erro ao finalizar a compra: Produto não encontrado
+2025-02-04T20:52:10.528Z [error]: Erro ao finalizar a compra: Produto não encontrado
+2025-02-04T20:52:28.030Z [error]: Erro ao finalizar a compra: Produto não encontrado
+2025-02-04T21:01:32.316Z [error]: Erro ao finalizar a compra: Produto não encontrado
+2025-02-04T21:07:59.319Z [error]: Erro ao finalizar a compra: Produto não encontrado
+2025-02-04T21:10:56.575Z [error]: Erro ao finalizar a compra: Produto não encontrado
+2025-02-04T21:16:34.652Z [error]: Erro ao finalizar a compra: Produto não encontrado
+2025-02-04T21:17:19.211Z [error]: Erro ao finalizar a compra: Produto não encontrado
+2025-02-04T21:19:52.534Z [error]: Erro ao finalizar a compra: Produto não encontrado
+2025-02-04T21:23:37.096Z [error]: Erro ao finalizar a compra: Produto não encontrado
+2025-02-04T21:29:30.604Z [error]: Erro ao finalizar a compra: Produto não encontrado
+2025-02-04T21:35:13.133Z [error]: Erro ao finalizar a compra: Produto não encontrado
+2025-02-04T21:39:15.280Z [error]: Erro ao finalizar a compra: Produto não encontrado
+2025-02-04T21:47:59.344Z [error]: Erro ao finalizar a compra: Produto não encontrado
+2025-02-04T21:51:23.309Z [error]: Erro ao finalizar a compra: Produto não encontrado
+2025-02-04T21:57:03.859Z [error]: Erro ao finalizar a compra: dao.dtoCart.clearCart is not a function
+2025-02-04T21:57:58.668Z [error]: Erro ao finalizar a compra: dao.dtoCart.clearCart is not a function
+2025-02-04T22:07:13.518Z [error]: Erro ao finalizar a compra: Cart is not defined
+2025-02-04T22:08:52.494Z [error]: Erro ao finalizar a compra: Erro ao limpar o carrinho ou carrinho não encontrado.
+2025-02-04T22:23:13.712Z [error]: Erro ao finalizar a compra: Erro ao limpar o carrinho ou carrinho não encontrado.
+2025-02-04T22:28:19.106Z [error]: Erro ao finalizar a compra: Erro ao limpar o carrinho ou carrinho não encontrado.
+2025-02-04T22:29:27.916Z [error]: Erro ao finalizar a compra: Erro ao limpar o carrinho ou carrinho não encontrado.
+2025-02-04T22:44:44.761Z [error]: Erro ao finalizar a compra: Erro ao limpar o carrinho ou carrinho não encontrado.
+2025-02-05T00:07:58.960Z [error]: Carrinho vazio ou não encontrado para o usuário nando@hotmail.com
+2025-02-05T00:09:44.049Z [error]: Carrinho vazio ou não encontrado para o usuário nando@hotmail.com

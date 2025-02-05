@@ -28,7 +28,12 @@ const deleteProduct = async (pid) => {
 }
 
 const updateProduct = async (pid, productData) => {
+    const product = await dao.dtoProduct.getProductById(String(pid))
+
+    if (!product) {
+        throw new Error("Produto não encontrado")
+    }
     return await dao.dtoProduct.updateProduct(productData, pid)
 }
 
-export default { getAllProducts, getOrganizedProducts, getProductById, createProduct, deleteProduct, updateProduct };
+export default { getAllProducts, getOrganizedProducts, getProductById, createProduct, deleteProduct, updateProduct }

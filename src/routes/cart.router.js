@@ -11,23 +11,17 @@ router.get("/",
     cartController.productsCart
 )
 
-//Com fs
-//router.get("/", cartController.productsInCart)
-
 router.post("/",
     passport.authenticate("jwt", { session: false }),
     cartController.addCart
 )
 
-router.put("/remove/:pid", 
+router.put("/remove/:pid",
     passport.authenticate("jwt", { session: false }),
     cartController.updateCart)
 
-//Com fs
-//router.post("/", cartController.createCart)
-
-//router.get("/:cid", cartController.getById)
-
-//router.post("/:cid/product/:pid", cartController.addToCart)
+router.post("/finalize",
+    passport.authenticate("jwt", { session: false }),
+    cartController.finalizePurchase)
 
 export default router

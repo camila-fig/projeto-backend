@@ -89,4 +89,13 @@ const findCartPopulate = async (email) => {
     }
 }
 
-export default { conferAllCart, createCart, addProductToCart, getCartByEmail, updateCart, findCartPopulate }
+const deleteCart = async (email) => {
+    try {
+        const cartDeleted = await cartModel.deleteOne({ email })
+        return cartDeleted
+    } catch (error) {
+        console.error("Erro ao deletar o carrinho:", error)
+    }
+}
+
+export default { conferAllCart, createCart, addProductToCart, getCartByEmail, updateCart, findCartPopulate, deleteCart }
