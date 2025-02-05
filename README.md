@@ -52,7 +52,7 @@ Visualize o site em
 http://localhost:8080
 ```
 
-##### Obs.: Não esqueça de criar um arquivo .env de acordo com o exemplo (.env.local) preenchendo com as variáveis necessárias.
+##### Obs.: Não esqueça de criar um arquivo .env de acordo com o exemplo (.env.example) preenchendo com as variáveis necessárias.
 
 ## Exemplo de uso:
 1. Crie uma conta;
@@ -60,8 +60,9 @@ http://localhost:8080
 3. Adicione o produto ao carrinho;
 4. Navegue até o carrinho de compras e exclua o produto;
 5. Retorne aos produtos e insira ao carrinho quantos itens quiser;
-6. Mande uma mensagem ao fornecedor;
-7. Faça o logout.
+6. Finalize a compra e observe que a quantidade do item em estoque será reduzida;
+7. Mande uma mensagem ao fornecedor;
+8. Faça o logout.
 
 ## Autora:
 Camila A. Figueirêdo
