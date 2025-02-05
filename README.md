@@ -9,6 +9,7 @@ Sendo o login feito por um usuário, nas outras páginas é possível ver os pro
 - Front-end: JavaScript, CSS, Sweetalert, Handlebars
 - Autenticação: JWT, Twilio
 - Documentação de API: Swagger
+- Testes unitários: Jest
 
 Outras bibliotecas e frameworks utilizados neste projeto podem ser vistos no arquivo package.json.
 
